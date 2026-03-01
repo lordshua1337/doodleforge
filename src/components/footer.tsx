@@ -17,9 +17,9 @@ export function Footer() {
               <span className="text-base font-bold text-foreground">Doodie</span>
             </div>
             <p className="text-sm text-text-muted leading-relaxed">
-              Fridge art. Gallery upgrade.
+              Your kid&apos;s art is bad.
               <br />
-              Turn scribbles into heirlooms.
+              We make it not bad. You&apos;re welcome.
             </p>
           </div>
 
@@ -63,7 +63,7 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Doodie. All rights reserved.
           </p>
           <p className="text-xs text-text-muted">
-            Where kid art gets the respect it deserves.
+            Turning parental guilt into wall art since 2025.
           </p>
         </div>
       </div>

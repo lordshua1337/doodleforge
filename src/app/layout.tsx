@@ -23,9 +23,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Doodie | Fridge Art. Gallery Upgrade.",
+  title: "Doodie | Your kid's art is bad. We fix that.",
   description:
-    "Upload your kid's drawing. Our AI transforms it into gallery-worthy art. Prints, canvas, posters -- real art from real imagination.",
+    "Upload your kid's drawing. Our AI transforms it into art you'd actually hang. Stop lying about the blob on the fridge.",
   keywords: [
     "kids art",
     "AI art",
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     "art transformation",
   ],
   openGraph: {
-    title: "Doodie | Fridge Art. Gallery Upgrade.",
+    title: "Doodie | Your kid's art is bad. We fix that.",
     description:
-      "Upload your kid's drawing. AI turns it into real art. Frame it. Hang it. Make grandparents cry.",
+      "Upload the scribble. Pick a style. Get real art. Hang it up. Take credit at Thanksgiving.",
     type: "website",
   },
   manifest: "/manifest.json",
