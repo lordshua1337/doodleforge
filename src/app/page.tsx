@@ -178,7 +178,8 @@ export default function Home() {
         <div className="mx-auto max-w-5xl px-8">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <div className="rounded-2xl border border-border bg-background p-8 text-center transition-all hover:shadow-lg hover:border-border-hover">
-              <div className="mb-5 flex h-14 w-14 mx-auto items-center justify-center rounded-2xl" style={{ backgroundColor: "rgba(255,107,107,0.08)" }}>
+              <div className="flex items-center justify-center rounded-2xl"
+                style={{ width: "56px", height: "56px", margin: "0 auto 20px", backgroundColor: "rgba(255,107,107,0.08)" }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
                   <polyline points="17 8 12 3 7 8" />
@@ -191,7 +192,8 @@ export default function Home() {
               </p>
             </div>
             <div className="rounded-2xl border border-border bg-background p-8 text-center transition-all hover:shadow-lg hover:border-border-hover">
-              <div className="mb-5 flex h-14 w-14 mx-auto items-center justify-center rounded-2xl" style={{ backgroundColor: "rgba(167,139,250,0.08)" }}>
+              <div className="flex items-center justify-center rounded-2xl"
+                style={{ width: "56px", height: "56px", margin: "0 auto 20px", backgroundColor: "rgba(167,139,250,0.08)" }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
                 </svg>
@@ -203,7 +205,8 @@ export default function Home() {
               </p>
             </div>
             <div className="rounded-2xl border border-border bg-background p-8 text-center transition-all hover:shadow-lg hover:border-border-hover">
-              <div className="mb-5 flex h-14 w-14 mx-auto items-center justify-center rounded-2xl" style={{ backgroundColor: "rgba(96,165,250,0.08)" }}>
+              <div className="flex items-center justify-center rounded-2xl"
+                style={{ width: "56px", height: "56px", margin: "0 auto 20px", backgroundColor: "rgba(96,165,250,0.08)" }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10" />
                   <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
@@ -483,9 +486,9 @@ export default function Home() {
             when someone opens the fridge too hard. Museum-quality stuff.
             The kind of thing guests stare at and say &ldquo;wait, your kid drew that?&rdquo;
           </p>
-          <div className="grid grid-cols-3 gap-6 mx-auto" style={{ maxWidth: "540px" }}>
+          <div className="grid grid-cols-3 gap-6" style={{ maxWidth: "540px", margin: "0 auto" }}>
             <div className="rounded-2xl border border-border bg-background p-8 text-center transition-all hover:shadow-lg hover:border-border-hover">
-              <div className="mb-4 flex h-14 w-14 mx-auto items-center justify-center rounded-2xl" style={{ backgroundColor: "rgba(255,107,107,0.08)" }}>
+              <div className="flex items-center justify-center rounded-2xl" style={{ width: "56px", height: "56px", margin: "0 auto 16px", backgroundColor: "rgba(255,107,107,0.08)" }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><rect x="6" y="6" width="12" height="12" rx="1"/></svg>
               </div>
               <div className="text-base font-semibold mb-1" style={{ color: "#1A1A2E" }}>Canvas</div>
@@ -493,7 +496,7 @@ export default function Home() {
               <div className="text-sm" style={{ color: "#9CA3AF" }}>from <span style={{ color: "#FF6B6B", fontWeight: 600 }}>$29.99</span></div>
             </div>
             <div className="rounded-2xl border border-border bg-background p-8 text-center transition-all hover:shadow-lg hover:border-border-hover">
-              <div className="mb-4 flex h-14 w-14 mx-auto items-center justify-center rounded-2xl" style={{ backgroundColor: "rgba(167,139,250,0.08)" }}>
+              <div className="flex items-center justify-center rounded-2xl" style={{ width: "56px", height: "56px", margin: "0 auto 16px", backgroundColor: "rgba(167,139,250,0.08)" }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
               </div>
               <div className="text-base font-semibold mb-1" style={{ color: "#1A1A2E" }}>Framed</div>
@@ -501,7 +504,7 @@ export default function Home() {
               <div className="text-sm" style={{ color: "#9CA3AF" }}>from <span style={{ color: "#A78BFA", fontWeight: 600 }}>$49.99</span></div>
             </div>
             <div className="rounded-2xl border border-border bg-background p-8 text-center transition-all hover:shadow-lg hover:border-border-hover">
-              <div className="mb-4 flex h-14 w-14 mx-auto items-center justify-center rounded-2xl" style={{ backgroundColor: "rgba(96,165,250,0.08)" }}>
+              <div className="flex items-center justify-center rounded-2xl" style={{ width: "56px", height: "56px", margin: "0 auto 16px", backgroundColor: "rgba(96,165,250,0.08)" }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="2" width="16" height="20" rx="1"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
               </div>
               <div className="text-base font-semibold mb-1" style={{ color: "#1A1A2E" }}>Poster</div>
