@@ -98,15 +98,18 @@ export default function Home() {
   return (
     <>
       {/* ─── HERO ─── */}
-      <section className="relative flex items-center justify-center overflow-hidden py-24 md:py-32 lg:py-40">
+      <section className="relative flex items-center justify-center py-24 md:py-32 lg:py-40">
         {/* Soft pastel gradient blurs */}
         <div className="absolute rounded-full" style={{ top: "15%", left: "15%", width: 500, height: 500, background: "rgba(255,107,107,0.07)", filter: "blur(120px)" }} />
         <div className="absolute rounded-full" style={{ bottom: "20%", right: "15%", width: 450, height: 450, background: "rgba(96,165,250,0.07)", filter: "blur(120px)" }} />
         <div className="absolute rounded-full" style={{ top: "40%", left: "55%", width: 350, height: 350, background: "rgba(167,139,250,0.06)", filter: "blur(100px)" }} />
 
         <div className="relative z-10 mx-auto max-w-3xl px-8 text-center">
-          <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border bg-surface/80 backdrop-blur-sm px-6 py-2.5 text-xs font-medium text-text-secondary tracking-wide shadow-sm">
-            <span className="inline-block h-2 w-2 rounded-full bg-green animate-pulse" />
+          <div
+            className="mb-8 inline-flex items-center gap-2.5 rounded-full backdrop-blur-sm px-6 py-2.5 text-xs font-medium tracking-wide shadow-sm"
+            style={{ background: "rgba(255,255,255,0.8)", border: "1px solid #E5E7EB", color: "#6B7280" }}
+          >
+            <span className="inline-block h-2 w-2 rounded-full animate-pulse" style={{ background: "#34D399" }} />
             AI-Powered Art Transformation
           </div>
 
@@ -129,13 +132,15 @@ export default function Home() {
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
               href="/create"
-              className="btn-gradient rounded-full px-10 py-4 text-base font-bold text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="rounded-full px-10 py-4 text-base font-bold transition-all hover:scale-[1.02] active:scale-[0.98]"
+              style={{ background: "linear-gradient(to right, #FF6B6B, #FB923C, #F472B6)", color: "#fff", boxShadow: "0 4px 14px rgba(255,107,107,0.25)" }}
             >
               Upload a Doodle &rarr;
             </Link>
             <Link
               href="/gallery"
-              className="btn-outline rounded-full px-10 py-4 text-base font-medium transition-all hover:shadow-sm"
+              className="rounded-full px-10 py-4 text-base font-medium transition-all hover:shadow-sm"
+              style={{ background: "#fff", border: "1px solid #E5E7EB", color: "#6B7280" }}
             >
               See the Gallery
             </Link>
@@ -325,7 +330,8 @@ export default function Home() {
           </p>
           <Link
             href="/create"
-            className="btn-gradient inline-flex items-center gap-2 rounded-full px-12 py-4 text-base font-bold text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
+            className="inline-flex items-center gap-2 rounded-full px-12 py-4 text-base font-bold transition-all hover:scale-[1.02] active:scale-[0.98]"
+            style={{ background: "linear-gradient(to right, #FF6B6B, #FB923C, #F472B6)", color: "#fff", boxShadow: "0 4px 14px rgba(255,107,107,0.25)" }}
           >
             Upload a Doodle &rarr;
           </Link>
@@ -351,10 +357,10 @@ function StepCard({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-surface p-10 transition-all hover:shadow-lg hover:shadow-black/[0.04] hover:border-border-hover">
+    <div className="rounded-2xl p-10 transition-all hover:shadow-lg" style={{ background: "#fff", border: "1px solid #E5E7EB" }}>
       <div
-        className="mb-7 flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-sm"
-        style={{ backgroundColor: color }}
+        className="mb-7 flex h-14 w-14 items-center justify-center rounded-2xl shadow-sm"
+        style={{ backgroundColor: color, color: "#fff" }}
       >
         {icon}
       </div>
@@ -443,7 +449,10 @@ function PricingCard({ tier }: { tier: (typeof PRICING_TIERS)[number] }) {
       }`}
     >
       {tier.popular && (
-        <div className="btn-gradient absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-5 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white shadow-sm">
+        <div
+          className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-5 py-1.5 text-[10px] font-bold uppercase tracking-widest shadow-sm"
+          style={{ background: "linear-gradient(to right, #FF6B6B, #F472B6)", color: "#fff" }}
+        >
           Most Popular
         </div>
       )}
@@ -466,11 +475,11 @@ function PricingCard({ tier }: { tier: (typeof PRICING_TIERS)[number] }) {
       </ul>
       <Link
         href="/create"
-        className={`block w-full rounded-full py-4 text-center text-sm font-semibold transition-all ${
-          tier.popular
-            ? "btn-gradient text-white"
-            : "btn-outline"
-        }`}
+        className="block w-full rounded-full py-4 text-center text-sm font-semibold transition-all"
+        style={tier.popular
+          ? { background: "linear-gradient(to right, #FF6B6B, #F472B6)", color: "#fff", boxShadow: "0 4px 14px rgba(255,107,107,0.15)" }
+          : { background: "#fff", border: "1px solid #E5E7EB", color: "#1A1A2E" }
+        }
       >
         Get Started
       </Link>

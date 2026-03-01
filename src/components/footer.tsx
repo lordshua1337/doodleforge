@@ -8,7 +8,10 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="mb-4 flex items-center gap-2.5">
-              <span className="logo-mark flex h-8 w-8 items-center justify-center rounded-xl text-xs font-extrabold text-white">
+              <span
+                className="flex h-8 w-8 items-center justify-center rounded-xl text-xs font-extrabold"
+                style={{ background: "linear-gradient(135deg, #FF6B6B, #A78BFA, #60A5FA)", color: "#fff" }}
+              >
                 D
               </span>
               <span className="text-base font-bold text-foreground">DoodleForge</span>

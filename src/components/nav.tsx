@@ -13,7 +13,10 @@ export function Nav() {
           href="/"
           className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-foreground"
         >
-          <span className="logo-mark flex h-9 w-9 items-center justify-center rounded-xl text-sm font-extrabold text-white shadow-sm">
+          <span
+            className="flex h-9 w-9 items-center justify-center rounded-xl text-sm font-extrabold shadow-sm"
+            style={{ background: "linear-gradient(135deg, #FF6B6B, #A78BFA, #60A5FA)", color: "#fff" }}
+          >
             D
           </span>
           <span>DoodleForge</span>
@@ -29,7 +32,8 @@ export function Nav() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/create"
-            className="btn-gradient rounded-full px-6 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+            className="rounded-full px-6 py-2 text-sm font-semibold shadow-sm transition-all hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+            style={{ background: "linear-gradient(to right, #FF6B6B, #F472B6)", color: "#fff" }}
           >
             Upload a Doodle
           </Link>
@@ -55,7 +59,8 @@ export function Nav() {
           <Link href="/pricing" className="block text-sm font-medium text-foreground" onClick={() => setMobileOpen(false)}>Pricing</Link>
           <Link
             href="/create"
-            className="btn-gradient mt-3 block rounded-xl px-5 py-3 text-center text-sm font-semibold text-white"
+            className="mt-3 block rounded-xl px-5 py-3 text-center text-sm font-semibold"
+            style={{ background: "linear-gradient(to right, #FF6B6B, #F472B6)", color: "#fff" }}
             onClick={() => setMobileOpen(false)}
           >
             Upload a Doodle
