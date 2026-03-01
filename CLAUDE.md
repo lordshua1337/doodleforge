@@ -222,13 +222,16 @@ Build into data model and UI from day one. Cannot be retrofitted.
 
 ### Visual Identity
 
-- **Aesthetic**: Premium dark-mode first. Gallery/museum quality. Apple meets modern art gallery. Treats kid art as serious art.
-- **Background**: #0A0A0A (near black)
-- **Surface**: #141414
-- **Card**: #1E1E1E
-- **Primary accent**: #FF6B35 (orange -- energy, creativity, CTA)
-- **Secondary accent**: #1B4F8A (deep blue -- trust, premium)
-- **Success**: #16A34A
+- **Aesthetic**: Premium light-mode. Clean whites and soft greys with pastel rainbow gradients. Symbolizes childhood without looking childish. Think: Apple designed a premium kids' art brand.
+- **Background**: #FAFAFA (premium off-white)
+- **Surface**: #FFFFFF (pure white cards)
+- **Surface-2**: #F3F4F6 (subtle grey sections)
+- **Border**: #E5E7EB (soft grey)
+- **Foreground**: #1A1A2E (near-black text)
+- **Text secondary**: #6B7280 (medium grey)
+- **Accent palette**: Soft pastel rainbow -- coral #FF6B6B, sky #60A5FA, lavender #A78BFA, mint #34D399, sunny #FBBF24, bubblegum #F472B6, peach #FB923C
+- **Gradients**: Rainbow gradients for CTAs and accent text (coral -> peach -> bubblegum). Multi-stop rainbow for headlines.
+- **Success**: #34D399
 
 ### Typography
 

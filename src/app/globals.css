@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Dark premium base */
-  --color-background: #0A0A0A;
-  --color-foreground: #F0F0F0;
-  --color-surface: #141414;
-  --color-surface-2: #1E1E1E;
-  --color-border: #2A2A2A;
-  --color-border-hover: #3A3A3A;
-  --color-text-secondary: #A0A0A8;
-  --color-text-muted: #666670;
+  /* Premium light base */
+  --color-background: #FAFAFA;
+  --color-foreground: #1A1A2E;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #F3F4F6;
+  --color-border: #E5E7EB;
+  --color-border-hover: #D1D5DB;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
 
-  /* Brand palette -- premium with playful accents */
-  --color-coral: #FF6B35;
-  --color-lavender: #B388FF;
+  /* Soft pastel accents */
+  --color-coral: #FF6B6B;
+  --color-lavender: #A78BFA;
   --color-mint: #34D399;
   --color-sky: #60A5FA;
   --color-sunny: #FBBF24;
@@ -21,11 +21,19 @@
   --color-bubblegum: #F472B6;
 
   /* Functional */
-  --color-accent: #FF6B35;
-  --color-accent-hover: #FF7F50;
+  --color-accent: #FF6B6B;
+  --color-accent-hover: #EF4444;
   --color-green: #34D399;
   --color-purple: #A78BFA;
   --color-yellow: #FBBF24;
+
+  /* Rainbow gradient stops */
+  --color-grad-1: #FF6B6B;
+  --color-grad-2: #FBBF24;
+  --color-grad-3: #34D399;
+  --color-grad-4: #60A5FA;
+  --color-grad-5: #A78BFA;
+  --color-grad-6: #F472B6;
 
   --font-sans: var(--font-dm-sans), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
@@ -50,7 +58,7 @@ body {
 }
 
 ::selection {
-  background: var(--color-accent);
+  background: var(--color-lavender);
   color: white;
 }
 
@@ -68,7 +76,20 @@ body {
   background: var(--color-border-hover);
 }
 
-/* Doodle background -- kid art scattered on dark gallery walls */
+/* Rainbow gradient text utility */
+.text-rainbow {
+  background: linear-gradient(135deg, #FF6B6B, #FBBF24, #34D399, #60A5FA, #A78BFA, #F472B6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Soft rainbow border glow */
+.border-rainbow {
+  border-image: linear-gradient(135deg, #FF6B6B, #FBBF24, #34D399, #60A5FA, #A78BFA, #F472B6) 1;
+}
+
+/* Doodle background -- barely-there pastel shapes */
 .doodle-bg {
   position: fixed;
   top: 0;
@@ -78,23 +99,4 @@ body {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-}
-
-/* Subtle noise texture */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.015;
-  background-image:
-    radial-gradient(circle at 20% 20%, var(--color-coral) 1px, transparent 1px),
-    radial-gradient(circle at 80% 40%, var(--color-sky) 1px, transparent 1px),
-    radial-gradient(circle at 40% 70%, var(--color-sunny) 1px, transparent 1px),
-    radial-gradient(circle at 70% 80%, var(--color-lavender) 1px, transparent 1px);
-  background-size: 120px 120px, 150px 150px, 130px 130px, 140px 140px;
 }

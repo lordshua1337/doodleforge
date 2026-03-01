@@ -7,13 +7,13 @@ export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/95 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-surface/90 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-8">
         <Link
           href="/"
-          className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground"
+          className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-foreground"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-sm font-extrabold text-white">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-coral via-lavender to-sky text-sm font-extrabold text-white shadow-sm">
             D
           </span>
           <span>DoodleForge</span>
@@ -29,7 +29,7 @@ export function Nav() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/create"
-            className="rounded-xl bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-accent-hover hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-accent/20"
+            className="rounded-xl bg-gradient-to-r from-coral to-bubblegum px-7 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-coral/20 hover:scale-[1.02] active:scale-[0.98]"
           >
             Upload a Doodle
           </Link>
@@ -41,33 +41,21 @@ export function Nav() {
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
-          <span
-            className={`block h-0.5 w-5 bg-foreground transition-transform ${
-              mobileOpen ? "rotate-45 translate-y-2" : ""
-            }`}
-          />
-          <span
-            className={`block h-0.5 w-5 bg-foreground transition-opacity ${
-              mobileOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`block h-0.5 w-5 bg-foreground transition-transform ${
-              mobileOpen ? "-rotate-45 -translate-y-2" : ""
-            }`}
-          />
+          <span className={`block h-0.5 w-5 bg-foreground transition-transform ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+          <span className={`block h-0.5 w-5 bg-foreground transition-opacity ${mobileOpen ? "opacity-0" : ""}`} />
+          <span className={`block h-0.5 w-5 bg-foreground transition-transform ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
         </button>
       </div>
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-border bg-background px-6 py-5 space-y-4">
+        <div className="md:hidden border-t border-border bg-surface px-8 py-5 space-y-4">
           <Link href="/create" className="block text-sm font-medium text-foreground" onClick={() => setMobileOpen(false)}>Create</Link>
           <Link href="/gallery" className="block text-sm font-medium text-foreground" onClick={() => setMobileOpen(false)}>Gallery</Link>
           <Link href="/pricing" className="block text-sm font-medium text-foreground" onClick={() => setMobileOpen(false)}>Pricing</Link>
           <Link
             href="/create"
-            className="mt-3 block rounded-xl bg-accent px-5 py-3 text-center text-sm font-semibold text-white"
+            className="mt-3 block rounded-xl bg-gradient-to-r from-coral to-bubblegum px-5 py-3 text-center text-sm font-semibold text-white"
             onClick={() => setMobileOpen(false)}
           >
             Upload a Doodle
@@ -82,7 +70,7 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className="rounded-lg px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-foreground hover:bg-surface"
+      className="rounded-lg px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-foreground hover:bg-surface-2"
     >
       {children}
     </Link>

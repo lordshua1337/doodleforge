@@ -2,13 +2,13 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="relative z-10 border-t border-border">
-      <div className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
+    <footer className="relative z-10 border-t border-border bg-surface">
+      <div className="mx-auto max-w-6xl px-8 py-20">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="mb-4 flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent text-xs font-extrabold text-white">
+            <div className="mb-4 flex items-center gap-2.5">
+              <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-coral via-lavender to-sky text-xs font-extrabold text-white">
                 D
               </span>
               <span className="text-base font-bold text-foreground">DoodleForge</span>
@@ -20,9 +20,8 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Product */}
           <div>
-            <div className="mb-4 text-xs font-semibold uppercase tracking-widest text-text-muted">
+            <div className="mb-5 text-[11px] font-semibold uppercase tracking-widest text-text-muted">
               Product
             </div>
             <div className="space-y-3">
@@ -32,9 +31,8 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Company */}
           <div>
-            <div className="mb-4 text-xs font-semibold uppercase tracking-widest text-text-muted">
+            <div className="mb-5 text-[11px] font-semibold uppercase tracking-widest text-text-muted">
               Company
             </div>
             <div className="space-y-3">
@@ -45,9 +43,8 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Social */}
           <div>
-            <div className="mb-4 text-xs font-semibold uppercase tracking-widest text-text-muted">
+            <div className="mb-5 text-[11px] font-semibold uppercase tracking-widest text-text-muted">
               Follow Us
             </div>
             <div className="space-y-3">
@@ -58,7 +55,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
+        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border pt-10 md:flex-row">
           <p className="text-xs text-text-muted">
             &copy; {new Date().getFullYear()} DoodleForge. All rights reserved.
           </p>
