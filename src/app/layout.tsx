@@ -23,7 +23,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DoodleForge | Fridge Art. Gallery Upgrade.",
+  title: "Doodie | Fridge Art. Gallery Upgrade.",
   description:
     "Upload your kid's drawing. Our AI transforms it into gallery-worthy art. Prints, canvas, posters -- real art from real imagination.",
   keywords: [
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     "art transformation",
   ],
   openGraph: {
-    title: "DoodleForge | Fridge Art. Gallery Upgrade.",
+    title: "Doodie | Fridge Art. Gallery Upgrade.",
     description:
       "Upload your kid's drawing. AI turns it into real art. Frame it. Hang it. Make grandparents cry.",
     type: "website",

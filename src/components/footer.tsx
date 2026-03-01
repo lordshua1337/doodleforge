@@ -14,7 +14,7 @@ export function Footer() {
               >
                 D
               </span>
-              <span className="text-base font-bold text-foreground">DoodleForge</span>
+              <span className="text-base font-bold text-foreground">Doodie</span>
             </div>
             <p className="text-sm text-text-muted leading-relaxed">
               Fridge art. Gallery upgrade.
@@ -60,7 +60,7 @@ export function Footer() {
 
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border pt-10 md:flex-row">
           <p className="text-xs text-text-muted">
-            &copy; {new Date().getFullYear()} DoodleForge. All rights reserved.
+            &copy; {new Date().getFullYear()} Doodie. All rights reserved.
           </p>
           <p className="text-xs text-text-muted">
             Where kid art gets the respect it deserves.

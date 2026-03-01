@@ -19,7 +19,7 @@ export function Nav() {
           >
             D
           </span>
-          <span>DoodleForge</span>
+          <span>Doodie</span>
         </Link>
 
         {/* Desktop */}

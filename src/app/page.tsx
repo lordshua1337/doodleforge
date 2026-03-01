@@ -266,12 +266,28 @@ export default function Home() {
             Order museum-quality prints of your kid&apos;s reborn artwork.
             Canvas, framed, or poster. Shipped to your door.
           </p>
-          <div className="inline-flex items-center gap-10 rounded-2xl border border-border bg-background px-12 py-9 shadow-sm">
-            <PrintOption label="Canvas" price="$29.99" color="#FF6B6B" />
-            <Divider />
-            <PrintOption label="Framed" price="$49.99" color="#A78BFA" />
-            <Divider />
-            <PrintOption label="Poster" price="$14.99" color="#60A5FA" />
+          <div className="grid grid-cols-3 gap-6 mx-auto" style={{ maxWidth: "540px" }}>
+            <div className="rounded-2xl border border-border bg-background p-8 text-center transition-all hover:shadow-lg hover:border-border-hover">
+              <div className="mb-4 flex h-14 w-14 mx-auto items-center justify-center rounded-2xl" style={{ backgroundColor: "rgba(255,107,107,0.08)" }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><rect x="6" y="6" width="12" height="12" rx="1"/></svg>
+              </div>
+              <div className="text-base font-semibold mb-1" style={{ color: "#1A1A2E" }}>Canvas</div>
+              <div className="text-sm" style={{ color: "#9CA3AF" }}>from <span style={{ color: "#FF6B6B", fontWeight: 600 }}>$29.99</span></div>
+            </div>
+            <div className="rounded-2xl border border-border bg-background p-8 text-center transition-all hover:shadow-lg hover:border-border-hover">
+              <div className="mb-4 flex h-14 w-14 mx-auto items-center justify-center rounded-2xl" style={{ backgroundColor: "rgba(167,139,250,0.08)" }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
+              </div>
+              <div className="text-base font-semibold mb-1" style={{ color: "#1A1A2E" }}>Framed</div>
+              <div className="text-sm" style={{ color: "#9CA3AF" }}>from <span style={{ color: "#A78BFA", fontWeight: 600 }}>$49.99</span></div>
+            </div>
+            <div className="rounded-2xl border border-border bg-background p-8 text-center transition-all hover:shadow-lg hover:border-border-hover">
+              <div className="mb-4 flex h-14 w-14 mx-auto items-center justify-center rounded-2xl" style={{ backgroundColor: "rgba(96,165,250,0.08)" }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="2" width="16" height="20" rx="1"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
+              </div>
+              <div className="text-base font-semibold mb-1" style={{ color: "#1A1A2E" }}>Poster</div>
+              <div className="text-sm" style={{ color: "#9CA3AF" }}>from <span style={{ color: "#60A5FA", fontWeight: 600 }}>$14.99</span></div>
+            </div>
           </div>
           <p className="mt-6 text-xs text-text-muted">
             Fulfilled via print-on-demand. Ships in 3-5 business days.
@@ -469,19 +485,6 @@ function PricingCard({ tier }: { tier: (typeof PRICING_TIERS)[number] }) {
 }
 
 /* ─── Small Components ─── */
-
-function PrintOption({ label, price, color }: { label: string; price: string; color: string }) {
-  return (
-    <div className="text-center px-2">
-      <div className="text-base font-semibold mb-1" style={{ color }}>{label}</div>
-      <div className="text-xs text-text-muted">from {price}</div>
-    </div>
-  );
-}
-
-function Divider() {
-  return <div className="h-10 w-px bg-border" />;
-}
 
 function UploadIcon() {
   return (
