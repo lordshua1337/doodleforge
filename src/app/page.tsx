@@ -100,9 +100,9 @@ export default function Home() {
       {/* ─── HERO ─── */}
       <section className="relative flex items-center justify-center overflow-hidden py-24 md:py-32 lg:py-40">
         {/* Soft pastel gradient blurs */}
-        <div className="absolute top-[15%] left-[15%] w-[500px] h-[500px] bg-coral/[0.07] rounded-full blur-[120px]" />
-        <div className="absolute bottom-[20%] right-[15%] w-[450px] h-[450px] bg-sky/[0.07] rounded-full blur-[120px]" />
-        <div className="absolute top-[40%] left-[55%] w-[350px] h-[350px] bg-lavender/[0.06] rounded-full blur-[100px]" />
+        <div className="absolute rounded-full" style={{ top: "15%", left: "15%", width: 500, height: 500, background: "rgba(255,107,107,0.07)", filter: "blur(120px)" }} />
+        <div className="absolute rounded-full" style={{ bottom: "20%", right: "15%", width: 450, height: 450, background: "rgba(96,165,250,0.07)", filter: "blur(120px)" }} />
+        <div className="absolute rounded-full" style={{ top: "40%", left: "55%", width: 350, height: 350, background: "rgba(167,139,250,0.06)", filter: "blur(100px)" }} />
 
         <div className="relative z-10 mx-auto max-w-3xl px-8 text-center">
           <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border bg-surface/80 backdrop-blur-sm px-6 py-2.5 text-xs font-medium text-text-secondary tracking-wide shadow-sm">
@@ -129,13 +129,13 @@ export default function Home() {
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
               href="/create"
-              className="rounded-full bg-gradient-to-r from-coral via-peach to-bubblegum px-10 py-4 text-base font-bold text-white transition-all hover:shadow-xl hover:shadow-coral/15 hover:scale-[1.02] active:scale-[0.98]"
+              className="btn-gradient rounded-full px-10 py-4 text-base font-bold text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               Upload a Doodle &rarr;
             </Link>
             <Link
               href="/gallery"
-              className="rounded-full border border-border bg-surface px-10 py-4 text-base font-medium text-text-secondary transition-all hover:border-border-hover hover:text-foreground hover:shadow-sm"
+              className="btn-outline rounded-full px-10 py-4 text-base font-medium transition-all hover:shadow-sm"
             >
               See the Gallery
             </Link>
@@ -325,7 +325,7 @@ export default function Home() {
           </p>
           <Link
             href="/create"
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-coral via-peach to-bubblegum px-12 py-4 text-base font-bold text-white transition-all hover:shadow-xl hover:shadow-coral/15 hover:scale-[1.02] active:scale-[0.98]"
+            className="btn-gradient inline-flex items-center gap-2 rounded-full px-12 py-4 text-base font-bold text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             Upload a Doodle &rarr;
           </Link>
@@ -370,8 +370,8 @@ function StepCard({
 /* ─── Wall of Shame Card ─── */
 
 const PASTEL_BG = [
-  "bg-coral/[0.04]", "bg-sky/[0.04]", "bg-lavender/[0.04]",
-  "bg-mint/[0.04]", "bg-sunny/[0.04]", "bg-bubblegum/[0.04]",
+  "rgba(255,107,107,0.04)", "rgba(96,165,250,0.04)", "rgba(167,139,250,0.04)",
+  "rgba(52,211,153,0.04)", "rgba(251,191,36,0.04)", "rgba(244,114,182,0.04)",
 ];
 
 function WallOfShameCard({
@@ -384,7 +384,7 @@ function WallOfShameCard({
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background transition-all hover:border-border-hover hover:shadow-lg hover:shadow-black/[0.04]">
       {/* The "original" description */}
-      <div className={`flex flex-col items-center justify-center px-8 py-12 ${PASTEL_BG[index % PASTEL_BG.length]}`}>
+      <div className="flex flex-col items-center justify-center px-8 py-12" style={{ backgroundColor: PASTEL_BG[index % PASTEL_BG.length] }}>
         <p className="mb-5 text-center text-[15px] italic text-text-secondary leading-relaxed">
           &ldquo;{item.original}&rdquo;
         </p>
@@ -443,7 +443,7 @@ function PricingCard({ tier }: { tier: (typeof PRICING_TIERS)[number] }) {
       }`}
     >
       {tier.popular && (
-        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-coral to-bubblegum px-5 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white shadow-sm">
+        <div className="btn-gradient absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-5 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white shadow-sm">
           Most Popular
         </div>
       )}
@@ -468,8 +468,8 @@ function PricingCard({ tier }: { tier: (typeof PRICING_TIERS)[number] }) {
         href="/create"
         className={`block w-full rounded-full py-4 text-center text-sm font-semibold transition-all ${
           tier.popular
-            ? "bg-gradient-to-r from-coral to-bubblegum text-white hover:shadow-lg hover:shadow-coral/15"
-            : "border border-border text-foreground hover:bg-surface-2 hover:border-border-hover"
+            ? "btn-gradient text-white"
+            : "btn-outline"
         }`}
       >
         Get Started

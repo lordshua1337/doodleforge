@@ -8,7 +8,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="mb-4 flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-coral via-lavender to-sky text-xs font-extrabold text-white">
+              <span className="logo-mark flex h-8 w-8 items-center justify-center rounded-xl text-xs font-extrabold text-white">
                 D
               </span>
               <span className="text-base font-bold text-foreground">DoodleForge</span>

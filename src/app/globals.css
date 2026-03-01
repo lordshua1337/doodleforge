@@ -89,6 +89,43 @@ body {
   border-image: linear-gradient(135deg, #FF6B6B, #FBBF24, #34D399, #60A5FA, #A78BFA, #F472B6) 1;
 }
 
+/* Gradient button -- explicit CSS because Tailwind v4 gradient utilities
+   render as text gradients instead of backgrounds in production */
+.btn-gradient {
+  background: linear-gradient(to right, #FF6B6B, #FB923C, #F472B6);
+  box-shadow: 0 4px 14px rgba(255, 107, 107, 0.25);
+}
+.btn-gradient:hover {
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.35);
+}
+
+/* Outline button */
+.btn-outline {
+  border: 1px solid #E5E7EB;
+  background: #FFFFFF;
+  color: #6B7280;
+}
+.btn-outline:hover {
+  border-color: #D1D5DB;
+  color: #1A1A2E;
+}
+
+/* Logo mark gradient */
+.logo-mark {
+  background: linear-gradient(135deg, #FF6B6B, #A78BFA, #60A5FA);
+}
+
+/* Card with visible border */
+.card {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+}
+.card:hover {
+  border-color: #D1D5DB;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
 /* Doodle background -- barely-there pastel shapes */
 .doodle-bg {
   position: fixed;

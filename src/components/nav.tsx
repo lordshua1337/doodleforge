@@ -13,7 +13,7 @@ export function Nav() {
           href="/"
           className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-foreground"
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-coral via-lavender to-sky text-sm font-extrabold text-white shadow-sm">
+          <span className="logo-mark flex h-9 w-9 items-center justify-center rounded-xl text-sm font-extrabold text-white shadow-sm">
             D
           </span>
           <span>DoodleForge</span>
@@ -29,7 +29,7 @@ export function Nav() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/create"
-            className="rounded-full bg-gradient-to-r from-coral to-bubblegum px-6 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:shadow-lg hover:shadow-coral/20 hover:scale-[1.02] active:scale-[0.98]"
+            className="btn-gradient rounded-full px-6 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
           >
             Upload a Doodle
           </Link>
@@ -55,7 +55,7 @@ export function Nav() {
           <Link href="/pricing" className="block text-sm font-medium text-foreground" onClick={() => setMobileOpen(false)}>Pricing</Link>
           <Link
             href="/create"
-            className="mt-3 block rounded-xl bg-gradient-to-r from-coral to-bubblegum px-5 py-3 text-center text-sm font-semibold text-white"
+            className="btn-gradient mt-3 block rounded-xl px-5 py-3 text-center text-sm font-semibold text-white"
             onClick={() => setMobileOpen(false)}
           >
             Upload a Doodle
