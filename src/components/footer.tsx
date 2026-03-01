@@ -1,30 +1,22 @@
 import Link from "next/link";
 
-const LOGO_COLORS = [
-  "#FF6B6B", "#FFD54F", "#69F0AE", "#64B5F6", "#B388FF",
-  "#FFAB91", "#FF6B6B", "#F48FB1", "#64B5F6", "#69F0AE", "#FFD54F",
-];
-
-const LOGO_TEXT = "DoodleForge";
-
 export function Footer() {
   return (
-    <footer className="relative z-10 border-t border-border bg-surface">
+    <footer className="relative z-10 border-t border-border">
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="mb-3 text-lg tracking-tight" style={{ fontFamily: "var(--font-fredoka)" }}>
-              {LOGO_TEXT.split("").map((letter, i) => (
-                <span key={i} className="inline-block font-bold" style={{ color: LOGO_COLORS[i] }}>
-                  {letter}
-                </span>
-              ))}
+            <div className="mb-4 flex items-center gap-2">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent text-xs font-extrabold text-white">
+                D
+              </span>
+              <span className="text-base font-bold text-foreground">DoodleForge</span>
             </div>
             <p className="text-sm text-text-muted leading-relaxed">
-              Bring your kid&apos;s imagination to life.
+              Fridge art. Gallery upgrade.
               <br />
-              One doodle at a time.
+              Turn scribbles into heirlooms.
             </p>
           </div>
 
@@ -33,7 +25,7 @@ export function Footer() {
             <div className="mb-4 text-xs font-semibold uppercase tracking-widest text-text-muted">
               Product
             </div>
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               <FooterLink href="/create">Create</FooterLink>
               <FooterLink href="/gallery">Gallery</FooterLink>
               <FooterLink href="/pricing">Pricing</FooterLink>
@@ -45,19 +37,20 @@ export function Footer() {
             <div className="mb-4 text-xs font-semibold uppercase tracking-widest text-text-muted">
               Company
             </div>
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               <FooterLink href="#">About</FooterLink>
               <FooterLink href="#">Contact</FooterLink>
               <FooterLink href="#">Terms</FooterLink>
+              <FooterLink href="#">Privacy</FooterLink>
             </div>
           </div>
 
           {/* Social */}
           <div>
             <div className="mb-4 text-xs font-semibold uppercase tracking-widest text-text-muted">
-              Follow the doodles
+              Follow Us
             </div>
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               <FooterLink href="#">Instagram</FooterLink>
               <FooterLink href="#">TikTok</FooterLink>
               <FooterLink href="#">X (Twitter)</FooterLink>
@@ -65,12 +58,12 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
           <p className="text-xs text-text-muted">
             &copy; {new Date().getFullYear()} DoodleForge. All rights reserved.
           </p>
           <p className="text-xs text-text-muted">
-            Made with crayons, imagination, and excellent AI.
+            Where kid art gets the respect it deserves.
           </p>
         </div>
       </div>

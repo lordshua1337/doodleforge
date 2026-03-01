@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Warm cream base */
-  --color-background: #FFF9F0;
-  --color-foreground: #2D2235;
-  --color-surface: #FFF4E8;
-  --color-surface-2: #FFEFE0;
-  --color-border: #F0DCC8;
-  --color-border-hover: #E0C8A8;
-  --color-text-secondary: #6B5E6E;
-  --color-text-muted: #A89AAB;
+  /* Dark premium base */
+  --color-background: #0A0A0A;
+  --color-foreground: #F0F0F0;
+  --color-surface: #141414;
+  --color-surface-2: #1E1E1E;
+  --color-border: #2A2A2A;
+  --color-border-hover: #3A3A3A;
+  --color-text-secondary: #A0A0A8;
+  --color-text-muted: #666670;
 
-  /* Crayon palette */
-  --color-coral: #FF6B6B;
+  /* Brand palette -- premium with playful accents */
+  --color-coral: #FF6B35;
   --color-lavender: #B388FF;
-  --color-mint: #69F0AE;
-  --color-sky: #64B5F6;
-  --color-sunny: #FFD54F;
-  --color-peach: #FFAB91;
-  --color-bubblegum: #F48FB1;
+  --color-mint: #34D399;
+  --color-sky: #60A5FA;
+  --color-sunny: #FBBF24;
+  --color-peach: #FB923C;
+  --color-bubblegum: #F472B6;
 
   /* Functional */
-  --color-accent: #FF6B6B;
-  --color-accent-hover: #FF5252;
-  --color-green: #69F0AE;
-  --color-purple: #B388FF;
-  --color-yellow: #FFD54F;
+  --color-accent: #FF6B35;
+  --color-accent-hover: #FF7F50;
+  --color-green: #34D399;
+  --color-purple: #A78BFA;
+  --color-yellow: #FBBF24;
 
-  --font-sans: var(--font-fredoka), var(--font-geist-sans);
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-fredoka);
+  --font-display: var(--font-dm-serif), Georgia, serif;
 }
 
 * {
@@ -50,25 +50,25 @@ body {
 }
 
 ::selection {
-  background: var(--color-lavender);
+  background: var(--color-accent);
   color: white;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-surface);
+  background: var(--color-background);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--color-border);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-border-hover);
 }
 
-/* Crayon doodle background decorations */
+/* Doodle background -- kid art scattered on dark gallery walls */
 .doodle-bg {
   position: fixed;
   top: 0;
@@ -80,7 +80,7 @@ body {
   overflow: hidden;
 }
 
-/* Subtle paper texture feel */
+/* Subtle noise texture */
 body::before {
   content: "";
   position: fixed;
@@ -90,17 +90,11 @@ body::before {
   height: 100%;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.03;
+  opacity: 0.015;
   background-image:
     radial-gradient(circle at 20% 20%, var(--color-coral) 1px, transparent 1px),
     radial-gradient(circle at 80% 40%, var(--color-sky) 1px, transparent 1px),
     radial-gradient(circle at 40% 70%, var(--color-sunny) 1px, transparent 1px),
     radial-gradient(circle at 70% 80%, var(--color-lavender) 1px, transparent 1px);
   background-size: 120px 120px, 150px 150px, 130px 130px, 140px 140px;
-}
-
-/* Rainbow text utility */
-.rainbow-letter {
-  display: inline-block;
-  font-weight: 800;
 }

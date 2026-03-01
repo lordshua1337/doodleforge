@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Fredoka } from "next/font/google";
+import { Geist_Mono, DM_Sans, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { DoodleBg } from "@/components/doodle-bg";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const dmSerif = DM_Serif_Display({
+  variable: "--font-dm-serif",
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 const geistMono = Geist_Mono({
@@ -16,16 +22,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const fredoka = Fredoka({
-  variable: "--font-fredoka",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
-
 export const metadata: Metadata = {
-  title: "DoodleForge | Bring Your Kid's Imagination to Life",
+  title: "DoodleForge | Fridge Art. Gallery Upgrade.",
   description:
-    "Your kid drew something beautiful (to them). Upload it and our AI transforms it into actual art worth framing. Prints, canvas, posters -- the works.",
+    "Upload your kid's drawing. Our AI transforms it into gallery-worthy art. Prints, canvas, posters -- real art from real imagination.",
   keywords: [
     "kids art",
     "AI art",
@@ -37,16 +37,16 @@ export const metadata: Metadata = {
     "art transformation",
   ],
   openGraph: {
-    title: "DoodleForge | Bring Your Kid's Imagination to Life",
+    title: "DoodleForge | Fridge Art. Gallery Upgrade.",
     description:
-      "Upload your kid's drawing. AI turns it into real art. Frame it. Hang it. Pretend they're a prodigy.",
+      "Upload your kid's drawing. AI turns it into real art. Frame it. Hang it. Make grandparents cry.",
     type: "website",
   },
   manifest: "/manifest.json",
 };
 
 export const viewport = {
-  themeColor: "#FFF9F0",
+  themeColor: "#0A0A0A",
 };
 
 export default function RootLayout({
@@ -57,7 +57,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${fredoka.variable} font-sans antialiased`}
+        className={`${dmSans.variable} ${dmSerif.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <DoodleBg />
         <Nav />
