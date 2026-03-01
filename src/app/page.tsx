@@ -98,7 +98,7 @@ export default function Home() {
   return (
     <>
       {/* ─── HERO ─── */}
-      <section className="relative flex items-center justify-center py-24 md:py-32 lg:py-40">
+      <section className="relative" style={{ paddingTop: "80px", paddingBottom: "80px" }}>
         {/* Soft pastel gradient blurs */}
         <div className="absolute rounded-full" style={{ top: "15%", left: "15%", width: 500, height: 500, background: "rgba(255,107,107,0.07)", filter: "blur(120px)" }} />
         <div className="absolute rounded-full" style={{ bottom: "20%", right: "15%", width: 450, height: 450, background: "rgba(96,165,250,0.07)", filter: "blur(120px)" }} />
@@ -106,8 +106,8 @@ export default function Home() {
 
         <div className="relative z-10 mx-auto max-w-3xl px-8 text-center">
           <div
-            className="mb-8 inline-flex items-center gap-2.5 rounded-full backdrop-blur-sm px-6 py-2.5 text-xs font-medium tracking-wide shadow-sm"
-            style={{ background: "rgba(255,255,255,0.8)", border: "1px solid #E5E7EB", color: "#6B7280" }}
+            className="mb-8 inline-flex items-center gap-2.5 rounded-full backdrop-blur-sm px-6 py-2.5 text-xs font-medium tracking-wide"
+            style={{ background: "rgba(255,255,255,0.8)", border: "1px solid #E5E7EB", color: "#6B7280", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}
           >
             <span className="inline-block h-2 w-2 rounded-full animate-pulse" style={{ background: "#34D399" }} />
             AI-Powered Art Transformation
@@ -121,32 +121,24 @@ export default function Home() {
             <span className="text-rainbow">Gallery upgrade.</span>
           </h1>
 
-          <p className="mx-auto mb-4 max-w-lg text-lg text-text-secondary leading-relaxed md:text-xl">
+          <p className="mx-auto mb-4 max-w-lg text-lg leading-relaxed md:text-xl" style={{ color: "#6B7280" }}>
             Upload your kid&apos;s masterpiece. Our AI transforms it
             into art you&apos;ll actually want to frame.
           </p>
-          <p className="mx-auto mb-10 max-w-md text-sm text-text-muted">
+          <p className="mx-auto mb-10 max-w-md text-sm" style={{ color: "#9CA3AF" }}>
             They&apos;ll think they&apos;re Picasso. You&apos;ll know the truth. Everyone wins.
           </p>
 
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Link
-              href="/create"
-              className="rounded-full px-10 py-4 text-base font-bold transition-all hover:scale-[1.02] active:scale-[0.98]"
-              style={{ background: "linear-gradient(to right, #FF6B6B, #FB923C, #F472B6)", color: "#fff", boxShadow: "0 4px 14px rgba(255,107,107,0.25)" }}
-            >
+            <Link href="/create" className="hero-cta-primary">
               Upload a Doodle &rarr;
             </Link>
-            <Link
-              href="/gallery"
-              className="rounded-full px-10 py-4 text-base font-medium transition-all hover:shadow-sm"
-              style={{ background: "#fff", border: "1px solid #E5E7EB", color: "#6B7280" }}
-            >
+            <Link href="/gallery" className="hero-cta-secondary">
               See the Gallery
             </Link>
           </div>
 
-          <p className="mt-10 text-xs text-text-muted">
+          <p className="mt-10 text-xs" style={{ color: "#9CA3AF" }}>
             No account needed. Upload, transform, download.
           </p>
         </div>
@@ -328,11 +320,7 @@ export default function Home() {
             You know that drawing on the fridge? The one you smile at every morning?
             Imagine it as a real painting. That&apos;s what we do.
           </p>
-          <Link
-            href="/create"
-            className="inline-flex items-center gap-2 rounded-full px-12 py-4 text-base font-bold transition-all hover:scale-[1.02] active:scale-[0.98]"
-            style={{ background: "linear-gradient(to right, #FF6B6B, #FB923C, #F472B6)", color: "#fff", boxShadow: "0 4px 14px rgba(255,107,107,0.25)" }}
-          >
+          <Link href="/create" className="hero-cta-primary">
             Upload a Doodle &rarr;
           </Link>
         </div>
@@ -449,10 +437,7 @@ function PricingCard({ tier }: { tier: (typeof PRICING_TIERS)[number] }) {
       }`}
     >
       {tier.popular && (
-        <div
-          className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-5 py-1.5 text-[10px] font-bold uppercase tracking-widest shadow-sm"
-          style={{ background: "linear-gradient(to right, #FF6B6B, #F472B6)", color: "#fff" }}
-        >
+        <div className="popular-badge">
           Most Popular
         </div>
       )}
@@ -475,11 +460,7 @@ function PricingCard({ tier }: { tier: (typeof PRICING_TIERS)[number] }) {
       </ul>
       <Link
         href="/create"
-        className="block w-full rounded-full py-4 text-center text-sm font-semibold transition-all"
-        style={tier.popular
-          ? { background: "linear-gradient(to right, #FF6B6B, #F472B6)", color: "#fff", boxShadow: "0 4px 14px rgba(255,107,107,0.15)" }
-          : { background: "#fff", border: "1px solid #E5E7EB", color: "#1A1A2E" }
-        }
+        className={tier.popular ? "pricing-cta-popular" : "pricing-cta-default"}
       >
         Get Started
       </Link>

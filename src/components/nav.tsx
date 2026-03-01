@@ -32,8 +32,7 @@ export function Nav() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/create"
-            className="rounded-full px-6 py-2 text-sm font-semibold shadow-sm transition-all hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
-            style={{ background: "linear-gradient(to right, #FF6B6B, #F472B6)", color: "#fff" }}
+            className="nav-cta-btn"
           >
             Upload a Doodle
           </Link>
@@ -59,8 +58,7 @@ export function Nav() {
           <Link href="/pricing" className="block text-sm font-medium text-foreground" onClick={() => setMobileOpen(false)}>Pricing</Link>
           <Link
             href="/create"
-            className="mt-3 block rounded-xl px-5 py-3 text-center text-sm font-semibold"
-            style={{ background: "linear-gradient(to right, #FF6B6B, #F472B6)", color: "#fff" }}
+            className="nav-cta-btn mt-3 block text-center"
             onClick={() => setMobileOpen(false)}
           >
             Upload a Doodle
