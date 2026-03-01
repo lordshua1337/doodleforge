@@ -1,21 +1,35 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #0A0A0A;
-  --color-foreground: #F5F5F5;
-  --color-surface: #111111;
-  --color-surface-2: #1A1A1A;
-  --color-border: #222222;
-  --color-border-hover: #333333;
-  --color-text-secondary: #A0A0A0;
-  --color-text-muted: #666666;
-  --color-accent: #FF3B30;
-  --color-accent-hover: #FF1A0D;
-  --color-yellow: #FFD60A;
-  --color-green: #30D158;
-  --color-purple: #BF5AF2;
-  --font-sans: var(--font-geist-sans);
+  /* Warm cream base */
+  --color-background: #FFF9F0;
+  --color-foreground: #2D2235;
+  --color-surface: #FFF4E8;
+  --color-surface-2: #FFEFE0;
+  --color-border: #F0DCC8;
+  --color-border-hover: #E0C8A8;
+  --color-text-secondary: #6B5E6E;
+  --color-text-muted: #A89AAB;
+
+  /* Crayon palette */
+  --color-coral: #FF6B6B;
+  --color-lavender: #B388FF;
+  --color-mint: #69F0AE;
+  --color-sky: #64B5F6;
+  --color-sunny: #FFD54F;
+  --color-peach: #FFAB91;
+  --color-bubblegum: #F48FB1;
+
+  /* Functional */
+  --color-accent: #FF6B6B;
+  --color-accent-hover: #FF5252;
+  --color-green: #69F0AE;
+  --color-purple: #B388FF;
+  --color-yellow: #FFD54F;
+
+  --font-sans: var(--font-fredoka), var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fredoka);
 }
 
 * {
@@ -36,20 +50,57 @@ body {
 }
 
 ::selection {
-  background: var(--color-accent);
+  background: var(--color-lavender);
   color: white;
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--color-surface);
 }
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 3px;
+  background: var(--color-border);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #444;
+  background: var(--color-border-hover);
+}
+
+/* Crayon doodle background decorations */
+.doodle-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Subtle paper texture feel */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.03;
+  background-image:
+    radial-gradient(circle at 20% 20%, var(--color-coral) 1px, transparent 1px),
+    radial-gradient(circle at 80% 40%, var(--color-sky) 1px, transparent 1px),
+    radial-gradient(circle at 40% 70%, var(--color-sunny) 1px, transparent 1px),
+    radial-gradient(circle at 70% 80%, var(--color-lavender) 1px, transparent 1px);
+  background-size: 120px 120px, 150px 150px, 130px 130px, 140px 140px;
+}
+
+/* Rainbow text utility */
+.rainbow-letter {
+  display: inline-block;
+  font-weight: 800;
 }

@@ -1,8 +1,10 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Fredoka } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
+import { DoodleBg } from "@/components/doodle-bg";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,10 +16,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "DoodleForge | Turn Your Kid's Art Into Masterpieces",
+  title: "DoodleForge | Bring Your Kid's Imagination to Life",
   description:
-    "Your kid drew something. It's terrible. We'll fix it. AI-powered art transformation that turns children's drawings into gallery-worthy prints.",
+    "Your kid drew something beautiful (to them). Upload it and our AI transforms it into actual art worth framing. Prints, canvas, posters -- the works.",
   keywords: [
     "kids art",
     "AI art",
@@ -25,18 +33,20 @@ export const metadata: Metadata = {
     "art prints",
     "custom prints",
     "AI image generation",
+    "kids doodles",
+    "art transformation",
   ],
   openGraph: {
-    title: "DoodleForge | Turn Your Kid's Art Into Masterpieces",
+    title: "DoodleForge | Bring Your Kid's Imagination to Life",
     description:
-      "Your kid drew something. It's terrible. We'll fix it. AI-powered art transformation.",
+      "Upload your kid's drawing. AI turns it into real art. Frame it. Hang it. Pretend they're a prodigy.",
     type: "website",
   },
   manifest: "/manifest.json",
 };
 
 export const viewport = {
-  themeColor: "#FF3B30",
+  themeColor: "#FFF9F0",
 };
 
 export default function RootLayout({
@@ -47,10 +57,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${fredoka.variable} font-sans antialiased`}
       >
+        <DoodleBg />
         <Nav />
-        <main>{children}</main>
+        <main className="relative z-10">{children}</main>
         <Footer />
       </body>
     </html>

@@ -3,14 +3,38 @@
 import Link from "next/link";
 import { useState } from "react";
 
+const LOGO_COLORS = [
+  "#FF6B6B", // D - coral
+  "#FFD54F", // o - sunny
+  "#69F0AE", // o - mint
+  "#64B5F6", // d - sky
+  "#B388FF", // l - lavender
+  "#FFAB91", // e - peach
+  "#FF6B6B", // F - coral
+  "#F48FB1", // o - bubblegum
+  "#64B5F6", // r - sky
+  "#69F0AE", // g - mint
+  "#FFD54F", // e - sunny
+];
+
+const LOGO_TEXT = "DoodleForge";
+
 export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-2 font-bold text-lg tracking-tight">
-          <span className="text-accent">D</span>oodleForge
+        <Link href="/" className="flex items-center gap-1.5 text-xl tracking-tight" style={{ fontFamily: "var(--font-fredoka)" }}>
+          {LOGO_TEXT.split("").map((letter, i) => (
+            <span
+              key={i}
+              className="inline-block font-bold"
+              style={{ color: LOGO_COLORS[i], marginRight: letter === "e" && i === 5 ? "2px" : "0" }}
+            >
+              {letter}
+            </span>
+          ))}
         </Link>
 
         {/* Desktop */}
@@ -23,7 +47,7 @@ export function Nav() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/create"
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+            className="rounded-full bg-coral px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-accent-hover hover:scale-[1.03] active:scale-[0.98] shadow-sm"
           >
             Upload a Doodle
           </Link>
@@ -56,30 +80,12 @@ export function Nav() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden border-t border-border bg-background px-6 py-4 space-y-3">
+          <Link href="/create" className="block text-sm font-medium text-foreground" onClick={() => setMobileOpen(false)}>Create</Link>
+          <Link href="/gallery" className="block text-sm font-medium text-foreground" onClick={() => setMobileOpen(false)}>Gallery</Link>
+          <Link href="/pricing" className="block text-sm font-medium text-foreground" onClick={() => setMobileOpen(false)}>Pricing</Link>
           <Link
             href="/create"
-            className="block text-sm font-medium text-foreground"
-            onClick={() => setMobileOpen(false)}
-          >
-            Create
-          </Link>
-          <Link
-            href="/gallery"
-            className="block text-sm font-medium text-foreground"
-            onClick={() => setMobileOpen(false)}
-          >
-            Gallery
-          </Link>
-          <Link
-            href="/pricing"
-            className="block text-sm font-medium text-foreground"
-            onClick={() => setMobileOpen(false)}
-          >
-            Pricing
-          </Link>
-          <Link
-            href="/create"
-            className="mt-2 block rounded-lg bg-accent px-4 py-2.5 text-center text-sm font-semibold text-white"
+            className="mt-2 block rounded-full bg-coral px-4 py-2.5 text-center text-sm font-semibold text-white"
             onClick={() => setMobileOpen(false)}
           >
             Upload a Doodle
@@ -90,13 +96,7 @@ export function Nav() {
   );
 }
 
-function NavLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link
       href={href}

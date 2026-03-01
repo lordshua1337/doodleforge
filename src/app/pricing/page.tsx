@@ -21,12 +21,13 @@ const TIERS = [
     priceId: "single",
     mode: "payment",
     popular: false,
+    color: "#64B5F6",
   },
   {
     name: "5-Pack",
     price: "$12.99",
     period: "one-time",
-    desc: "For parents with multiple crimes to fix.",
+    desc: "For parents with multiple masterpieces to save.",
     features: [
       "5 AI transformations",
       "All 8 art styles",
@@ -40,6 +41,7 @@ const TIERS = [
     priceId: "pack",
     mode: "payment",
     popular: true,
+    color: "#FF6B6B",
   },
   {
     name: "Unlimited",
@@ -62,6 +64,7 @@ const TIERS = [
     priceId: "unlimited",
     mode: "subscription",
     popular: false,
+    color: "#B388FF",
   },
 ];
 
@@ -72,11 +75,11 @@ const FAQ = [
   },
   {
     q: "What if my kid's drawing is really, really bad?",
-    a: "That's... kind of the whole point. The worse the original, the more dramatic the transformation. Some of our best results come from drawings that are essentially just scribbles.",
+    a: "That's kind of the whole point. The worse the original, the more dramatic the transformation. Some of our best results come from drawings that are essentially just scribbles. The AI is surprisingly good at finding meaning in chaos.",
   },
   {
     q: "Can I order physical prints?",
-    a: "Yes. After transformation, you can order canvas prints, framed prints, or posters. They're museum-quality, fulfilled through our Etsy integration, and ship in 3-5 business days.",
+    a: "Yes! After transformation, you can order canvas prints, framed prints, or posters. They're museum-quality, fulfilled through our Etsy integration, and ship in 3-5 business days.",
   },
   {
     q: "Do you store my images?",
@@ -84,7 +87,7 @@ const FAQ = [
   },
   {
     q: "Can I use the generated art commercially?",
-    a: "The Unlimited plan includes a commercial license. Single and 5-Pack users get personal use only. Don't sell your kid's stick figure as an NFT. Please.",
+    a: "The Unlimited plan includes a commercial license. Single and 5-Pack users get personal use only.",
   },
   {
     q: "What art styles are available?",
@@ -94,19 +97,19 @@ const FAQ = [
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen pt-14">
+    <div className="relative z-10 min-h-screen pt-14">
       <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         {/* Header */}
         <div className="mb-16 text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-sunny">
             Pricing
           </p>
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl">
-            Cheaper than therapy.
+          <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-fredoka)" }}>
+            Cheaper than <span className="text-coral">art school</span>.
           </h1>
           <p className="mx-auto max-w-lg text-text-secondary">
-            For what you&apos;re paying a babysitter per hour, you could transform
-            every drawing your kid has ever made.
+            And infinitely more effective for your specific situation.
+            Your kid&apos;s imagination, professionally rendered.
           </p>
         </div>
 
@@ -120,11 +123,11 @@ export default function PricingPage() {
         {/* FAQ */}
         <div className="mx-auto max-w-3xl">
           <div className="mb-12 text-center">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-lavender">
               FAQ
             </p>
-            <h2 className="text-3xl font-extrabold tracking-tight">
-              Questions you definitely have.
+            <h2 className="text-3xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-fredoka)" }}>
+              Questions you probably have.
             </h2>
           </div>
 
@@ -137,15 +140,15 @@ export default function PricingPage() {
 
         {/* Bottom CTA */}
         <div className="mt-24 text-center">
-          <h2 className="mb-4 text-2xl font-extrabold">
-            Still reading? Just upload the drawing.
+          <h2 className="mb-4 text-2xl font-extrabold" style={{ fontFamily: "var(--font-fredoka)" }}>
+            Still reading? Just <span className="text-coral">upload the drawing</span>.
           </h2>
           <p className="mb-6 text-text-secondary">
-            It takes 30 seconds. Your kid will think you&apos;re amazing. You will know the truth.
+            It takes 30 seconds. Your kid will think they&apos;re an artist. You&apos;ll have art you actually want to frame.
           </p>
           <Link
             href="/create"
-            className="inline-flex rounded-xl bg-accent px-8 py-3.5 text-base font-bold text-white transition-all hover:bg-accent-hover hover:scale-[1.02]"
+            className="inline-flex rounded-full bg-coral px-8 py-3.5 text-base font-bold text-white transition-all hover:bg-accent-hover hover:scale-[1.03] shadow-sm shadow-coral/20"
           >
             Upload a Doodle &rarr;
           </Link>
@@ -155,11 +158,7 @@ export default function PricingPage() {
   );
 }
 
-function PricingCard({
-  tier,
-}: {
-  tier: (typeof TIERS)[number];
-}) {
+function PricingCard({ tier }: { tier: (typeof TIERS)[number] }) {
   const handleCheckout = async () => {
     try {
       const res = await fetch("/api/stripe/checkout", {
@@ -190,14 +189,21 @@ function PricingCard({
 
   return (
     <div
-      className={`relative flex flex-col rounded-2xl border p-8 transition-all ${
+      className={`relative flex flex-col rounded-2xl border-2 p-8 transition-all ${
         tier.popular
-          ? "border-accent bg-accent/5 scale-[1.02]"
-          : "border-border bg-surface hover:border-border-hover"
+          ? "scale-[1.02] shadow-lg"
+          : "bg-surface hover:shadow-md"
       }`}
+      style={{
+        borderColor: tier.popular ? tier.color : undefined,
+        backgroundColor: tier.popular ? `${tier.color}08` : undefined,
+      }}
     >
       {tier.popular && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
+        <div
+          className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-white"
+          style={{ backgroundColor: tier.color }}
+        >
           Most Popular
         </div>
       )}
@@ -216,15 +222,9 @@ function PricingCard({
         {tier.features.map((f) => (
           <li key={f} className="flex items-start gap-2 text-sm text-text-secondary">
             <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mt-0.5 flex-shrink-0 text-green"
+              width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={tier.color}
+              strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              className="mt-0.5 flex-shrink-0"
             >
               <polyline points="20 6 9 17 4 12" />
             </svg>
@@ -234,14 +234,8 @@ function PricingCard({
         {tier.notIncluded.map((f) => (
           <li key={f} className="flex items-start gap-2 text-sm text-text-muted line-through">
             <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
               className="mt-0.5 flex-shrink-0 text-text-muted"
             >
               <line x1="18" y1="6" x2="6" y2="18" />
@@ -254,11 +248,12 @@ function PricingCard({
 
       <button
         onClick={handleCheckout}
-        className={`w-full rounded-xl py-3 text-center text-sm font-semibold transition-all ${
+        className={`w-full rounded-full py-3 text-center text-sm font-semibold transition-all ${
           tier.popular
-            ? "bg-accent text-white hover:bg-accent-hover"
-            : "border border-border text-foreground hover:bg-surface-2"
+            ? "text-white hover:opacity-90 shadow-sm"
+            : "border-2 border-border text-foreground hover:bg-surface-2"
         }`}
+        style={tier.popular ? { backgroundColor: tier.color } : undefined}
       >
         {tier.cta}
       </button>
@@ -270,24 +265,16 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="rounded-xl border border-border bg-surface overflow-hidden">
+    <div className="rounded-xl border-2 border-border bg-surface overflow-hidden transition-all hover:border-border-hover">
       <button
         onClick={() => setOpen(!open)}
         className="flex w-full items-center justify-between p-5 text-left"
       >
         <span className="pr-4 text-sm font-semibold">{question}</span>
         <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className={`flex-shrink-0 text-text-muted transition-transform ${
-            open ? "rotate-180" : ""
-          }`}
+          width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+          className={`flex-shrink-0 text-text-muted transition-transform ${open ? "rotate-180" : ""}`}
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
