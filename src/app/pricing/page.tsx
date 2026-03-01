@@ -97,14 +97,14 @@ const FAQ = [
 
 export default function PricingPage() {
   return (
-    <div className="relative z-10 min-h-screen pt-14">
+    <div className="relative z-10 min-h-screen">
       <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         {/* Header */}
         <div className="mb-16 text-center">
           <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-sunny">
             Pricing
           </p>
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-fredoka)" }}>
+          <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
             Cheaper than <span className="text-coral">art school</span>.
           </h1>
           <p className="mx-auto max-w-lg text-text-secondary">
@@ -126,7 +126,7 @@ export default function PricingPage() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-lavender">
               FAQ
             </p>
-            <h2 className="text-3xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-fredoka)" }}>
+            <h2 className="text-3xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-dm-serif)" }}>
               Questions you probably have.
             </h2>
           </div>
@@ -140,7 +140,7 @@ export default function PricingPage() {
 
         {/* Bottom CTA */}
         <div className="mt-24 text-center">
-          <h2 className="mb-4 text-2xl font-extrabold" style={{ fontFamily: "var(--font-fredoka)" }}>
+          <h2 className="mb-4 text-2xl font-extrabold" style={{ fontFamily: "var(--font-dm-serif)" }}>
             Still reading? Just <span className="text-coral">upload the drawing</span>.
           </h2>
           <p className="mb-6 text-text-secondary">

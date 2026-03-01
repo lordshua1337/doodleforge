@@ -29,7 +29,7 @@ export function Nav() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/create"
-            className="rounded-xl bg-gradient-to-r from-coral to-bubblegum px-7 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-coral/20 hover:scale-[1.02] active:scale-[0.98]"
+            className="rounded-full bg-gradient-to-r from-coral to-bubblegum px-6 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:shadow-lg hover:shadow-coral/20 hover:scale-[1.02] active:scale-[0.98]"
           >
             Upload a Doodle
           </Link>

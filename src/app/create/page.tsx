@@ -92,7 +92,7 @@ export default function CreatePage() {
   };
 
   return (
-    <div className="relative z-10 min-h-screen pt-14">
+    <div className="relative z-10 min-h-screen">
       <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
         {/* Progress */}
         <div className="mb-12 flex items-center justify-center gap-2">
@@ -106,7 +106,7 @@ export default function CreatePage() {
         {/* Upload Step */}
         {step === "upload" && (
           <div className="text-center">
-            <h1 className="mb-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-fredoka)" }}>
+            <h1 className="mb-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
               Drop the <span className="text-coral">doodle</span>.
             </h1>
             <p className="mb-10 text-text-secondary">
@@ -166,7 +166,7 @@ export default function CreatePage() {
         {step === "style" && (
           <div>
             <div className="mb-8 text-center">
-              <h1 className="mb-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-fredoka)" }}>
+              <h1 className="mb-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
                 Pick a <span className="text-sky">style</span>.
               </h1>
               <p className="text-text-secondary">
@@ -241,7 +241,7 @@ export default function CreatePage() {
         {step === "generating" && (
           <div className="flex flex-col items-center justify-center py-16 text-center">
             <div className="mb-8 h-12 w-12 animate-spin rounded-full border-2 border-border border-t-coral" />
-            <h2 className="mb-2 text-2xl font-extrabold" style={{ fontFamily: "var(--font-fredoka)" }}>
+            <h2 className="mb-2 text-2xl font-extrabold" style={{ fontFamily: "var(--font-dm-serif)" }}>
               Working on it...
             </h2>
             <p className="text-text-secondary">
@@ -254,7 +254,7 @@ export default function CreatePage() {
         {/* Result Step */}
         {step === "result" && (
           <div className="text-center">
-            <h1 className="mb-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-fredoka)" }}>
+            <h1 className="mb-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
               <span className="text-mint">Ta-da!</span> Look at that.
             </h1>
             <p className="mb-8 text-text-secondary">

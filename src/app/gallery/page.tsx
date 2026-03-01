@@ -92,14 +92,14 @@ const PASTEL_BGS = [
 
 export default function GalleryPage() {
   return (
-    <div className="relative z-10 min-h-screen pt-14">
+    <div className="relative z-10 min-h-screen">
       <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         {/* Header */}
         <div className="mb-16 text-center">
           <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-coral">
             The Wall of Shame
           </p>
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-fredoka)" }}>
+          <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
             Guess what they <span className="text-coral">drew</span>.
           </h1>
           <p className="mx-auto max-w-lg text-text-secondary">
@@ -158,7 +158,7 @@ export default function GalleryPage() {
 
         {/* CTA */}
         <div className="mt-16 text-center">
-          <h2 className="mb-4 text-2xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-fredoka)" }}>
+          <h2 className="mb-4 text-2xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-dm-serif)" }}>
             Your kid&apos;s doodle could be <span className="text-coral">next</span>.
           </h2>
           <p className="mb-6 text-text-secondary">

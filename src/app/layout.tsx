@@ -61,7 +61,7 @@ export default function RootLayout({
       >
         <DoodleBg />
         <Nav />
-        <main className="relative z-10">{children}</main>
+        <main className="relative z-10 pt-16">{children}</main>
         <Footer />
       </body>
     </html>

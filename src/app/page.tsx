@@ -98,7 +98,7 @@ export default function Home() {
   return (
     <>
       {/* ─── HERO ─── */}
-      <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
+      <section className="relative flex items-center justify-center overflow-hidden py-24 md:py-32 lg:py-40">
         {/* Soft pastel gradient blurs */}
         <div className="absolute top-[15%] left-[15%] w-[500px] h-[500px] bg-coral/[0.07] rounded-full blur-[120px]" />
         <div className="absolute bottom-[20%] right-[15%] w-[450px] h-[450px] bg-sky/[0.07] rounded-full blur-[120px]" />
@@ -122,7 +122,7 @@ export default function Home() {
             Upload your kid&apos;s masterpiece. Our AI transforms it
             into art you&apos;ll actually want to frame.
           </p>
-          <p className="mx-auto mb-14 max-w-md text-sm text-text-muted">
+          <p className="mx-auto mb-10 max-w-md text-sm text-text-muted">
             They&apos;ll think they&apos;re Picasso. You&apos;ll know the truth. Everyone wins.
           </p>
 
@@ -148,9 +148,9 @@ export default function Home() {
       </section>
 
       {/* ─── HOW IT WORKS ─── */}
-      <section className="relative z-10 py-28 md:py-36">
+      <section className="relative z-10 py-20 md:py-28">
         <div className="mx-auto max-w-5xl px-8">
-          <div className="mb-20 text-center">
+          <div className="mb-14 text-center">
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-lavender">
               How it works
             </p>
@@ -189,9 +189,9 @@ export default function Home() {
       </section>
 
       {/* ─── WALL OF SHAME ─── */}
-      <section className="relative z-10 bg-surface py-28 md:py-36">
+      <section className="relative z-10 bg-surface py-20 md:py-28">
         <div className="mx-auto max-w-5xl px-8">
-          <div className="mb-20 text-center">
+          <div className="mb-14 text-center">
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-coral">
               The wall of shame
             </p>
@@ -216,9 +216,9 @@ export default function Home() {
       </section>
 
       {/* ─── STYLE OPTIONS ─── */}
-      <section className="relative z-10 py-28 md:py-36">
+      <section className="relative z-10 py-20 md:py-28">
         <div className="mx-auto max-w-4xl px-8">
-          <div className="mb-20 text-center">
+          <div className="mb-14 text-center">
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-sky">
               Art styles
             </p>
@@ -254,7 +254,7 @@ export default function Home() {
       </section>
 
       {/* ─── PRINTS CTA ─── */}
-      <section className="relative z-10 bg-surface py-28 md:py-36">
+      <section className="relative z-10 bg-surface py-20 md:py-28">
         <div className="mx-auto max-w-3xl px-8 text-center">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-lavender">
             Physical prints
@@ -265,7 +265,7 @@ export default function Home() {
           >
             Put it on <span className="text-rainbow">your wall.</span>
           </h2>
-          <p className="mx-auto mb-14 max-w-lg text-text-secondary leading-relaxed">
+          <p className="mx-auto mb-10 max-w-lg text-text-secondary leading-relaxed">
             Order museum-quality prints of your kid&apos;s reborn artwork.
             Canvas, framed, or poster. Shipped to your door.
           </p>
@@ -283,9 +283,9 @@ export default function Home() {
       </section>
 
       {/* ─── PRICING ─── */}
-      <section className="relative z-10 py-28 md:py-36" id="pricing">
+      <section className="relative z-10 py-20 md:py-28" id="pricing">
         <div className="mx-auto max-w-5xl px-8">
-          <div className="mb-20 text-center">
+          <div className="mb-14 text-center">
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-sunny">
               Pricing
             </p>
@@ -309,7 +309,7 @@ export default function Home() {
       </section>
 
       {/* ─── FINAL CTA ─── */}
-      <section className="relative z-10 py-28 md:py-36">
+      <section className="relative z-10 py-20 md:py-28">
         <div className="mx-auto max-w-3xl px-8 text-center">
           <h2
             className="mb-10 text-3xl font-bold tracking-tight md:text-5xl leading-tight"
@@ -319,7 +319,7 @@ export default function Home() {
             <br />
             <span className="text-sky">Their imagination.</span> Your frame.
           </h2>
-          <p className="mx-auto mb-14 max-w-lg text-text-secondary leading-relaxed">
+          <p className="mx-auto mb-10 max-w-lg text-text-secondary leading-relaxed">
             You know that drawing on the fridge? The one you smile at every morning?
             Imagine it as a real painting. That&apos;s what we do.
           </p>
