@@ -32,6 +32,41 @@ export default function Home() {
         <div className="d-blob" style={{ bottom: "20%", right: "15%", width: 450, height: 450, background: "rgba(96,165,250,0.07)" }} />
         <div className="d-blob" style={{ top: "40%", left: "55%", width: 350, height: 350, background: "rgba(167,139,250,0.06)", filter: "blur(100px)" }} />
 
+        {/* Drawing decoration - top right */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            width: 450,
+            height: 450,
+            backgroundImage: "url(/drawings-1.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "top right",
+            opacity: 0.05,
+            pointerEvents: "none",
+            maskImage: "linear-gradient(135deg, transparent 10%, black 40%, transparent 80%)",
+            WebkitMaskImage: "linear-gradient(135deg, transparent 10%, black 40%, transparent 80%)",
+          }}
+        />
+        {/* Drawing decoration - bottom left */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            width: 350,
+            height: 350,
+            backgroundImage: "url(/drawings-2.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "bottom left",
+            opacity: 0.04,
+            pointerEvents: "none",
+            maskImage: "linear-gradient(315deg, transparent 10%, black 40%, transparent 80%)",
+            WebkitMaskImage: "linear-gradient(315deg, transparent 10%, black 40%, transparent 80%)",
+          }}
+        />
+
         <div className="d-container-sm" style={{ position: "relative", zIndex: 10, textAlign: "center" }}>
           <div style={{ marginBottom: 32 }}>
             <span className="d-badge">
@@ -60,8 +95,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* THREE PILLARS -- nav cards */}
-      <section className="d-section-surface" style={{ padding: "64px 0" }}>
+      {/* THREE PILLARS -- neumorphic nav cards */}
+      <section className="d-section-surface" style={{ padding: "64px 0", position: "relative" }}>
         <div className="d-container">
           <div className="d-grid d-grid-3">
             {[
@@ -90,7 +125,7 @@ export default function Home() {
                 path: <><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></>,
               },
             ].map((p) => (
-              <Link key={p.title} href={p.href} className="d-card d-card-sm d-card-center d-card-hover" style={{ textDecoration: "none" }}>
+              <Link key={p.title} href={p.href} className="neu-card d-card-hover" style={{ textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: 32 }}>
                 <div className="d-icon-box d-icon-box-center" style={{ background: p.color }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={p.stroke} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{p.path}</svg>
                 </div>
@@ -102,8 +137,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WALL OF SHAME PREVIEW -- 3 cards */}
-      <div className="d-section">
+      {/* WALL OF SHAME PREVIEW -- 3 neumorphic cards */}
+      <div className="d-section" style={{ position: "relative" }}>
+        {/* Drawing accent behind section */}
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: 0,
+            transform: "translateY(-50%)",
+            width: 300,
+            height: 400,
+            backgroundImage: "url(/drawings-2.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "center left",
+            opacity: 0.04,
+            pointerEvents: "none",
+            maskImage: "linear-gradient(90deg, transparent 5%, black 30%, transparent 95%)",
+            WebkitMaskImage: "linear-gradient(90deg, transparent 5%, black 30%, transparent 95%)",
+          }}
+        />
         <div className="d-container">
           <div className="d-center d-mb-2xl">
             <p className="d-eyebrow d-eyebrow-coral">The wall of shame</p>
@@ -114,14 +167,14 @@ export default function Home() {
           </div>
           <div className="d-grid d-grid-3">
             {WALL_OF_SHAME_PREVIEW.map((item, i) => (
-              <div key={i} className="d-shame-card">
-                <div className="d-shame-top" style={{ background: PASTEL_BG[i] }}>
+              <div key={i} className="neu-card d-card-hover" style={{ overflow: "hidden", padding: 0 }}>
+                <div style={{ padding: "48px 32px", background: PASTEL_BG[i], display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                   <p style={{ fontSize: 15, fontStyle: "italic", color: "#6B7280", lineHeight: 1.6, textAlign: "center", marginBottom: 20 }}>
                     &ldquo;{item.original}&rdquo;
                   </p>
                   <span className="d-pill d-pill-coral">The original</span>
                 </div>
-                <div className="d-shame-body" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                <div style={{ borderTop: "1px solid rgba(229,231,235,0.5)", padding: "28px 32px", display: "flex", flexDirection: "column", gap: 20 }}>
                   <div className="d-bubble">
                     <div className="d-bubble-avatar" style={{ background: "rgba(251,191,36,0.15)", color: "#FBBF24" }}>K</div>
                     <div>
@@ -137,7 +190,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div className="d-shame-footer">
+                <div style={{ borderTop: "1px solid rgba(229,231,235,0.5)", padding: "20px 32px", background: "rgba(243,244,246,0.3)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div>
                     <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#34D399" }}>Fixed it</p>
                     <p style={{ fontSize: 13, color: "#9CA3AF", marginTop: 4 }}>{item.style} -- {item.artist}</p>
@@ -155,6 +208,19 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Scribble divider */}
+      <div
+        style={{
+          width: "100%",
+          height: 80,
+          backgroundImage: "url(/drawings-1.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.06,
+          borderRadius: 20,
+        }}
+      />
+
       {/* STYLE STRIP */}
       <div className="d-section d-section-surface">
         <div className="d-container-md">
@@ -165,7 +231,7 @@ export default function Home() {
           </div>
           <div className="d-grid d-grid-4">
             {STYLES.map((s) => (
-              <Link key={s.name} href="/create" className="d-style-tile">
+              <Link key={s.name} href="/create" className="neu-card d-card-hover" style={{ textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center", gap: 16, padding: 32, textAlign: "center" }}>
                 <div className="d-style-icon" style={{ background: s.color }}>{s.icon}</div>
                 <span style={{ fontSize: 14, fontWeight: 600, color: "#1A1A2E" }}>{s.name}</span>
               </Link>
@@ -175,8 +241,25 @@ export default function Home() {
       </div>
 
       {/* FINAL CTA */}
-      <div className="d-section">
-        <div className="d-container-sm d-center">
+      <div className="d-section" style={{ position: "relative" }}>
+        {/* Drawing accent behind CTA */}
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 600,
+            height: 350,
+            backgroundImage: "url(/drawings-1.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            opacity: 0.04,
+            borderRadius: 24,
+            pointerEvents: "none",
+          }}
+        />
+        <div className="d-container-sm d-center" style={{ position: "relative" }}>
           <h2 className="d-heading d-heading-lg" style={{ marginBottom: 24, lineHeight: 1.2 }}>
             Look. <span style={{ color: "#FF6B6B" }}>The drawing is bad.</span><br />
             <span style={{ color: "#60A5FA" }}>The kid is great.</span> We fix the first part.

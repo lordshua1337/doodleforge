@@ -88,15 +88,39 @@ const GALLERY_ITEMS = [
 ];
 
 const PASTEL_BGS = [
-  "bg-coral/5", "bg-mint/5", "bg-sky/5",
-  "bg-bubblegum/5", "bg-lavender/5", "bg-sunny/5",
-  "bg-peach/5", "bg-coral/5", "bg-sky/5",
+  "rgba(255,107,107,0.05)",
+  "rgba(52,211,153,0.05)",
+  "rgba(96,165,250,0.05)",
+  "rgba(244,114,182,0.05)",
+  "rgba(167,139,250,0.05)",
+  "rgba(251,191,36,0.05)",
+  "rgba(251,146,60,0.05)",
+  "rgba(255,107,107,0.05)",
+  "rgba(96,165,250,0.05)",
 ];
 
 export default function GalleryPage() {
   return (
     <PageTransition>
       <div className="relative z-10 min-h-screen">
+        {/* Drawing decoration - top right */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            width: 400,
+            height: 400,
+            backgroundImage: "url(/drawings-1.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "top right",
+            opacity: 0.05,
+            pointerEvents: "none",
+            maskImage: "linear-gradient(135deg, transparent 15%, black 45%, transparent 85%)",
+            WebkitMaskImage: "linear-gradient(135deg, transparent 15%, black 45%, transparent 85%)",
+          }}
+        />
+
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
           {/* Header */}
           <div className="mb-16 text-center">
@@ -112,46 +136,77 @@ export default function GalleryPage() {
             </p>
           </div>
 
-          {/* Gallery Grid */}
+          {/* Gallery Grid -- neumorphic cards */}
           <StaggerContainer>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {GALLERY_ITEMS.map((item, i) => (
                 <StaggerItem key={i}>
-                  <div className="group overflow-hidden rounded-2xl border-2 border-border bg-background transition-all hover:border-border-hover hover:shadow-lg d-card-hover">
+                  <div className="neu-card d-card-hover" style={{ overflow: "hidden", padding: 0 }}>
                     {/* Image placeholder */}
-                    <div className={`relative aspect-square ${PASTEL_BGS[i]} flex items-center justify-center overflow-hidden`}>
-                      <div className="text-center p-8 transition-transform group-hover:scale-[1.02]">
-                        <p className="mb-3 text-sm font-medium text-text-secondary">
+                    <div
+                      style={{
+                        position: "relative",
+                        aspectRatio: "1",
+                        background: PASTEL_BGS[i],
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {/* Drawing texture accent */}
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          backgroundImage: i % 2 === 0 ? "url(/drawings-1.png)" : "url(/drawings-2.png)",
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          opacity: 0.06,
+                          pointerEvents: "none",
+                        }}
+                      />
+                      <div style={{ textAlign: "center", padding: 32, position: "relative" }}>
+                        <p style={{ fontSize: 14, fontWeight: 500, color: "#6B7280", marginBottom: 12 }}>
                           {item.transformed}
                         </p>
-                        <div
-                          className="inline-flex rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white"
-                          style={{ backgroundColor: item.color }}
+                        <span
+                          style={{
+                            display: "inline-flex",
+                            borderRadius: 999,
+                            padding: "4px 14px",
+                            fontSize: 10,
+                            fontWeight: 700,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.1em",
+                            color: "#fff",
+                            background: item.color,
+                          }}
                         >
                           {item.style}
-                        </div>
+                        </span>
                       </div>
                     </div>
 
                     {/* Info */}
-                    <div className="border-t border-border p-5">
-                      <div className="mb-3 flex items-center justify-between">
-                        <p className="text-xs font-bold text-text-muted uppercase tracking-wide">Original:</p>
-                        <p className="text-xs text-text-muted">{item.artist}</p>
+                    <div style={{ borderTop: "1px solid rgba(229,231,235,0.5)", padding: 20 }}>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                        <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#9CA3AF" }}>Original:</p>
+                        <p style={{ fontSize: 12, color: "#9CA3AF" }}>{item.artist}</p>
                       </div>
-                      <p className="text-sm text-text-secondary italic mb-3">
+                      <p style={{ fontSize: 14, color: "#6B7280", fontStyle: "italic", marginBottom: 12 }}>
                         &ldquo;{item.original}&rdquo;
                       </p>
 
                       {/* Fun commentary */}
-                      <div className="space-y-2 pt-3 border-t border-border">
-                        <div className="flex gap-2 items-start">
-                          <span className="flex-shrink-0 h-5 w-5 rounded-full bg-sunny/20 flex items-center justify-center text-[9px] font-bold text-sunny">K</span>
-                          <p className="text-xs text-foreground">&ldquo;{item.kidSays}&rdquo;</p>
+                      <div style={{ borderTop: "1px solid rgba(229,231,235,0.5)", paddingTop: 12, display: "flex", flexDirection: "column", gap: 8 }}>
+                        <div style={{ display: "flex", gap: 8, alignItems: "start" }}>
+                          <span style={{ flexShrink: 0, width: 20, height: 20, borderRadius: "50%", background: "rgba(251,191,36,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, color: "#FBBF24" }}>K</span>
+                          <p style={{ fontSize: 12, color: "#1A1A2E" }}>&ldquo;{item.kidSays}&rdquo;</p>
                         </div>
-                        <div className="flex gap-2 items-start">
-                          <span className="flex-shrink-0 h-5 w-5 rounded-full bg-lavender/20 flex items-center justify-center text-[9px] font-bold text-lavender">P</span>
-                          <p className="text-xs text-text-muted italic">&ldquo;{item.parentSays}&rdquo;</p>
+                        <div style={{ display: "flex", gap: 8, alignItems: "start" }}>
+                          <span style={{ flexShrink: 0, width: 20, height: 20, borderRadius: "50%", background: "rgba(167,139,250,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, color: "#A78BFA" }}>P</span>
+                          <p style={{ fontSize: 12, color: "#9CA3AF", fontStyle: "italic" }}>&ldquo;{item.parentSays}&rdquo;</p>
                         </div>
                       </div>
                     </div>
@@ -161,17 +216,50 @@ export default function GalleryPage() {
             </div>
           </StaggerContainer>
 
+          {/* Scribble divider */}
+          <div
+            style={{
+              width: "100%",
+              height: 80,
+              backgroundImage: "url(/drawings-2.png)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              opacity: 0.06,
+              borderRadius: 20,
+              marginTop: 64,
+              marginBottom: 16,
+            }}
+          />
+
           {/* CTA */}
-          <div className="mt-16 text-center">
-            <h2 className="mb-4 text-2xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-dm-serif)" }}>
+          <div className="mt-16 text-center" style={{ position: "relative" }}>
+            {/* Drawing accent behind CTA */}
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 500,
+                height: 250,
+                backgroundImage: "url(/drawings-1.png)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                opacity: 0.04,
+                borderRadius: 24,
+                pointerEvents: "none",
+              }}
+            />
+            <h2 className="mb-4 text-2xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-dm-serif)", position: "relative" }}>
               Your kid&apos;s doodle could be <span className="text-coral">next</span>.
             </h2>
-            <p className="mb-6 text-text-secondary">
+            <p className="mb-6 text-text-secondary" style={{ position: "relative" }}>
               Submit their drawing. We&apos;ll transform it. Everyone wins.
             </p>
             <Link
               href="/create"
               className="d-btn-primary glow-cta"
+              style={{ position: "relative" }}
             >
               Make A Doodie &rarr;
             </Link>

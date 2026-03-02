@@ -819,17 +819,50 @@ body {
   0% { width: 0%; }
   100% { width: 100%; }
 }
-@keyframes progressSpin {
-  to { transform: rotate(360deg); }
+
+/* Squares loader -- adapted from NlghtM4re/moody-fly-80 on uiverse.io */
+.doodie-loader {
+  position: relative;
+  width: 80px;
+  height: 80px;
 }
-.generating-ring {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: 3px solid #E5E7EB;
-  border-top-color: #FF6B6B;
-  border-right-color: #A78BFA;
-  animation: progressSpin 1.2s linear infinite;
+.doodie-loader-arm {
+  position: absolute;
+  left: 40%;
+  top: 50%;
+}
+.doodie-loader-top { transform: rotate(90deg); }
+.doodie-loader-bottom { transform: rotate(-90deg); }
+.doodie-loader-left { transform: rotate(0deg); }
+.doodie-loader-right { transform: rotate(-180deg); }
+.doodie-loader-bar {
+  width: 8px;
+  height: 30px;
+  border-radius: 10px;
+  display: block;
+  animation: doodieLoaderTurn 2.5s ease infinite;
+}
+/* Each arm gets its own color from the Doodie palette */
+.doodie-loader-top .doodie-loader-bar {
+  background: #FF6B6B;
+  box-shadow: 0 1px 15px 0 rgba(255,107,107,0.4);
+}
+.doodie-loader-bottom .doodie-loader-bar {
+  background: #A78BFA;
+  box-shadow: 0 1px 15px 0 rgba(167,139,250,0.4);
+}
+.doodie-loader-left .doodie-loader-bar {
+  background: #60A5FA;
+  box-shadow: 0 1px 15px 0 rgba(96,165,250,0.4);
+}
+.doodie-loader-right .doodie-loader-bar {
+  background: #F472B6;
+  box-shadow: 0 1px 15px 0 rgba(244,114,182,0.4);
+}
+@keyframes doodieLoaderTurn {
+  0% { transform: translateX(0) translateY(0) rotate(0); }
+  70% { transform: translateX(400%) translateY(100%) rotate(90deg); }
+  100% { transform: translateX(0) translateY(0) rotate(0); }
 }
 
 /* ── RESULT REVEAL ── */

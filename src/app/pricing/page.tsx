@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { PageTransition } from "@/components/page-transition";
 
 const TIERS = [
   {
-    name: "Single",
+    name: "The Dip",
+    tagline: "Just testing the waters.",
     price: "$4.99",
-    period: "one-time",
-    desc: "Test the waters. One drawing, one transformation.",
+    period: "",
+    desc: "One drawing. One transformation. Just to see if we're legit. Spoiler: we are.",
     features: [
       "1 AI transformation",
       "3 art style options",
@@ -17,17 +19,19 @@ const TIERS = [
       "No watermark",
     ],
     notIncluded: ["Priority processing", "Commercial license", "API access"],
-    cta: "Buy Single",
+    cta: "Make A Doodie",
     priceId: "single",
     mode: "payment",
     popular: false,
-    color: "#64B5F6",
+    color: "#60A5FA",
+    bg: "rgba(96,165,250,0.04)",
   },
   {
-    name: "5-Pack",
+    name: "The Binge",
+    tagline: "You will use all five in one sitting.",
     price: "$12.99",
-    period: "one-time",
-    desc: "For parents with multiple masterpieces to save.",
+    period: "",
+    desc: "Five transformations for parents who can't stop. You know who you are. The fridge is already full.",
     features: [
       "5 AI transformations",
       "All 8 art styles",
@@ -37,17 +41,19 @@ const TIERS = [
       "Priority processing",
     ],
     notIncluded: ["Commercial license", "API access"],
-    cta: "Buy 5-Pack",
+    cta: "Yeah, This One",
     priceId: "pack",
     mode: "payment",
     popular: true,
     color: "#FF6B6B",
+    bg: "rgba(255,107,107,0.03)",
   },
   {
-    name: "Unlimited",
+    name: "The Addiction",
+    tagline: "Your kid draws a lot. We get it.",
     price: "$29.99",
-    period: "/month",
-    desc: "Your kid draws a lot. We get it.",
+    period: "/mo",
+    desc: "Unlimited everything. For the parent who has a problem and has accepted it. Welcome to the club.",
     features: [
       "Unlimited transformations",
       "All 8 art styles",
@@ -60,101 +66,165 @@ const TIERS = [
       "Early access to new styles",
     ],
     notIncluded: [],
-    cta: "Subscribe",
+    cta: "Make A Doodie",
     priceId: "unlimited",
     mode: "subscription",
     popular: false,
-    color: "#B388FF",
+    color: "#A78BFA",
+    bg: "rgba(167,139,250,0.04)",
   },
 ];
 
 const FAQ = [
   {
     q: "How does it actually work?",
-    a: "You upload a photo of your kid's drawing. Our AI analyzes the shapes, colors, and subject matter, then generates a professional artwork in your chosen style that interprets the same scene. It's not a filter -- it's a complete re-creation.",
+    a: "You upload a photo of your kid's drawing. Our AI analyzes the shapes, colors, and subject matter, then generates a professional artwork in your chosen style that preserves the same composition. It's not a filter -- it's a complete re-creation that keeps your kid's original vision intact. The stick figure stays a stick figure. It just looks like a stick figure painted by someone with a fine arts degree.",
   },
   {
     q: "What if my kid's drawing is really, really bad?",
-    a: "That's kind of the whole point. The worse the original, the more dramatic the transformation. Some of our best results come from drawings that are essentially just scribbles. The AI is surprisingly good at finding meaning in chaos.",
+    a: "That's literally the entire point of this product. The worse the original, the more dramatic the transformation. Some of our best results come from drawings that are essentially just crayon marks on a napkin. We've transformed a single brown dot into a stunning oil painting of a landscape. The AI is disturbingly good at finding meaning in complete chaos. Kind of like parenting.",
   },
   {
     q: "Can I order physical prints?",
-    a: "Yes! After transformation, you can order canvas prints, framed prints, or posters. They're museum-quality, fulfilled through our Etsy integration, and ship in 3-5 business days.",
+    a: "Absolutely. After transformation, you can order museum-quality canvas prints, framed prints, or posters. They ship in 3-5 business days. They're the kind of thing guests will stare at and say 'wait, your kid drew that?' And you'll say yes, while conveniently leaving out the part where AI did 99% of the work.",
   },
   {
     q: "Do you store my images?",
-    a: "We process your image through the AI and return the result. We don't permanently store your originals or generated images on our servers. Download your results when they're ready.",
+    a: "We process your image and return the result. We don't permanently store originals on our servers. If you want to keep them forever (you do), that's what the Vault is for. Download your results when they're ready, or store them in the Vault so you never lose another masterpiece to a kitchen drawer purge.",
   },
   {
     q: "Can I use the generated art commercially?",
-    a: "The Unlimited plan includes a commercial license. Single and 5-Pack users get personal use only.",
+    a: "The Addiction plan (Unlimited) includes a full commercial license. Go wild. Print it on mugs, t-shirts, tote bags, whatever. Single and 5-Pack users get personal use only -- which covers framing, gifting to grandma, and using it as your phone wallpaper while pretending you're not crying.",
   },
   {
     q: "What art styles are available?",
-    a: "Oil Painting, Watercolor, Anime, Cyberpunk, Pop Art, Pixel Art, Studio Ghibli, and Photorealistic. We're adding more regularly.",
+    a: "Oil Painting, Watercolor, Anime, Cyberpunk, Pop Art, Pixel Art, Studio Ghibli, and Photorealistic. Eight styles, each tuned to preserve your kid's original composition while making it look like actual art. We're adding more regularly. If there's a style you want that we don't have yet, yell at us on Twitter.",
   },
 ];
 
 export default function PricingPage() {
   return (
-    <div className="relative z-10 min-h-screen">
-      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-        {/* Header */}
-        <div className="mb-16 text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-sunny">
-            Pricing
-          </p>
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
-            Cheaper than <span className="text-coral">art school</span>.
-          </h1>
-          <p className="mx-auto max-w-lg text-text-secondary">
-            And infinitely more effective for your specific situation.
-            Your kid&apos;s imagination, professionally rendered.
-          </p>
-        </div>
+    <PageTransition>
+      <div className="relative z-10 min-h-screen">
+        {/* Drawing decoration - top right */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            width: 400,
+            height: 400,
+            backgroundImage: "url(/drawings-1.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "top right",
+            opacity: 0.06,
+            pointerEvents: "none",
+            maskImage: "linear-gradient(135deg, transparent 20%, black 50%, transparent 90%)",
+            WebkitMaskImage: "linear-gradient(135deg, transparent 20%, black 50%, transparent 90%)",
+          }}
+        />
 
-        {/* Pricing Cards */}
-        <div className="mb-24 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {TIERS.map((tier) => (
-            <PricingCard key={tier.name} tier={tier} />
-          ))}
-        </div>
-
-        {/* FAQ */}
-        <div className="mx-auto max-w-3xl">
-          <div className="mb-12 text-center">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-lavender">
-              FAQ
+        <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+          {/* Header */}
+          <div className="mb-16 text-center">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-sunny">
+              Pricing
             </p>
-            <h2 className="text-3xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-dm-serif)" }}>
-              Questions you probably have.
-            </h2>
+            <h1
+              className="mb-6 text-4xl font-extrabold tracking-tight md:text-5xl"
+              style={{ fontFamily: "var(--font-dm-serif)" }}
+            >
+              Cheaper than <span className="text-rainbow">art school</span>.
+            </h1>
+            <p className="mx-auto max-w-md text-text-secondary" style={{ fontSize: 16, lineHeight: 1.7 }}>
+              Also cheaper than therapy, framing supplies, and the lie you&apos;ve been living for the last 5 years.
+            </p>
           </div>
 
-          <div className="space-y-4">
-            {FAQ.map((item, i) => (
-              <FaqItem key={i} question={item.q} answer={item.a} />
+          {/* Pricing Cards */}
+          <div className="mb-24 grid grid-cols-1 gap-8 md:grid-cols-3 items-start">
+            {TIERS.map((tier) => (
+              <PricingCard key={tier.name} tier={tier} />
             ))}
           </div>
-        </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-24 text-center">
-          <h2 className="mb-4 text-2xl font-extrabold" style={{ fontFamily: "var(--font-dm-serif)" }}>
-            Still reading? Just <span className="text-coral">upload the drawing</span>.
-          </h2>
-          <p className="mb-6 text-text-secondary">
-            It takes 30 seconds. Your kid will think they&apos;re an artist. You&apos;ll have art you actually want to frame.
-          </p>
-          <Link
-            href="/create"
-            className="inline-flex rounded-full bg-coral px-8 py-3.5 text-base font-bold text-white transition-all hover:bg-accent-hover hover:scale-[1.03] shadow-sm shadow-coral/20"
-          >
-            Upload a Doodle &rarr;
-          </Link>
+          {/* Scribble divider */}
+          <div
+            style={{
+              width: "100%",
+              height: 80,
+              backgroundImage: "url(/drawings-2.png)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              opacity: 0.07,
+              borderRadius: 20,
+              marginBottom: 64,
+            }}
+          />
+
+          {/* FAQ */}
+          <div className="mx-auto max-w-3xl">
+            <div className="mb-12 text-center">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-lavender">
+                FAQ
+              </p>
+              <h2
+                className="mb-4 text-3xl font-extrabold tracking-tight"
+                style={{ fontFamily: "var(--font-dm-serif)" }}
+              >
+                Questions you probably have.
+              </h2>
+              <p className="text-text-secondary">
+                We anticipated your doubt. Here are answers.
+              </p>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {FAQ.map((item, i) => (
+                <FaqItem key={i} question={item.q} answer={item.a} />
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="mt-24 text-center" style={{ position: "relative" }}>
+            {/* Drawing accent behind CTA */}
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 500,
+                height: 300,
+                backgroundImage: "url(/drawings-1.png)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                opacity: 0.04,
+                borderRadius: 24,
+                pointerEvents: "none",
+              }}
+            />
+            <h2
+              className="mb-4 text-3xl font-extrabold"
+              style={{ fontFamily: "var(--font-dm-serif)", position: "relative" }}
+            >
+              Still reading? Just <span className="text-coral">make a doodie</span>.
+            </h2>
+            <p className="mb-8 text-text-secondary" style={{ position: "relative" }}>
+              It takes 30 seconds. Your kid will think they&apos;re Picasso. You&apos;ll have art you actually want to frame.
+            </p>
+            <Link
+              href="/create"
+              className="d-btn-primary glow-cta"
+              style={{ position: "relative" }}
+            >
+              Make A Doodie &rarr;
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </PageTransition>
   );
 }
 
@@ -189,101 +259,204 @@ function PricingCard({ tier }: { tier: (typeof TIERS)[number] }) {
 
   return (
     <div
-      className={`relative flex flex-col rounded-2xl border-2 p-8 transition-all ${
-        tier.popular
-          ? "scale-[1.02] shadow-lg"
-          : "bg-surface hover:shadow-md"
-      }`}
+      className="neu-card d-card-hover"
       style={{
-        borderColor: tier.popular ? tier.color : undefined,
-        backgroundColor: tier.popular ? `${tier.color}08` : undefined,
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        padding: 0,
+        overflow: "hidden",
+        border: tier.popular ? `2px solid ${tier.color}` : undefined,
+        transform: tier.popular ? "scale(1.03)" : undefined,
       }}
     >
+      {/* Popular badge */}
       {tier.popular && (
         <div
-          className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-white"
-          style={{ backgroundColor: tier.color }}
-        >
-          Most Popular
-        </div>
+          style={{
+            position: "absolute",
+            top: -1,
+            left: 0,
+            right: 0,
+            height: 4,
+            background: `linear-gradient(90deg, ${tier.color}, #F472B6)`,
+            borderRadius: "20px 20px 0 0",
+          }}
+        />
       )}
 
-      <div className="mb-6">
-        <h3 className="mb-1 text-xl font-bold">{tier.name}</h3>
-        <p className="text-sm text-text-muted">{tier.desc}</p>
+      {/* Drawing accent on popular card */}
+      {tier.popular && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            right: 0,
+            width: 200,
+            height: 200,
+            backgroundImage: "url(/drawings-1.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "bottom right",
+            opacity: 0.04,
+            pointerEvents: "none",
+          }}
+        />
+      )}
+
+      {/* Card header with accent bg */}
+      <div style={{ padding: "32px 32px 24px", background: tier.bg }}>
+        {tier.popular && (
+          <span
+            style={{
+              display: "inline-block",
+              padding: "4px 14px",
+              borderRadius: 999,
+              fontSize: 10,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+              background: tier.color,
+              color: "#fff",
+              marginBottom: 16,
+            }}
+          >
+            Most Popular
+          </span>
+        )}
+        <h3 style={{ fontSize: 22, fontWeight: 700, color: "#1A1A2E", marginBottom: 4 }}>
+          {tier.name}
+        </h3>
+        <p style={{ fontSize: 13, color: "#9CA3AF", fontStyle: "italic", marginBottom: 20 }}>
+          {tier.tagline}
+        </p>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+          <span style={{ fontSize: 48, fontWeight: 800, letterSpacing: "-0.02em", color: "#1A1A2E" }}>
+            {tier.price}
+          </span>
+          {tier.period && (
+            <span style={{ fontSize: 15, color: "#9CA3AF", fontWeight: 500 }}>
+              {tier.period}
+            </span>
+          )}
+        </div>
       </div>
 
-      <div className="mb-6">
-        <span className="text-4xl font-extrabold tracking-tight">{tier.price}</span>
-        <span className="text-sm text-text-muted">{tier.period !== "one-time" ? tier.period : ""}</span>
+      {/* Description */}
+      <div style={{ padding: "20px 32px 0" }}>
+        <p style={{ fontSize: 14, lineHeight: 1.6, color: "#6B7280" }}>{tier.desc}</p>
       </div>
 
-      <ul className="mb-8 flex-1 space-y-3">
-        {tier.features.map((f) => (
-          <li key={f} className="flex items-start gap-2 text-sm text-text-secondary">
-            <svg
-              width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={tier.color}
-              strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-              className="mt-0.5 flex-shrink-0"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-            {f}
-          </li>
-        ))}
-        {tier.notIncluded.map((f) => (
-          <li key={f} className="flex items-start gap-2 text-sm text-text-muted line-through">
-            <svg
-              width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-              className="mt-0.5 flex-shrink-0 text-text-muted"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-            {f}
-          </li>
-        ))}
-      </ul>
+      {/* Features */}
+      <div style={{ padding: "20px 32px", flex: 1 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {tier.features.map((f) => (
+            <div key={f} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={tier.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span style={{ fontSize: 14, color: "#4B5563" }}>{f}</span>
+            </div>
+          ))}
+          {tier.notIncluded.map((f) => (
+            <div key={f} style={{ display: "flex", alignItems: "center", gap: 10, opacity: 0.4 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+              <span style={{ fontSize: 14, color: "#9CA3AF", textDecoration: "line-through" }}>{f}</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
-      <button
-        onClick={handleCheckout}
-        className={`w-full rounded-full py-3 text-center text-sm font-semibold transition-all ${
-          tier.popular
-            ? "text-white hover:opacity-90 shadow-sm"
-            : "border-2 border-border text-foreground hover:bg-surface-2"
-        }`}
-        style={tier.popular ? { backgroundColor: tier.color } : undefined}
-      >
-        {tier.cta}
-      </button>
+      {/* CTA */}
+      <div style={{ padding: "16px 32px 32px" }}>
+        <button
+          onClick={handleCheckout}
+          className={tier.popular ? "glow-cta" : ""}
+          style={{
+            width: "100%",
+            padding: "14px 0",
+            borderRadius: 14,
+            fontSize: 15,
+            fontWeight: 700,
+            cursor: "pointer",
+            transition: "all 0.2s",
+            border: tier.popular ? "none" : "2px solid #E5E7EB",
+            background: tier.popular ? `linear-gradient(135deg, ${tier.color}, #F472B6)` : "#fff",
+            color: tier.popular ? "#fff" : "#1A1A2E",
+            boxShadow: tier.popular ? `0 4px 16px ${tier.color}33` : "none",
+            fontFamily: "inherit",
+          }}
+        >
+          {tier.cta}
+        </button>
+      </div>
     </div>
   );
 }
 
-function FaqItem({ question, answer }: { question: string; answer: string }) {
+function FaqItem({ question, answer }: { readonly question: string; readonly answer: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="rounded-xl border-2 border-border bg-surface overflow-hidden transition-all hover:border-border-hover">
+    <div
+      className="neu-card"
+      style={{
+        overflow: "hidden",
+        transition: "all 0.2s",
+      }}
+    >
       <button
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between p-5 text-left"
+        style={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "20px 28px",
+          textAlign: "left",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          fontFamily: "inherit",
+        }}
       >
-        <span className="pr-4 text-sm font-semibold">{question}</span>
+        <span style={{ paddingRight: 16, fontSize: 15, fontWeight: 600, color: "#1A1A2E" }}>
+          {question}
+        </span>
         <svg
-          width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-          className={`flex-shrink-0 text-text-muted transition-transform ${open ? "rotate-180" : ""}`}
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#9CA3AF"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{
+            flexShrink: 0,
+            transition: "transform 0.2s",
+            transform: open ? "rotate(180deg)" : "rotate(0deg)",
+          }}
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
-      {open && (
-        <div className="border-t border-border px-5 py-4">
-          <p className="text-sm text-text-secondary leading-relaxed">{answer}</p>
+      <div
+        style={{
+          maxHeight: open ? 300 : 0,
+          opacity: open ? 1 : 0,
+          overflow: "hidden",
+          transition: "max-height 0.3s ease, opacity 0.2s ease",
+        }}
+      >
+        <div style={{ padding: "0 28px 24px", borderTop: "1px solid rgba(229,231,235,0.5)" }}>
+          <p style={{ fontSize: 14, lineHeight: 1.75, color: "#6B7280", paddingTop: 20 }}>
+            {answer}
+          </p>
         </div>
-      )}
+      </div>
     </div>
   );
 }

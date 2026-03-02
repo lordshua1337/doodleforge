@@ -118,9 +118,44 @@ export default function CreatePage() {
   return (
     <PageTransition>
       <div className="relative z-10 min-h-screen">
+        {/* Drawing decoration - top right */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            width: 350,
+            height: 350,
+            backgroundImage: "url(/drawings-1.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "top right",
+            opacity: 0.05,
+            pointerEvents: "none",
+            maskImage: "linear-gradient(135deg, transparent 15%, black 50%, transparent 90%)",
+            WebkitMaskImage: "linear-gradient(135deg, transparent 15%, black 50%, transparent 90%)",
+          }}
+        />
+        {/* Drawing decoration - bottom left */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            width: 300,
+            height: 300,
+            backgroundImage: "url(/drawings-2.png)",
+            backgroundSize: "cover",
+            backgroundPosition: "bottom left",
+            opacity: 0.04,
+            pointerEvents: "none",
+            maskImage: "linear-gradient(315deg, transparent 10%, black 40%, transparent 85%)",
+            WebkitMaskImage: "linear-gradient(315deg, transparent 10%, black 40%, transparent 85%)",
+          }}
+        />
+
         <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-          {/* Progress */}
-          <div className="mb-12 flex items-center justify-center gap-2">
+          {/* Progress -- neumorphic pills */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 48 }}>
             <ProgressDot active={step === "upload"} done={step !== "upload"} label="Upload" color="#FF6B6B" />
             <ProgressLine done={step !== "upload"} />
             <ProgressDot active={step === "style"} done={step === "generating" || step === "result"} label="Style" color="#64B5F6" />
@@ -139,18 +174,26 @@ export default function CreatePage() {
               </p>
 
               <div
-                className={`upload-zone-animated relative mx-auto max-w-lg cursor-pointer rounded-2xl border-2 border-dashed p-16 transition-all ${
-                  dragActive
-                    ? "upload-zone-drag border-coral bg-coral/5"
-                    : "border-border hover:border-coral/30 hover:bg-surface"
-                }`}
+                className="neu-card"
+                onClick={() => inputRef.current?.click()}
                 onDragOver={(e) => {
                   e.preventDefault();
                   setDragActive(true);
                 }}
                 onDragLeave={() => setDragActive(false)}
                 onDrop={handleDrop}
-                onClick={() => inputRef.current?.click()}
+                style={{
+                  maxWidth: 480,
+                  margin: "0 auto",
+                  padding: 64,
+                  cursor: "pointer",
+                  borderStyle: "dashed",
+                  borderWidth: 2,
+                  borderColor: dragActive ? "#FF6B6B" : "rgba(229,231,235,0.5)",
+                  background: dragActive ? "rgba(255,107,107,0.03)" : "#fff",
+                  transition: "all 0.25s ease",
+                  transform: dragActive ? "scale(1.02)" : undefined,
+                }}
               >
                 <input
                   ref={inputRef}
@@ -162,8 +205,8 @@ export default function CreatePage() {
                     if (f) handleFile(f);
                   }}
                 />
-                <div className="flex flex-col items-center gap-4">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-coral/10 text-coral">
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+                  <div style={{ width: 64, height: 64, borderRadius: 20, background: "rgba(255,107,107,0.08)", display: "flex", alignItems: "center", justifyContent: "center", color: "#FF6B6B" }}>
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
                       <polyline points="17 8 12 3 7 8" />
@@ -171,10 +214,10 @@ export default function CreatePage() {
                     </svg>
                   </div>
                   <div>
-                    <p className="font-semibold">
+                    <p style={{ fontWeight: 600, color: "#1A1A2E" }}>
                       {dragActive ? "Drop it like it's hot" : "Drop your kid's art here"}
                     </p>
-                    <p className="mt-1 text-sm text-text-muted">
+                    <p style={{ marginTop: 4, fontSize: 14, color: "#9CA3AF" }}>
                       or click to browse files
                     </p>
                   </div>
@@ -182,7 +225,7 @@ export default function CreatePage() {
               </div>
 
               {error && (
-                <p className="mt-4 text-sm text-coral">{error}</p>
+                <p style={{ marginTop: 16, fontSize: 14, color: "#FF6B6B" }}>{error}</p>
               )}
             </div>
           )}
@@ -190,7 +233,7 @@ export default function CreatePage() {
           {/* Style Step */}
           {step === "style" && (
             <div>
-              <div className="mb-8 text-center">
+              <div style={{ textAlign: "center", marginBottom: 32 }}>
                 <h1 className="mb-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
                   Pick a <span className="text-sky">style</span>.
                 </h1>
@@ -201,60 +244,90 @@ export default function CreatePage() {
 
               {/* Preview */}
               {preview && (
-                <div className="mb-8 flex justify-center">
-                  <div className="relative overflow-hidden rounded-xl border-2 border-border shadow-sm">
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
+                  <div className="neu-card" style={{ overflow: "hidden", padding: 0, position: "relative" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={preview}
                       alt="Your kid's drawing"
-                      className="h-40 w-40 object-cover"
+                      style={{ width: 160, height: 160, objectFit: "cover", display: "block" }}
                     />
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2">
-                      <p className="text-[10px] font-medium text-white/80">The original</p>
+                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,0.6), transparent)", padding: 8 }}>
+                      <p style={{ fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.8)" }}>The original</p>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Style Grid */}
-              <div className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-4">
+              {/* Style Grid -- neumorphic */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12, marginBottom: 32 }} className="md:!grid-cols-4">
                 {STYLES.map((s) => (
                   <button
                     key={s.id}
                     onClick={() => setSelectedStyle(s.id)}
-                    className={`d-card-hover rounded-xl border-2 p-4 text-left transition-all ${
-                      selectedStyle === s.id
-                        ? "scale-[1.03] shadow-md"
-                        : "border-border bg-surface hover:border-border-hover"
-                    }`}
-                    style={selectedStyle === s.id ? { borderColor: s.color, backgroundColor: `${s.color}08` } : undefined}
+                    className="neu-card d-card-hover"
+                    style={{
+                      padding: 16,
+                      textAlign: "left",
+                      cursor: "pointer",
+                      border: selectedStyle === s.id ? `2px solid ${s.color}` : "1px solid rgba(229,231,235,0.5)",
+                      background: selectedStyle === s.id ? `${s.color}08` : "#fff",
+                      transform: selectedStyle === s.id ? "scale(1.03)" : undefined,
+                      fontFamily: "inherit",
+                    }}
                   >
-                    <div className="mb-2 h-2 w-8 rounded-full" style={{ backgroundColor: s.color }} />
-                    <div className="mb-1 text-sm font-semibold">{s.name}</div>
-                    <div className="text-xs text-text-muted">{s.desc}</div>
+                    <div style={{ height: 3, width: 32, borderRadius: 999, marginBottom: 8, background: s.color }} />
+                    <div style={{ fontSize: 14, fontWeight: 600, color: "#1A1A2E", marginBottom: 4 }}>{s.name}</div>
+                    <div style={{ fontSize: 12, color: "#9CA3AF" }}>{s.desc}</div>
                   </button>
                 ))}
               </div>
 
               {error && (
-                <p className="mb-4 text-center text-sm text-coral">{error}</p>
+                <p style={{ textAlign: "center", fontSize: 14, color: "#FF6B6B", marginBottom: 16 }}>{error}</p>
               )}
 
-              <div className="flex items-center justify-center gap-4">
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16 }}>
                 <button
                   onClick={() => {
                     setStep("upload");
                     setFile(null);
                     setPreview(null);
                   }}
-                  className="rounded-full border-2 border-border px-6 py-3 text-sm font-medium text-text-secondary transition-all hover:border-border-hover hover:text-foreground"
+                  style={{
+                    borderRadius: 999,
+                    border: "2px solid #E5E7EB",
+                    padding: "12px 24px",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: "#6B7280",
+                    background: "#fff",
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                    transition: "all 0.2s",
+                  }}
                 >
                   Back
                 </button>
                 <button
                   onClick={handleGenerate}
                   disabled={!selectedStyle}
-                  className="glow-cta rounded-full bg-coral px-8 py-3 text-sm font-bold text-white transition-all hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed shadow-sm shadow-coral/20 disabled:animate-none"
+                  className="glow-cta"
+                  style={{
+                    borderRadius: 999,
+                    border: "none",
+                    padding: "12px 32px",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    color: "#fff",
+                    background: "linear-gradient(135deg, #FF6B6B, #F472B6)",
+                    cursor: selectedStyle ? "pointer" : "not-allowed",
+                    fontFamily: "inherit",
+                    opacity: selectedStyle ? 1 : 0.4,
+                    boxShadow: "0 4px 16px rgba(255,107,107,0.25)",
+                    transition: "all 0.2s",
+                    animation: selectedStyle ? undefined : "none",
+                  }}
                 >
                   Make A Doodie &rarr;
                 </button>
@@ -264,22 +337,31 @@ export default function CreatePage() {
 
           {/* Generating Step */}
           {step === "generating" && (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="generating-ring mb-8" />
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", paddingTop: 64, paddingBottom: 64, textAlign: "center" }}>
+              {/* Squares loader */}
+              <div className="doodie-loader" style={{ marginBottom: 40 }}>
+                {(["top", "bottom", "left", "right"] as const).map((dir) => (
+                  <div key={dir} className={`doodie-loader-arm doodie-loader-${dir}`}>
+                    <div className="doodie-loader-bar"><div className="doodie-loader-bar"><div className="doodie-loader-bar"><div className="doodie-loader-bar"><div className="doodie-loader-bar"><div className="doodie-loader-bar" /></div></div></div></div></div>
+                  </div>
+                ))}
+              </div>
+
               <h2 className="mb-2 text-2xl font-extrabold" style={{ fontFamily: "var(--font-dm-serif)" }}>
                 Working on it...
               </h2>
-              <p className="text-text-secondary mb-2">
+              <p style={{ color: "#6B7280", marginBottom: 8 }}>
                 {loadingMsg}
               </p>
-              <p className="text-xs text-text-muted">This usually takes 15-30 seconds.</p>
+              <p style={{ fontSize: 12, color: "#9CA3AF" }}>This usually takes 15-30 seconds.</p>
 
               {/* Paint stroke progress bar */}
-              <div className="mt-8 w-full max-w-xs">
-                <div className="h-1 w-full rounded-full bg-surface-2 overflow-hidden">
+              <div className="neu-card-inset" style={{ marginTop: 32, width: "100%", maxWidth: 280, padding: 8 }}>
+                <div style={{ height: 4, width: "100%", borderRadius: 999, background: "#F3F4F6", overflow: "hidden" }}>
                   <div
-                    className="h-full rounded-full"
                     style={{
+                      height: "100%",
+                      borderRadius: 999,
                       background: "linear-gradient(90deg, #FF6B6B, #A78BFA, #60A5FA)",
                       animation: "paintStroke 25s ease-in-out forwards",
                     }}
@@ -295,26 +377,26 @@ export default function CreatePage() {
               <h1 className="mb-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
                 <span className="text-mint">Ta-da!</span> Look at that.
               </h1>
-              <p className="mb-8 text-text-secondary">
+              <p style={{ color: "#6B7280", marginBottom: 32 }}>
                 From doodle to masterpiece. Frame-worthy if we do say so ourselves.
               </p>
 
-              <div className="mb-8 flex flex-col items-center gap-4 md:flex-row md:justify-center md:gap-8">
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, marginBottom: 32 }} className="md:!flex-row md:!justify-center md:!gap-32">
                 {/* Before */}
                 {preview && (
-                  <div className="text-center">
-                    <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text-muted">
+                  <div style={{ textAlign: "center" }}>
+                    <div style={{ marginBottom: 8, fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#9CA3AF" }}>
                       Before
                     </div>
-                    <div className="overflow-hidden rounded-xl border-2 border-border">
+                    <div className="neu-card" style={{ overflow: "hidden", padding: 0 }}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={preview} alt="Original" className="h-48 w-48 object-cover" />
+                      <img src={preview} alt="Original" style={{ width: 192, height: 192, objectFit: "cover", display: "block" }} />
                     </div>
                   </div>
                 )}
 
                 {/* Arrow */}
-                <div className="text-coral">
+                <div style={{ color: "#FF6B6B" }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hidden md:block">
                     <line x1="5" y1="12" x2="19" y2="12" />
                     <polyline points="12 5 19 12 12 19" />
@@ -326,16 +408,16 @@ export default function CreatePage() {
                 </div>
 
                 {/* After */}
-                <div className="text-center">
-                  <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-mint">
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ marginBottom: 8, fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#34D399" }}>
                     After
                   </div>
-                  <div className="overflow-hidden rounded-xl border-2 border-mint/30 shadow-lg shadow-mint/10">
+                  <div className="neu-card" style={{ overflow: "hidden", padding: 0, border: "2px solid rgba(52,211,153,0.3)", boxShadow: "0 8px 30px rgba(52,211,153,0.1)" }}>
                     {resultUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={resultUrl} alt="Transformed" className="h-48 w-48 object-cover" />
+                      <img src={resultUrl} alt="Transformed" style={{ width: 192, height: 192, objectFit: "cover", display: "block" }} />
                     ) : (
-                      <div className="flex h-48 w-48 items-center justify-center bg-surface-2 text-xs text-text-muted">
+                      <div style={{ width: 192, height: 192, display: "flex", alignItems: "center", justifyContent: "center", background: "#F3F4F6", fontSize: 12, color: "#9CA3AF" }}>
                         Preview unavailable
                       </div>
                     )}
@@ -343,25 +425,54 @@ export default function CreatePage() {
                 </div>
               </div>
 
-              <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }} className="sm:!flex-row sm:!justify-center">
                 {resultUrl && (
                   <a
                     href={resultUrl}
                     download="doodie-art.png"
-                    className="rounded-full bg-coral px-8 py-3 text-sm font-bold text-white transition-all hover:bg-accent-hover shadow-sm"
+                    style={{
+                      borderRadius: 999,
+                      padding: "12px 32px",
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "#fff",
+                      background: "linear-gradient(135deg, #FF6B6B, #F472B6)",
+                      textDecoration: "none",
+                      boxShadow: "0 4px 16px rgba(255,107,107,0.25)",
+                    }}
                   >
                     Download High-Res
                   </a>
                 )}
                 <Link
                   href="/pricing"
-                  className="rounded-full border-2 border-lavender/30 bg-lavender/5 px-8 py-3 text-sm font-semibold text-lavender transition-all hover:bg-lavender/10"
+                  style={{
+                    borderRadius: 999,
+                    padding: "12px 32px",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    color: "#A78BFA",
+                    background: "rgba(167,139,250,0.05)",
+                    border: "2px solid rgba(167,139,250,0.3)",
+                    textDecoration: "none",
+                  }}
                 >
                   Order a Print
                 </Link>
                 <button
                   onClick={handleReset}
-                  className="glow-cta rounded-full border-2 border-coral/30 bg-coral/5 px-6 py-3 text-sm font-semibold text-coral transition-all hover:bg-coral/10"
+                  className="glow-cta"
+                  style={{
+                    borderRadius: 999,
+                    padding: "12px 24px",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    color: "#FF6B6B",
+                    background: "rgba(255,107,107,0.05)",
+                    border: "2px solid rgba(255,107,107,0.3)",
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                  }}
                 >
                   Make Another Doodie
                 </button>
@@ -385,15 +496,20 @@ function ProgressDot({
   label: string;
   color: string;
 }) {
-  const bgColor = done ? "#69F0AE" : active ? color : undefined;
-
   return (
-    <div className="flex flex-col items-center gap-1.5">
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
       <div
-        className={`h-3 w-3 rounded-full transition-all ${!done && !active ? "bg-border" : ""}`}
-        style={bgColor ? { backgroundColor: bgColor } : undefined}
+        className={done || active ? "" : "neu-card-inset"}
+        style={{
+          width: 14,
+          height: 14,
+          borderRadius: "50%",
+          transition: "all 0.2s",
+          background: done ? "#69F0AE" : active ? color : undefined,
+          boxShadow: done || active ? `0 2px 8px ${done ? "rgba(52,211,153,0.3)" : `${color}33`}` : undefined,
+        }}
       />
-      <span className={`text-[10px] font-medium ${active || done ? "text-foreground" : "text-text-muted"}`}>
+      <span style={{ fontSize: 10, fontWeight: active || done ? 600 : 500, color: active || done ? "#1A1A2E" : "#9CA3AF" }}>
         {label}
       </span>
     </div>
@@ -402,6 +518,6 @@ function ProgressDot({
 
 function ProgressLine({ done }: { done: boolean }) {
   return (
-    <div className={`h-px w-12 transition-colors ${done ? "bg-mint" : "bg-border"}`} />
+    <div style={{ height: 1, width: 48, background: done ? "#34D399" : "#E5E7EB", transition: "background 0.2s" }} />
   );
 }
