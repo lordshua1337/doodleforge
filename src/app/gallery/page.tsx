@@ -139,6 +139,42 @@ const GALLERY_ITEMS = [
     parentSays: "Great, now I need therapy too",
     color: "#FFD54F",
   },
+  {
+    original: "Heart with wings and a smiley face",
+    transformed: "Cathedral window panel of a winged heart in deep ruby and gold glass",
+    style: "Stained Glass",
+    artist: "Lily, age 4",
+    kidSays: "Love can fly!",
+    parentSays: "The wings are... on the wrong side",
+    color: "#CE93D8",
+  },
+  {
+    original: "Dog chasing a ball in the yard",
+    transformed: "Saturday morning cartoon dog mid-leap with motion lines and star bursts",
+    style: "Cartoon",
+    artist: "Owen, age 6",
+    kidSays: "Buster loves fetch!",
+    parentSays: "That dog has 7 toes. I've counted.",
+    color: "#FFB74D",
+  },
+  {
+    original: "Self portrait with big eyes and tiny body",
+    transformed: "Elegant graphite portrait study with refined shading and cross-hatching",
+    style: "Pencil Sketch",
+    artist: "Aria, age 5",
+    kidSays: "That's me being fancy!",
+    parentSays: "The head-to-body ratio suggests she's an alien",
+    color: "#90A4AE",
+  },
+  {
+    original: "Castle with a dragon flying over it",
+    transformed: "Epic fantasy citadel with a fire-breathing dragon soaring through storm clouds",
+    style: "Fantasy Epic",
+    artist: "Wyatt, age 7",
+    kidSays: "The dragon protects the castle!",
+    parentSays: "That's a lizard flying over a rectangle but go off king",
+    color: "#A5D6A7",
+  },
 ];
 
 const PASTEL_BGS = [
@@ -157,6 +193,10 @@ const PASTEL_BGS = [
   "rgba(52,211,153,0.05)",
   "rgba(96,165,250,0.05)",
   "rgba(251,191,36,0.05)",
+  "rgba(206,147,216,0.05)",
+  "rgba(255,183,77,0.05)",
+  "rgba(144,164,174,0.05)",
+  "rgba(165,214,167,0.05)",
 ];
 
 export default function GalleryPage() {
@@ -199,9 +239,9 @@ export default function GalleryPage() {
           {/* Stats bar */}
           <div className="neu-card" style={{ display: "flex", justifyContent: "center", gap: 48, padding: "24px 32px", marginBottom: 40 }}>
             {[
-              { value: "15", label: "Masterpieces", color: "#FF6B6B" },
-              { value: "8", label: "Art Styles", color: "#A78BFA" },
-              { value: "12", label: "Young Artists", color: "#34D399" },
+              { value: "19", label: "Masterpieces", color: "#FF6B6B" },
+              { value: "12", label: "Art Styles", color: "#A78BFA" },
+              { value: "16", label: "Young Artists", color: "#34D399" },
               { value: "0", label: "Art Degrees Required", color: "#FBBF24" },
             ].map((stat) => (
               <div key={stat.label} style={{ textAlign: "center" }}>
