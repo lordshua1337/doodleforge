@@ -63,7 +63,9 @@ export default function RootLayout({
         <KidProvider>
           <DoodleBg />
           <Nav />
-          <main className="relative z-10 pt-16 pb-20 md:pb-0">{children}</main>
+          <main className="relative z-10" style={{ paddingTop: 72, paddingBottom: 80 }}>
+            {children}
+          </main>
           <Footer />
         </KidProvider>
       </body>

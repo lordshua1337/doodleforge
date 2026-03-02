@@ -859,9 +859,47 @@ body {
   background: linear-gradient(90deg, transparent, rgba(167,139,250,0.3), rgba(255,107,107,0.3), transparent);
 }
 
+/* ── NEUMORPHIC CARD ── */
+.neu-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 6px 6px 16px rgba(0,0,0,0.04), -4px -4px 12px rgba(255,255,255,0.9);
+  border: 1px solid rgba(229,231,235,0.5);
+}
+.neu-card-inset {
+  background: #F3F4F6;
+  border-radius: 16px;
+  box-shadow: inset 2px 2px 6px rgba(0,0,0,0.04), inset -2px -2px 6px rgba(255,255,255,0.8);
+}
+
+/* ── FOOTER LINKS ── */
+.footer-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6B7280;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-link:hover {
+  color: #1A1A2E;
+}
+
+/* ── FOOTER GRID RESPONSIVE ── */
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr !important; }
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 640px) {
   .d-print-grid { grid-template-columns: 1fr; max-width: 300px; }
   .d-section { padding: 48px 0; }
   .d-section-lg { padding: 64px 0; }
+}
+
+/* Desktop: no bottom padding needed */
+@media (min-width: 768px) {
+  main { padding-bottom: 0 !important; }
 }
