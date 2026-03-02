@@ -208,6 +208,123 @@ export default function Home() {
         </div>
       </div>
 
+      {/* HOW IT WORKS */}
+      <div className="d-section" style={{ position: "relative" }}>
+        <div className="d-container-md">
+          <div className="d-center d-mb-2xl">
+            <p className="d-eyebrow d-eyebrow-lavender">How it works</p>
+            <h2 className="d-heading d-heading-lg" style={{ marginBottom: 24 }}>Three steps. Zero art skill required.</h2>
+            <p className="d-body" style={{ maxWidth: 440, margin: "0 auto" }}>
+              We turned &ldquo;complicated AI art&rdquo; into &ldquo;upload and click.&rdquo; You&apos;re welcome.
+            </p>
+          </div>
+          <div className="d-grid d-grid-3" style={{ gap: 32 }}>
+            {[
+              {
+                step: "01",
+                title: "Upload the Evidence",
+                desc: "Take a photo of the drawing. Or upload it from your camera roll. We accept all levels of artistic crime.",
+                color: "#FF6B6B",
+                icon: <><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></>,
+              },
+              {
+                step: "02",
+                title: "Pick a Style",
+                desc: "Oil painting? Anime? Cyberpunk? Pick how you want the masterpiece to look. We have 8 styles and counting.",
+                color: "#A78BFA",
+                icon: <><circle cx="13.5" cy="6.5" r=".5" /><circle cx="17.5" cy="10.5" r=".5" /><circle cx="8.5" cy="7.5" r=".5" /><circle cx="6.5" cy="12.5" r=".5" /><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 011.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" /></>,
+              },
+              {
+                step: "03",
+                title: "Witness the Magic",
+                desc: "AI transforms the doodle into actual art. Download, print, frame. Take full credit at Thanksgiving dinner.",
+                color: "#34D399",
+                icon: <><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26" /></>,
+              },
+            ].map((item) => (
+              <div key={item.step} style={{ textAlign: "center" }}>
+                <div style={{ display: "inline-flex", width: 64, height: 64, borderRadius: 20, background: `${item.color}12`, alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={item.color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{item.icon}</svg>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 8 }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: item.color, fontFamily: "var(--font-mono, monospace)" }}>{item.step}</span>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: "#1A1A2E" }}>{item.title}</h3>
+                </div>
+                <p className="d-body" style={{ fontSize: 14 }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* TESTIMONIALS */}
+      <div className="d-section d-section-surface" style={{ padding: "64px 0" }}>
+        <div className="d-container-md">
+          <div className="d-center d-mb-2xl">
+            <p className="d-eyebrow d-eyebrow-mint">What parents say</p>
+            <h2 className="d-heading d-heading-lg" style={{ marginBottom: 24 }}>Real parents. Real reactions.</h2>
+          </div>
+          <div className="d-grid d-grid-3" style={{ gap: 20 }}>
+            {[
+              {
+                quote: "My mother-in-law cried when she saw the oil painting version of my son's stick figure family portrait. Best $0 I ever spent on a gift.",
+                name: "Jessica M.",
+                detail: "Mom of 2, Ohio",
+                color: "#FF6B6B",
+              },
+              {
+                quote: "My 4-year-old thinks he's a 'real artist' now because his dinosaur drawing looks like concept art from Jurassic Park. The confidence boost alone is worth it.",
+                name: "David K.",
+                detail: "Dad of 1, Austin",
+                color: "#A78BFA",
+              },
+              {
+                quote: "I have 3 Doodie prints framed in my living room. Guests always ask where I got them. I just point at my 5-year-old and say 'commissioned.'",
+                name: "Sarah T.",
+                detail: "Mom of 3, Seattle",
+                color: "#60A5FA",
+              },
+              {
+                quote: "Turned my daughter's crayon cat into an anime character. She asked me if the cat was 'famous now.' I said yes. She hasn't stopped drawing since.",
+                name: "Mike R.",
+                detail: "Dad of 2, Denver",
+                color: "#34D399",
+              },
+              {
+                quote: "Used this for my classroom end-of-year gifts. Every parent got a transformed version of their kid's self-portrait. The school newsletter featured us.",
+                name: "Ms. Thompson",
+                detail: "2nd Grade Teacher, Portland",
+                color: "#FBBF24",
+              },
+              {
+                quote: "My son drew our house. The AI made it look like a Miyazaki film. It's his phone wallpaper now. He's 6. He doesn't have a phone. He uses mine.",
+                name: "Rachel P.",
+                detail: "Mom of 2, Brooklyn",
+                color: "#F472B6",
+              },
+            ].map((t, i) => (
+              <div key={i} className="neu-card" style={{ padding: 24, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                <div>
+                  <div style={{ height: 3, width: 32, borderRadius: 999, marginBottom: 16, background: t.color }} />
+                  <p style={{ fontSize: 14, lineHeight: 1.7, color: "#374151", marginBottom: 20 }}>
+                    &ldquo;{t.quote}&rdquo;
+                  </p>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{ width: 32, height: 32, borderRadius: "50%", background: `${t.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: t.color }}>
+                    {t.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: "#1A1A2E" }}>{t.name}</p>
+                    <p style={{ fontSize: 11, color: "#9CA3AF" }}>{t.detail}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Scribble divider */}
       <div
         style={{

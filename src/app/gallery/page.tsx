@@ -85,6 +85,60 @@ const GALLERY_ITEMS = [
     parentSays: "That fish has existential dread in its eyes",
     color: "#64B5F6",
   },
+  {
+    original: "Princess with triangle dress and crown",
+    transformed: "Elegant anime princess with sparkling tiara and flowing gown",
+    style: "Anime",
+    artist: "Charlotte, age 4",
+    kidSays: "That's me when I grow up!",
+    parentSays: "The crown is bigger than her head. Accurate.",
+    color: "#F48FB1",
+  },
+  {
+    original: "Dog with really long body and short legs",
+    transformed: "Photorealistic corgi puppy in a flower field",
+    style: "Photorealistic",
+    artist: "Mason, age 5",
+    kidSays: "It's Biscuit!",
+    parentSays: "Biscuit doesn't have 6 legs but okay",
+    color: "#FFAB91",
+  },
+  {
+    original: "Sun with sunglasses and a big smile",
+    transformed: "Neon-drenched cyberpunk sun radiating over a chrome skyline",
+    style: "Cyberpunk",
+    artist: "Zoe, age 3",
+    kidSays: "Happy sun!",
+    parentSays: "That sun is having a better day than I am",
+    color: "#B388FF",
+  },
+  {
+    original: "Car with square wheels and exhaust smoke",
+    transformed: "8-bit racing game screenshot with pixel perfect detail",
+    style: "Pixel Art",
+    artist: "Lucas, age 7",
+    kidSays: "My race car goes so fast!",
+    parentSays: "It has square wheels, it's going nowhere",
+    color: "#69F0AE",
+  },
+  {
+    original: "Butterfly with mismatched wings",
+    transformed: "Art nouveau butterfly with stained glass wing patterns",
+    style: "Watercolor",
+    artist: "Mia, age 5",
+    kidSays: "She's flying to a party!",
+    parentSays: "One wing is a triangle, the other is a circle. This butterfly is not flying anywhere.",
+    color: "#64B5F6",
+  },
+  {
+    original: "Monster under a bed with teeth everywhere",
+    transformed: "Bold Warhol-style pop art monster portrait in electric colors",
+    style: "Pop Art",
+    artist: "Jack, age 6",
+    kidSays: "This is what lives under my bed",
+    parentSays: "Great, now I need therapy too",
+    color: "#FFD54F",
+  },
 ];
 
 const PASTEL_BGS = [
@@ -97,6 +151,12 @@ const PASTEL_BGS = [
   "rgba(251,146,60,0.05)",
   "rgba(255,107,107,0.05)",
   "rgba(96,165,250,0.05)",
+  "rgba(244,114,182,0.05)",
+  "rgba(251,146,60,0.05)",
+  "rgba(167,139,250,0.05)",
+  "rgba(52,211,153,0.05)",
+  "rgba(96,165,250,0.05)",
+  "rgba(251,191,36,0.05)",
 ];
 
 export default function GalleryPage() {
@@ -134,6 +194,21 @@ export default function GalleryPage() {
               Every masterpiece below started as a child&apos;s drawing.
               The parents submitted them. We transformed them. We all had a good laugh.
             </p>
+          </div>
+
+          {/* Stats bar */}
+          <div className="neu-card" style={{ display: "flex", justifyContent: "center", gap: 48, padding: "24px 32px", marginBottom: 40 }}>
+            {[
+              { value: "15", label: "Masterpieces", color: "#FF6B6B" },
+              { value: "8", label: "Art Styles", color: "#A78BFA" },
+              { value: "12", label: "Young Artists", color: "#34D399" },
+              { value: "0", label: "Art Degrees Required", color: "#FBBF24" },
+            ].map((stat) => (
+              <div key={stat.label} style={{ textAlign: "center" }}>
+                <p style={{ fontSize: 24, fontWeight: 800, color: stat.color, fontFamily: "var(--font-mono, monospace)" }}>{stat.value}</p>
+                <p style={{ fontSize: 11, fontWeight: 500, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.08em" }}>{stat.label}</p>
+              </div>
+            ))}
           </div>
 
           {/* Gallery Grid -- neumorphic cards */}
