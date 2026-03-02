@@ -39,7 +39,7 @@ const FAQ_ITEMS: FaqItem[] = [
     category: "The Art",
     question: "What art styles are available?",
     answer:
-      "Currently 8: Oil Painting, Watercolor, Anime, Cyberpunk, Pop Art, Pixel Art, Studio Ghibli, and Photorealistic. We're adding more regularly. Each style produces dramatically different results from the same drawing.",
+      "Currently 12: Oil Painting, Watercolor, Anime, Cyberpunk, Pop Art, Pixel Art, Studio Ghibli, Photorealistic, Stained Glass, Cartoon, Pencil Sketch, and Fantasy Epic. We're adding more regularly. Each style produces dramatically different results from the same drawing.",
   },
   {
     category: "The Art",
@@ -100,6 +100,30 @@ const FAQ_ITEMS: FaqItem[] = [
     question: "What if I don't like the result?",
     answer:
       "Try a different style -- sometimes watercolor hits different than oil painting. If you're still not happy, the credit is not consumed for results you don't save. We'd rather you try again than walk away disappointed.",
+  },
+  {
+    category: "The Art",
+    question: "What's the difference between a draft and a final?",
+    answer:
+      "Drafts are quick previews generated in about 5 seconds at a smaller resolution. They're great for trying different styles to see what you like. Once you find the one, hit 'Forge Final' to get the full high-resolution version suitable for printing. Drafts don't use your final credits.",
+  },
+  {
+    category: "Getting Started",
+    question: "Can I use a photo of a drawing from years ago?",
+    answer:
+      "Yes! Dig through those kitchen drawers, closet bins, and grandma's fridge collection. Old drawings work great as long as the photo is reasonably clear. We've successfully transformed decade-old crayon drawings that were basically just faded lines on crumpled paper.",
+  },
+  {
+    category: "Prints & Gifts",
+    question: "Are the prints actually good quality?",
+    answer:
+      "Museum-quality. We use archival inks on premium paper and canvas. The framed options come with real glass and solid wood frames. These aren't novelty items -- they're actual art prints that look incredible on a wall. Multiple customers have told us guests assume they hired an artist.",
+  },
+  {
+    category: "Privacy & Safety",
+    question: "Can my kid use the app directly?",
+    answer:
+      "DoodleForge is a parent-facing app. Kids don't create accounts or log in. They do the fun part (drawing) on paper, and you handle the digital magic. This keeps everything simple and COPPA-compliant. That said, kids absolutely love watching the transformation happen on screen.",
   },
 ];
 
