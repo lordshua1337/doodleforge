@@ -34,7 +34,7 @@ const SCENARIOS: Scenario[] = [
     situation: "They want to give their art as a gift to grandma",
     advice: {
       "2": "Let them. Grandma will cry either way. She cries at everything. This is free emotional labor.",
-      "3": "Absolutely send it. Grandma has an entire wall dedicated to this stuff. She will frame a napkin smear. Grandma doesn't care.",
+      "3": "Absolutely send it. Grandma has an entire wall dedicated to this stuff. She will frame a napkin smear.",
       "4": "Upload it to Doodie first. Send grandma the upgraded version. She'll think your kid is a prodigy. You win.",
       "5": "Frame it professionally. The frame costs more than the art. This is fine. Most of modern art works this way.",
       "6": "Let them make a card. Grandma will keep it until the heat death of the universe.",
@@ -110,7 +110,7 @@ const SCENARIOS: Scenario[] = [
       "4": "Say 'art isn't about being perfect, it's about expressing yourself.' You read that on Instagram but it works.",
       "5": "'Bob Ross didn't get it right the first time either.' They don't know who Bob Ross is. Show them. Now you're watching Bob Ross together. This is a win.",
       "6": "Teach them erasing exists. This seems obvious but some kids genuinely don't know you can undo things in real life.",
-      "7": "Show them the before/after on Doodie. 'See? Even 'bad' drawings become amazing art.' Existential crisis: solved.",
+      "7": "Show them the before/after on Doodie. 'See? Even bad drawings become amazing art.' Existential crisis: solved.",
       "8": "This is actually a growth mindset moment. They care about quality. That's good. Help them try again. Or upload it and let AI handle the emotional labor.",
       "9": "Introduce them to the concept of 'iteration.' Real artists do 50 versions. Their second attempt will be better. Probably.",
       "10": "They're developing self-awareness and standards. This is healthy but painful. Like most of parenting.",
@@ -127,106 +127,72 @@ export function ParentingAdvice() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   return (
-    <section className="relative z-10 bg-surface py-20 md:py-28">
-      <div className="mx-auto max-w-5xl px-8">
-        <div className="mb-14 text-center">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-coral">
-            Questionable parenting advice
-          </p>
-          <h2
-            className="mb-6 text-3xl font-bold tracking-tight md:text-5xl"
-            style={{ fontFamily: "var(--font-dm-serif)" }}
-          >
+    <div className="d-section d-section-surface">
+      <div className="d-container">
+        <div className="d-center d-mb-2xl">
+          <p className="d-eyebrow d-eyebrow-coral">Questionable parenting advice</p>
+          <h2 className="d-heading d-heading-lg" style={{ marginBottom: 8 }}>
             We shouldn&apos;t be giving advice.
-            <br />
-            <span className="text-text-secondary text-2xl md:text-4xl">But here we are.</span>
           </h2>
-          <p className="mx-auto max-w-lg text-text-secondary leading-relaxed">
-            Select your child&apos;s age. Read the advice. Ignore it entirely.
-            We are an art app, not licensed professionals.
+          <p className="d-heading" style={{ fontSize: "clamp(20px, 3vw, 32px)", color: "#6B7280", marginBottom: 24 }}>
+            But here we are.
+          </p>
+          <p className="d-body" style={{ maxWidth: 520, margin: "0 auto" }}>
+            Select your child&apos;s age. Read the advice. Ignore it entirely. We are an art app, not licensed professionals.
           </p>
         </div>
 
         {/* Age picker */}
-        <div className="mb-10 flex flex-col items-center gap-4">
-          <p className="text-sm font-semibold text-foreground">My kid is:</p>
-          <div className="flex flex-wrap justify-center gap-2">
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, marginBottom: 40 }}>
+          <p style={{ fontSize: 14, fontWeight: 600, color: "#1A1A2E" }}>My kid is:</p>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
             {AGES.map((age) => (
               <button
                 key={age}
                 onClick={() => setSelectedAge(age)}
-                className="flex h-11 w-11 items-center justify-center rounded-xl text-sm font-bold transition-all"
-                style={
-                  selectedAge === age
-                    ? { background: "linear-gradient(135deg, #FF6B6B, #A78BFA)", color: "#fff", boxShadow: "0 2px 8px rgba(255,107,107,0.3)" }
-                    : { background: "#fff", border: "1px solid #E5E7EB", color: "#6B7280" }
-                }
+                className={selectedAge === age ? "d-age-btn d-age-btn-active" : "d-age-btn d-age-btn-inactive"}
               >
                 {age}
               </button>
             ))}
           </div>
-          <p className="text-xs text-text-muted">
-            (If you have multiple kids, pick the one causing the most problems right now.)
-          </p>
+          <p className="d-body-xs">(If you have multiple kids, pick the one causing the most problems right now.)</p>
         </div>
 
         {/* Scenarios */}
-        <div className="space-y-4">
+        <div>
           {SCENARIOS.map((scenario, i) => {
             const isExpanded = expandedIndex === i;
             return (
-              <div
-                key={scenario.situation}
-                className="overflow-hidden rounded-2xl border border-border bg-background transition-all hover:border-border-hover"
-              >
+              <div key={scenario.situation} className="d-advice-accordion">
                 <button
                   onClick={() => setExpandedIndex(isExpanded ? null : i)}
-                  className="flex w-full items-center gap-4 px-8 py-6 text-left transition-colors hover:bg-surface-2/30"
+                  className="d-advice-trigger"
                 >
-                  <span
-                    className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white"
-                    style={{ backgroundColor: scenario.color }}
-                  >
+                  <span style={{ width: 40, height: 40, borderRadius: 12, background: scenario.color, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 14, fontWeight: 700, flexShrink: 0 }}>
                     {scenario.icon}
                   </span>
-                  <span className="flex-1 text-[15px] font-semibold text-foreground">
+                  <span style={{ flex: 1, fontSize: 15, fontWeight: 600, color: "#1A1A2E" }}>
                     {scenario.situation}
                   </span>
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#9CA3AF"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="flex-shrink-0 transition-transform"
-                    style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)" }}
-                  >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
                     <polyline points="6 9 12 15 18 9" />
                   </svg>
                 </button>
                 {isExpanded && (
-                  <div className="border-t border-border px-8 py-6">
-                    <div className="flex items-start gap-3">
-                      <span
-                        className="mt-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg text-[10px] font-bold text-white"
-                        style={{ backgroundColor: scenario.color }}
-                      >
+                  <div className="d-advice-body">
+                    <div style={{ display: "flex", alignItems: "start", gap: 12 }}>
+                      <span style={{ marginTop: 4, width: 28, height: 28, borderRadius: 8, background: scenario.color, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 10, fontWeight: 700, flexShrink: 0 }}>
                         {selectedAge}
                       </span>
                       <div>
-                        <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-text-muted">
+                        <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#9CA3AF", marginBottom: 4 }}>
                           Age {selectedAge} -- our advice
                         </p>
-                        <p className="text-[15px] leading-relaxed text-text-secondary">
-                          {scenario.advice[selectedAge]}
-                        </p>
+                        <p className="d-body">{scenario.advice[selectedAge]}</p>
                       </div>
                     </div>
-                    <p className="mt-4 text-[11px] text-text-muted italic">
+                    <p style={{ marginTop: 16, fontSize: 11, color: "#9CA3AF", fontStyle: "italic" }}>
                       This is not real advice. Please do not sue us.
                     </p>
                   </div>
@@ -236,6 +202,6 @@ export function ParentingAdvice() {
           })}
         </div>
       </div>
-    </section>
+    </div>
   );
 }
