@@ -13,7 +13,7 @@ const TIERS = [
     desc: "One drawing. One transformation. Just to see if we're legit. Spoiler: we are.",
     features: [
       "1 AI transformation",
-      "3 art style options",
+      "4 art style options",
       "High-resolution download (4K)",
       "Print-ready file",
       "No watermark",
@@ -34,7 +34,7 @@ const TIERS = [
     desc: "Five transformations for parents who can't stop. You know who you are. The fridge is already full.",
     features: [
       "5 AI transformations",
-      "All 8 art styles",
+      "All 12 art styles",
       "High-resolution downloads (4K)",
       "Print-ready files",
       "No watermark",
@@ -56,7 +56,7 @@ const TIERS = [
     desc: "Unlimited everything. For the parent who has a problem and has accepted it. Welcome to the club.",
     features: [
       "Unlimited transformations",
-      "All 8 art styles",
+      "All 12 art styles",
       "High-resolution downloads (4K)",
       "Print-ready files",
       "No watermark",
@@ -98,7 +98,7 @@ const FAQ = [
   },
   {
     q: "What art styles are available?",
-    a: "Oil Painting, Watercolor, Anime, Cyberpunk, Pop Art, Pixel Art, Studio Ghibli, and Photorealistic. Eight styles, each tuned to preserve your kid's original composition while making it look like actual art. We're adding more regularly. If there's a style you want that we don't have yet, yell at us on Twitter.",
+    a: "Oil Painting, Watercolor, Anime, Cyberpunk, Pop Art, Pixel Art, Studio Ghibli, Photorealistic, Stained Glass, Cartoon, Pencil Sketch, and Fantasy Epic. Twelve styles, each tuned to preserve your kid's original composition while making it look like actual art. We're adding more regularly. If there's a style you want that we don't have yet, yell at us on Twitter.",
   },
 ];
 
@@ -146,6 +146,95 @@ export default function PricingPage() {
             {TIERS.map((tier) => (
               <PricingCard key={tier.name} tier={tier} />
             ))}
+          </div>
+
+          {/* Comparison Table */}
+          <div className="mb-24 mx-auto max-w-3xl">
+            <div className="mb-8 text-center">
+              <h2
+                className="mb-3 text-2xl font-extrabold tracking-tight"
+                style={{ fontFamily: "var(--font-dm-serif)" }}
+              >
+                Side by side.
+              </h2>
+              <p className="text-text-secondary" style={{ fontSize: 14 }}>
+                Because tables are easier than reading three cards and doing math in your head.
+              </p>
+            </div>
+            <div className="neu-card" style={{ overflow: "hidden", padding: 0 }}>
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+                  <thead>
+                    <tr style={{ borderBottom: "1px solid #E5E7EB" }}>
+                      <th style={{ textAlign: "left", padding: "16px 20px", color: "#6B7280", fontWeight: 500, fontSize: 13 }}>Feature</th>
+                      <th style={{ textAlign: "center", padding: "16px 12px", color: "#60A5FA", fontWeight: 700 }}>The Dip</th>
+                      <th style={{ textAlign: "center", padding: "16px 12px", color: "#FF6B6B", fontWeight: 700 }}>The Binge</th>
+                      <th style={{ textAlign: "center", padding: "16px 12px", color: "#A78BFA", fontWeight: 700 }}>The Addiction</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { feature: "Transformations", dip: "1", binge: "5", addiction: "Unlimited" },
+                      { feature: "Art Styles", dip: "4", binge: "All 12", addiction: "All 12" },
+                      { feature: "4K Downloads", dip: "Yes", binge: "Yes", addiction: "Yes" },
+                      { feature: "Print-Ready Files", dip: "Yes", binge: "Yes", addiction: "Yes" },
+                      { feature: "Priority Processing", dip: "--", binge: "Yes", addiction: "Yes" },
+                      { feature: "Commercial License", dip: "--", binge: "--", addiction: "Yes" },
+                      { feature: "API Access", dip: "--", binge: "--", addiction: "Yes" },
+                      { feature: "Early Access Styles", dip: "--", binge: "--", addiction: "Yes" },
+                      { feature: "Price per Transform", dip: "$4.99", binge: "$2.60", addiction: "< $1" },
+                    ].map((row, i) => (
+                      <tr key={row.feature} style={{ borderBottom: i < 8 ? "1px solid rgba(229,231,235,0.5)" : "none" }}>
+                        <td style={{ padding: "12px 20px", color: "#4B5563", fontWeight: 500 }}>{row.feature}</td>
+                        <td style={{ padding: "12px 12px", textAlign: "center", color: row.dip === "--" ? "#D1D5DB" : "#4B5563" }}>{row.dip}</td>
+                        <td style={{ padding: "12px 12px", textAlign: "center", color: row.binge === "--" ? "#D1D5DB" : "#4B5563", fontWeight: row.binge !== "--" && row.binge !== row.dip ? 600 : 400 }}>{row.binge}</td>
+                        <td style={{ padding: "12px 12px", textAlign: "center", color: row.addiction === "--" ? "#D1D5DB" : "#4B5563", fontWeight: row.addiction !== "--" ? 600 : 400 }}>{row.addiction}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          {/* Money-back guarantee */}
+          <div
+            className="neu-card mb-24 mx-auto max-w-2xl text-center"
+            style={{ padding: "40px 32px", border: "1px solid rgba(52,211,153,0.2)" }}
+          >
+            <div
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: "50%",
+                background: "rgba(52,211,153,0.1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 20px",
+              }}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34D399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <polyline points="9 12 11 14 15 10" />
+              </svg>
+            </div>
+            <h3
+              style={{
+                fontSize: 22,
+                fontWeight: 700,
+                marginBottom: 12,
+                fontFamily: "var(--font-dm-serif)",
+                color: "#1A1A2E",
+              }}
+            >
+              Not impressed? Money back.
+            </h3>
+            <p style={{ fontSize: 14, lineHeight: 1.7, color: "#6B7280", maxWidth: 480, margin: "0 auto" }}>
+              If the AI turns your kid&apos;s masterpiece into something that looks worse than
+              the original (unlikely, but we respect your standards), we&apos;ll refund you. No
+              questions asked. Within 7 days. We&apos;re that confident.
+            </p>
           </div>
 
           {/* Scribble divider */}
