@@ -13,6 +13,10 @@ const STYLES = [
   { id: "pixel", name: "Pixel Art", desc: "8-bit nostalgia", color: "#69F0AE" },
   { id: "ghibli", name: "Studio Ghibli", desc: "Miyazaki magic", color: "#FFAB91" },
   { id: "realistic", name: "Photorealistic", desc: "Uncanny valley territory", color: "#64B5F6" },
+  { id: "stained-glass", name: "Stained Glass", desc: "Cathedral window vibes", color: "#CE93D8" },
+  { id: "cartoon", name: "Cartoon", desc: "Saturday morning energy", color: "#FFB74D" },
+  { id: "pencil-sketch", name: "Pencil Sketch", desc: "Refined graphite look", color: "#90A4AE" },
+  { id: "fantasy", name: "Fantasy Epic", desc: "Lord of the Rings energy", color: "#A5D6A7" },
 ];
 
 const LOADING_MESSAGES = [
