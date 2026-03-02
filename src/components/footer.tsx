@@ -90,6 +90,7 @@ export function Footer() {
                 <FooterLink href="/gallery">Gallery</FooterLink>
                 <FooterLink href="/vault">Vault</FooterLink>
                 <FooterLink href="/advice">Advice</FooterLink>
+                <FooterLink href="/faq">FAQ</FooterLink>
                 <FooterLink href="/pricing">Pricing</FooterLink>
               </div>
             </div>
