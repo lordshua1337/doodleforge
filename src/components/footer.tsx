@@ -30,6 +30,8 @@ export function Footer() {
             <div className="space-y-3">
               <FooterLink href="/create">Create</FooterLink>
               <FooterLink href="/gallery">Gallery</FooterLink>
+              <FooterLink href="/vault">Vault</FooterLink>
+              <FooterLink href="/advice">Advice</FooterLink>
               <FooterLink href="/pricing">Pricing</FooterLink>
             </div>
           </div>

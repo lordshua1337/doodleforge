@@ -18,12 +18,15 @@ export const config = {
     shopId: process.env.ETSY_SHOP_ID || "",
     accessToken: process.env.ETSY_ACCESS_TOKEN || "",
   },
-  imageGen: {
-    // Stability AI (Stable Diffusion) API
-    apiKey: process.env.STABILITY_API_KEY || "",
-    apiUrl:
-      process.env.STABILITY_API_URL ||
-      "https://api.stability.ai/v2beta/stable-image/generate/sd3",
+  replicate: {
+    apiToken: process.env.REPLICATE_API_TOKEN || "",
+  },
+  r2: {
+    accountId: process.env.R2_ACCOUNT_ID || "",
+    accessKeyId: process.env.R2_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || "",
+    bucketName: process.env.R2_BUCKET_NAME || "doodie-images",
+    publicUrl: process.env.R2_PUBLIC_URL || "",
   },
   app: {
     url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001",

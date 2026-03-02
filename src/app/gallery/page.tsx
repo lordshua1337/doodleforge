@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { PageTransition, StaggerContainer, StaggerItem } from "@/components/page-transition";
 
 const GALLERY_ITEMS = [
   {
@@ -92,86 +95,89 @@ const PASTEL_BGS = [
 
 export default function GalleryPage() {
   return (
-    <div className="relative z-10 min-h-screen">
-      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-        {/* Header */}
-        <div className="mb-16 text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-coral">
-            The Wall of Shame
-          </p>
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
-            Guess what they <span className="text-coral">drew</span>.
-          </h1>
-          <p className="mx-auto max-w-lg text-text-secondary">
-            Every masterpiece below started as a child&apos;s drawing.
-            The parents submitted them. We transformed them. We all had a good laugh.
-          </p>
-        </div>
+    <PageTransition>
+      <div className="relative z-10 min-h-screen">
+        <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+          {/* Header */}
+          <div className="mb-16 text-center">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-coral">
+              The Wall of Shame
+            </p>
+            <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
+              Guess what they <span className="text-coral">drew</span>.
+            </h1>
+            <p className="mx-auto max-w-lg text-text-secondary">
+              Every masterpiece below started as a child&apos;s drawing.
+              The parents submitted them. We transformed them. We all had a good laugh.
+            </p>
+          </div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {GALLERY_ITEMS.map((item, i) => (
-            <div
-              key={i}
-              className="group overflow-hidden rounded-2xl border-2 border-border bg-background transition-all hover:border-border-hover hover:shadow-lg"
-            >
-              {/* Image placeholder */}
-              <div className={`relative aspect-square ${PASTEL_BGS[i]} flex items-center justify-center overflow-hidden`}>
-                <div className="text-center p-8 transition-transform group-hover:scale-[1.02]">
-                  <p className="mb-3 text-sm font-medium text-text-secondary">
-                    {item.transformed}
-                  </p>
-                  <div
-                    className="inline-flex rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white"
-                    style={{ backgroundColor: item.color }}
-                  >
-                    {item.style}
-                  </div>
-                </div>
-              </div>
+          {/* Gallery Grid */}
+          <StaggerContainer>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {GALLERY_ITEMS.map((item, i) => (
+                <StaggerItem key={i}>
+                  <div className="group overflow-hidden rounded-2xl border-2 border-border bg-background transition-all hover:border-border-hover hover:shadow-lg d-card-hover">
+                    {/* Image placeholder */}
+                    <div className={`relative aspect-square ${PASTEL_BGS[i]} flex items-center justify-center overflow-hidden`}>
+                      <div className="text-center p-8 transition-transform group-hover:scale-[1.02]">
+                        <p className="mb-3 text-sm font-medium text-text-secondary">
+                          {item.transformed}
+                        </p>
+                        <div
+                          className="inline-flex rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white"
+                          style={{ backgroundColor: item.color }}
+                        >
+                          {item.style}
+                        </div>
+                      </div>
+                    </div>
 
-              {/* Info */}
-              <div className="border-t border-border p-5">
-                <div className="mb-3 flex items-center justify-between">
-                  <p className="text-xs font-bold text-text-muted uppercase tracking-wide">Original:</p>
-                  <p className="text-xs text-text-muted">{item.artist}</p>
-                </div>
-                <p className="text-sm text-text-secondary italic mb-3">
-                  &ldquo;{item.original}&rdquo;
-                </p>
+                    {/* Info */}
+                    <div className="border-t border-border p-5">
+                      <div className="mb-3 flex items-center justify-between">
+                        <p className="text-xs font-bold text-text-muted uppercase tracking-wide">Original:</p>
+                        <p className="text-xs text-text-muted">{item.artist}</p>
+                      </div>
+                      <p className="text-sm text-text-secondary italic mb-3">
+                        &ldquo;{item.original}&rdquo;
+                      </p>
 
-                {/* Fun commentary */}
-                <div className="space-y-2 pt-3 border-t border-border">
-                  <div className="flex gap-2 items-start">
-                    <span className="flex-shrink-0 h-5 w-5 rounded-full bg-sunny/20 flex items-center justify-center text-[9px] font-bold text-sunny">K</span>
-                    <p className="text-xs text-foreground">&ldquo;{item.kidSays}&rdquo;</p>
+                      {/* Fun commentary */}
+                      <div className="space-y-2 pt-3 border-t border-border">
+                        <div className="flex gap-2 items-start">
+                          <span className="flex-shrink-0 h-5 w-5 rounded-full bg-sunny/20 flex items-center justify-center text-[9px] font-bold text-sunny">K</span>
+                          <p className="text-xs text-foreground">&ldquo;{item.kidSays}&rdquo;</p>
+                        </div>
+                        <div className="flex gap-2 items-start">
+                          <span className="flex-shrink-0 h-5 w-5 rounded-full bg-lavender/20 flex items-center justify-center text-[9px] font-bold text-lavender">P</span>
+                          <p className="text-xs text-text-muted italic">&ldquo;{item.parentSays}&rdquo;</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex gap-2 items-start">
-                    <span className="flex-shrink-0 h-5 w-5 rounded-full bg-lavender/20 flex items-center justify-center text-[9px] font-bold text-lavender">P</span>
-                    <p className="text-xs text-text-muted italic">&ldquo;{item.parentSays}&rdquo;</p>
-                  </div>
-                </div>
-              </div>
+                </StaggerItem>
+              ))}
             </div>
-          ))}
-        </div>
+          </StaggerContainer>
 
-        {/* CTA */}
-        <div className="mt-16 text-center">
-          <h2 className="mb-4 text-2xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-dm-serif)" }}>
-            Your kid&apos;s doodle could be <span className="text-coral">next</span>.
-          </h2>
-          <p className="mb-6 text-text-secondary">
-            Submit their drawing. We&apos;ll transform it. Everyone wins.
-          </p>
-          <Link
-            href="/create"
-            className="inline-flex rounded-full bg-coral px-8 py-3.5 text-base font-bold text-white transition-all hover:bg-accent-hover hover:scale-[1.03] shadow-sm shadow-coral/20"
-          >
-            Upload a Doodle &rarr;
-          </Link>
+          {/* CTA */}
+          <div className="mt-16 text-center">
+            <h2 className="mb-4 text-2xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-dm-serif)" }}>
+              Your kid&apos;s doodle could be <span className="text-coral">next</span>.
+            </h2>
+            <p className="mb-6 text-text-secondary">
+              Submit their drawing. We&apos;ll transform it. Everyone wins.
+            </p>
+            <Link
+              href="/create"
+              className="d-btn-primary glow-cta"
+            >
+              Make A Doodie &rarr;
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </PageTransition>
   );
 }

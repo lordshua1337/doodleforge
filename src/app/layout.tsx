@@ -4,6 +4,7 @@ import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { DoodleBg } from "@/components/doodle-bg";
+import { KidProvider } from "@/lib/kid-context";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -59,10 +60,12 @@ export default function RootLayout({
       <body
         className={`${dmSans.variable} ${dmSerif.variable} ${geistMono.variable} font-sans antialiased`}
       >
-        <DoodleBg />
-        <Nav />
-        <main className="relative z-10 pt-16">{children}</main>
-        <Footer />
+        <KidProvider>
+          <DoodleBg />
+          <Nav />
+          <main className="relative z-10 pt-16 pb-20 md:pb-0">{children}</main>
+          <Footer />
+        </KidProvider>
       </body>
     </html>
   );
