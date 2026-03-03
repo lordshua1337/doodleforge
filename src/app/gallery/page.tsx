@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { PageTransition, StaggerContainer, StaggerItem } from "@/components/page-transition";
 
@@ -199,7 +200,282 @@ const PASTEL_BGS = [
   "rgba(165,214,167,0.05)",
 ];
 
+function LightboxModal({
+  index,
+  onClose,
+  onPrev,
+  onNext,
+  total,
+}: {
+  index: number;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+  total: number;
+}) {
+  const item = GALLERY_ITEMS[index];
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") onPrev();
+      if (e.key === "ArrowRight") onNext();
+    };
+    window.addEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose, onPrev, onNext]);
+
+  return (
+    <div
+      className="d-lightbox-overlay"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Gallery item ${index + 1} of ${total}`}
+    >
+      {/* Nav arrows */}
+      <button
+        className="d-lightbox-nav d-lightbox-prev"
+        onClick={onPrev}
+        aria-label="Previous artwork"
+      >
+        &#8249;
+      </button>
+      <button
+        className="d-lightbox-nav d-lightbox-next"
+        onClick={onNext}
+        aria-label="Next artwork"
+      >
+        &#8250;
+      </button>
+
+      {/* Card */}
+      <div className="d-lightbox-content neu-card" style={{ padding: 0, overflow: "hidden" }}>
+        <button className="d-lightbox-close" onClick={onClose} aria-label="Close lightbox">
+          &#x2715;
+        </button>
+
+        {/* Top visual area */}
+        <div
+          style={{
+            position: "relative",
+            aspectRatio: "4/3",
+            background: PASTEL_BGS[index],
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: index % 2 === 0 ? "url(/drawings-1.png)" : "url(/drawings-2.png)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              opacity: 0.06,
+              pointerEvents: "none",
+            }}
+          />
+          <div style={{ textAlign: "center", padding: 40, position: "relative" }}>
+            <p
+              style={{
+                fontSize: 18,
+                fontWeight: 600,
+                color: "#4B5563",
+                marginBottom: 16,
+                lineHeight: 1.5,
+                fontFamily: "var(--font-dm-serif)",
+              }}
+            >
+              {item.transformed}
+            </p>
+            <span
+              style={{
+                display: "inline-flex",
+                borderRadius: 999,
+                padding: "6px 18px",
+                fontSize: 11,
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+                color: "#fff",
+                background: item.color,
+              }}
+            >
+              {item.style}
+            </span>
+          </div>
+        </div>
+
+        {/* Details */}
+        <div style={{ padding: "24px 28px" }}>
+          {/* Artist + original */}
+          <div style={{ marginBottom: 20 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: 8,
+              }}
+            >
+              <p
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  color: "#9CA3AF",
+                }}
+              >
+                The Original Drawing
+              </p>
+              <p style={{ fontSize: 13, fontWeight: 600, color: item.color }}>{item.artist}</p>
+            </div>
+            <p
+              style={{
+                fontSize: 15,
+                color: "#6B7280",
+                fontStyle: "italic",
+                lineHeight: 1.6,
+              }}
+            >
+              &ldquo;{item.original}&rdquo;
+            </p>
+          </div>
+
+          {/* Commentary */}
+          <div
+            style={{
+              borderTop: "1px solid rgba(229,231,235,0.5)",
+              paddingTop: 20,
+              display: "flex",
+              flexDirection: "column",
+              gap: 14,
+            }}
+          >
+            <div style={{ display: "flex", gap: 12, alignItems: "start" }}>
+              <span
+                style={{
+                  flexShrink: 0,
+                  width: 28,
+                  height: 28,
+                  borderRadius: "50%",
+                  background: "rgba(251,191,36,0.15)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#FBBF24",
+                }}
+              >
+                K
+              </span>
+              <div>
+                <p
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                    color: "#FBBF24",
+                    marginBottom: 4,
+                  }}
+                >
+                  Kid Says
+                </p>
+                <p style={{ fontSize: 14, color: "#1A1A2E", lineHeight: 1.5 }}>
+                  &ldquo;{item.kidSays}&rdquo;
+                </p>
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: 12, alignItems: "start" }}>
+              <span
+                style={{
+                  flexShrink: 0,
+                  width: 28,
+                  height: 28,
+                  borderRadius: "50%",
+                  background: "rgba(167,139,250,0.15)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#A78BFA",
+                }}
+              >
+                P
+              </span>
+              <div>
+                <p
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                    color: "#A78BFA",
+                    marginBottom: 4,
+                  }}
+                >
+                  Parent Says
+                </p>
+                <p
+                  style={{
+                    fontSize: 14,
+                    color: "#9CA3AF",
+                    fontStyle: "italic",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  &ldquo;{item.parentSays}&rdquo;
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Counter */}
+      <div className="d-lightbox-counter">
+        {index + 1} / {total}
+      </div>
+    </div>
+  );
+}
+
 export default function GalleryPage() {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const openLightbox = useCallback((i: number) => {
+    setLightboxIndex(i);
+  }, []);
+
+  const closeLightbox = useCallback(() => {
+    setLightboxIndex(null);
+  }, []);
+
+  const goToPrev = useCallback(() => {
+    setLightboxIndex((prev) =>
+      prev === null ? null : prev === 0 ? GALLERY_ITEMS.length - 1 : prev - 1
+    );
+  }, []);
+
+  const goToNext = useCallback(() => {
+    setLightboxIndex((prev) =>
+      prev === null ? null : prev === GALLERY_ITEMS.length - 1 ? 0 : prev + 1
+    );
+  }, []);
+
   return (
     <PageTransition>
       <div className="relative z-10 min-h-screen">
@@ -221,7 +497,7 @@ export default function GalleryPage() {
           }}
         />
 
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <div className="d-hero mx-auto max-w-6xl px-6">
           {/* Header */}
           <div className="mb-16 text-center">
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-coral">
@@ -256,7 +532,20 @@ export default function GalleryPage() {
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {GALLERY_ITEMS.map((item, i) => (
                 <StaggerItem key={i}>
-                  <div className="neu-card d-card-hover" style={{ overflow: "hidden", padding: 0 }}>
+                  <div
+                    className="neu-card d-card-hover"
+                    style={{ overflow: "hidden", padding: 0, cursor: "pointer" }}
+                    onClick={() => openLightbox(i)}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`View ${item.transformed} by ${item.artist}`}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        openLightbox(i);
+                      }
+                    }}
+                  >
                     {/* Image placeholder */}
                     <div
                       style={{
@@ -369,6 +658,17 @@ export default function GalleryPage() {
           </div>
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      {lightboxIndex !== null && (
+        <LightboxModal
+          index={lightboxIndex}
+          onClose={closeLightbox}
+          onPrev={goToPrev}
+          onNext={goToNext}
+          total={GALLERY_ITEMS.length}
+        />
+      )}
     </PageTransition>
   );
 }
