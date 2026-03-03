@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, type ReactNode } from "react";
 import { useKid } from "@/lib/kid-context";
 
 const AGES = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
@@ -192,6 +192,93 @@ function injectName(text: string, name: string): string {
   return text.replace(/\{name\}/g, name);
 }
 
+// -- Favorites --
+
+const FAVORITES_KEY = "doodie-advice-favorites";
+
+function loadFavorites(): ReadonlySet<string> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const stored = localStorage.getItem(FAVORITES_KEY);
+    if (!stored) return new Set();
+    const parsed = JSON.parse(stored);
+    return new Set(Array.isArray(parsed) ? parsed : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveFavorites(favs: ReadonlySet<string>): void {
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify([...favs]));
+  } catch {
+    // localStorage may be unavailable
+  }
+}
+
+function useFavorites() {
+  const [favorites, setFavorites] = useState<ReadonlySet<string>>(new Set());
+
+  useEffect(() => {
+    setFavorites(loadFavorites());
+  }, []);
+
+  const toggle = useCallback((id: string) => {
+    setFavorites((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      saveFavorites(next);
+      return next;
+    });
+  }, []);
+
+  return { favorites, toggle } as const;
+}
+
+function HeartIcon({ filled }: { readonly filled: boolean }) {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+    </svg>
+  );
+}
+
+// -- Scroll Reveal --
+
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    // Respect reduced motion preference
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.classList.add("scroll-reveal-visible");
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add("scroll-reveal-visible");
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return ref;
+}
+
 function CopyIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -256,10 +343,24 @@ function ShareButton({ text }: { readonly text: string }) {
   );
 }
 
+function AdviceCardWrapper({ children, index }: { readonly children: ReactNode; readonly index: number }) {
+  const ref = useScrollReveal();
+  return (
+    <div
+      ref={ref}
+      className="scroll-reveal neu-card d-card-hover"
+      style={{ padding: 0, overflow: "hidden", transitionDelay: `${Math.min(index * 60, 300)}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export function ParentingAdvice() {
   const { profile, setShowSetup } = useKid();
   const kidName = profile.kidName;
   const defaultAge = profile.kidAge ? String(profile.kidAge) : "5";
+  const { favorites, toggle: toggleFavorite } = useFavorites();
 
   const [selectedAge, setSelectedAge] = useState(defaultAge);
 
@@ -330,18 +431,16 @@ export function ParentingAdvice() {
 
       {/* Card feed */}
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-        {SCENARIOS.map((scenario) => {
+        {SCENARIOS.map((scenario, index) => {
           const adviceText = injectName(scenario.advice[selectedAge], kidName);
           const situationText = kidName
             ? injectName(scenario.situationPersonalized, kidName)
             : scenario.situation;
+          const cardId = `${scenario.situation}-${selectedAge}`;
+          const isFavorited = favorites.has(cardId);
 
           return (
-            <div
-              key={scenario.situation}
-              className="neu-card d-card-hover"
-              style={{ padding: 0, overflow: "hidden" }}
-            >
+            <AdviceCardWrapper key={scenario.situation} index={index}>
               {/* Card header */}
               <div
                 style={{
@@ -444,10 +543,34 @@ export function ParentingAdvice() {
                   <p style={{ fontSize: 11, color: "#D1D5DB", fontStyle: "italic" }}>
                     Not real advice. We are an art app.
                   </p>
-                  <ShareButton text={`${situationText}\n\nAge ${selectedAge}: ${adviceText}\n\n-- Doodie (doodleforge.com/advice)`} />
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <button
+                      onClick={() => toggleFavorite(cardId)}
+                      aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 32,
+                        height: 32,
+                        borderRadius: 999,
+                        border: "1px solid",
+                        borderColor: isFavorited ? "rgba(255,107,107,0.3)" : "rgba(229,231,235,0.8)",
+                        background: isFavorited ? "rgba(255,107,107,0.06)" : "transparent",
+                        color: isFavorited ? "#FF6B6B" : "#D1D5DB",
+                        cursor: "pointer",
+                        transition: "all 0.2s",
+                        padding: 0,
+                        fontFamily: "inherit",
+                      }}
+                    >
+                      <HeartIcon filled={isFavorited} />
+                    </button>
+                    <ShareButton text={`${situationText}\n\nAge ${selectedAge}: ${adviceText}\n\n-- Doodie (doodleforge.com/advice)`} />
+                  </div>
                 </div>
               </div>
-            </div>
+            </AdviceCardWrapper>
           );
         })}
       </div>

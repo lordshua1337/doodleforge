@@ -479,34 +479,18 @@ body {
   margin: 0 auto 16px;
 }
 
-/* ── PARENTING ADVICE (interactive) ── */
-.d-advice-accordion {
-  overflow: hidden;
-  border-radius: 16px;
-  border: 1px solid #E5E7EB;
-  background: #FAFAFA;
-  transition: border-color 0.2s;
-  margin-bottom: 16px;
+/* ── SCROLL REVEAL ── */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
-.d-advice-accordion:hover { border-color: #D1D5DB; }
-.d-advice-trigger {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-  padding: 24px 32px;
-  text-align: left;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.15s;
+.scroll-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
-.d-advice-trigger:hover { background: rgba(243,244,246,0.3); }
-.d-advice-body {
-  border-top: 1px solid #E5E7EB;
-  padding: 24px 32px;
-}
+
+/* ── PARENTING ADVICE ── */
 .d-age-btn {
   width: 44px;
   height: 44px;
