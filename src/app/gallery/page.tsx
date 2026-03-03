@@ -239,12 +239,14 @@ function CountUp({ target, duration = 1200 }: { target: number; duration?: numbe
 
 function LightboxModal({
   index,
+  displayIndex,
   onClose,
   onPrev,
   onNext,
   total,
 }: {
   index: number;
+  displayIndex: number;
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
@@ -274,7 +276,7 @@ function LightboxModal({
       }}
       role="dialog"
       aria-modal="true"
-      aria-label={`Gallery item ${index + 1} of ${total}`}
+      aria-label={`Gallery item ${displayIndex + 1} of ${total}`}
     >
       {/* Nav arrows */}
       <button
@@ -484,34 +486,65 @@ function LightboxModal({
 
       {/* Counter */}
       <div className="d-lightbox-counter">
-        {index + 1} / {total}
+        {displayIndex + 1} / {total}
       </div>
     </div>
   );
 }
 
+// Extract unique styles with their associated color
+const STYLE_FILTERS = Array.from(
+  GALLERY_ITEMS.reduce((map, item) => {
+    if (!map.has(item.style)) map.set(item.style, item.color);
+    return map;
+  }, new Map<string, string>())
+).map(([style, color]) => ({ style, color }));
+
 export default function GalleryPage() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [activeStyle, setActiveStyle] = useState<string | null>(null);
 
-  const openLightbox = useCallback((i: number) => {
-    setLightboxIndex(i);
-  }, []);
+  const filteredItems = activeStyle
+    ? GALLERY_ITEMS.filter((item) => item.style === activeStyle)
+    : GALLERY_ITEMS;
+
+  // Map filtered index -> original GALLERY_ITEMS index for lightbox
+  const filteredOriginalIndices = activeStyle
+    ? GALLERY_ITEMS.reduce<number[]>((acc, item, i) => {
+        if (item.style === activeStyle) acc.push(i);
+        return acc;
+      }, [])
+    : GALLERY_ITEMS.map((_, i) => i);
+
+  const openLightbox = useCallback((filteredIdx: number) => {
+    setLightboxIndex(filteredOriginalIndices[filteredIdx]);
+  }, [filteredOriginalIndices]);
 
   const closeLightbox = useCallback(() => {
     setLightboxIndex(null);
   }, []);
 
   const goToPrev = useCallback(() => {
-    setLightboxIndex((prev) =>
-      prev === null ? null : prev === 0 ? GALLERY_ITEMS.length - 1 : prev - 1
-    );
-  }, []);
+    setLightboxIndex((prev) => {
+      if (prev === null) return null;
+      const currentFilteredIdx = filteredOriginalIndices.indexOf(prev);
+      const newFilteredIdx = currentFilteredIdx <= 0
+        ? filteredOriginalIndices.length - 1
+        : currentFilteredIdx - 1;
+      return filteredOriginalIndices[newFilteredIdx];
+    });
+  }, [filteredOriginalIndices]);
 
   const goToNext = useCallback(() => {
-    setLightboxIndex((prev) =>
-      prev === null ? null : prev === GALLERY_ITEMS.length - 1 ? 0 : prev + 1
-    );
-  }, []);
+    setLightboxIndex((prev) => {
+      if (prev === null) return null;
+      const currentFilteredIdx = filteredOriginalIndices.indexOf(prev);
+      const newFilteredIdx = currentFilteredIdx >= filteredOriginalIndices.length - 1
+        ? 0
+        : currentFilteredIdx + 1;
+      return filteredOriginalIndices[newFilteredIdx];
+    });
+  }, [filteredOriginalIndices]);
 
   return (
     <PageTransition>
@@ -550,7 +583,7 @@ export default function GalleryPage() {
           </div>
 
           {/* Stats bar */}
-          <div className="neu-card" style={{ display: "flex", justifyContent: "center", gap: 48, padding: "24px 32px", marginBottom: 40 }}>
+          <div className="neu-card" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "16px 48px", padding: "24px 32px", marginBottom: 40 }}>
             {[
               { value: 19, label: "Masterpieces", color: "#FF6B6B" },
               { value: 12, label: "Art Styles", color: "#A78BFA" },
@@ -564,11 +597,72 @@ export default function GalleryPage() {
             ))}
           </div>
 
+          {/* Style Filter Pills */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginBottom: 32 }}>
+            <button
+              onClick={() => setActiveStyle(null)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                borderRadius: 999,
+                padding: "8px 20px",
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: "0.04em",
+                border: "none",
+                cursor: "pointer",
+                transition: "all 0.2s",
+                fontFamily: "inherit",
+                background: activeStyle === null
+                  ? "linear-gradient(135deg, #FF6B6B, #A78BFA)"
+                  : "#fff",
+                color: activeStyle === null ? "#fff" : "#6B7280",
+                boxShadow: activeStyle === null
+                  ? "0 2px 8px rgba(255,107,107,0.3)"
+                  : "0 1px 3px rgba(0,0,0,0.05)",
+              }}
+            >
+              All ({GALLERY_ITEMS.length})
+            </button>
+            {STYLE_FILTERS.map(({ style, color }) => {
+              const count = GALLERY_ITEMS.filter((item) => item.style === style).length;
+              const isActive = activeStyle === style;
+              return (
+                <button
+                  key={style}
+                  onClick={() => setActiveStyle(isActive ? null : style)}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    borderRadius: 999,
+                    padding: "8px 20px",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    letterSpacing: "0.04em",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    fontFamily: "inherit",
+                    background: isActive ? color : "#fff",
+                    color: isActive ? "#fff" : "#6B7280",
+                    boxShadow: isActive
+                      ? `0 2px 8px ${color}40`
+                      : "0 1px 3px rgba(0,0,0,0.05)",
+                  }}
+                >
+                  {style} ({count})
+                </button>
+              );
+            })}
+          </div>
+
           {/* Gallery Grid -- neumorphic cards */}
-          <StaggerContainer>
+          <StaggerContainer key={activeStyle ?? "all"}>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {GALLERY_ITEMS.map((item, i) => (
-                <StaggerItem key={i}>
+              {filteredItems.map((item, i) => (
+                <StaggerItem key={item.artist + item.style}>
                   <div
                     className="neu-card d-card-hover"
                     style={{ overflow: "hidden", padding: 0, cursor: "pointer" }}
@@ -700,10 +794,11 @@ export default function GalleryPage() {
       {lightboxIndex !== null && (
         <LightboxModal
           index={lightboxIndex}
+          displayIndex={filteredOriginalIndices.indexOf(lightboxIndex)}
           onClose={closeLightbox}
           onPrev={goToPrev}
           onNext={goToNext}
-          total={GALLERY_ITEMS.length}
+          total={filteredItems.length}
         />
       )}
     </PageTransition>
