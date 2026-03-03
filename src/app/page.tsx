@@ -7,13 +7,13 @@ const WALL_OF_SHAME_PREVIEW = [
 ];
 
 const STYLES = [
-  { name: "Oil Painting", icon: "P", color: "#FF6B6B" },
-  { name: "Watercolor", icon: "W", color: "#60A5FA" },
-  { name: "Anime", icon: "A", color: "#F472B6" },
-  { name: "Cyberpunk", icon: "C", color: "#A78BFA" },
-  { name: "Pop Art", icon: "!", color: "#FBBF24" },
-  { name: "Pixel Art", icon: "#", color: "#34D399" },
-  { name: "Studio Ghibli", icon: "G", color: "#FB923C" },
+  { name: "Oil Painting", icon: "P", color: "#FF6B35" },
+  { name: "Watercolor", icon: "W", color: "#818CF8" },
+  { name: "Anime", icon: "A", color: "#8B5CF6" },
+  { name: "Cyberpunk", icon: "C", color: "#EC4899" },
+  { name: "Pop Art", icon: "!", color: "#F59E0B" },
+  { name: "Pixel Art", icon: "#", color: "#10B981" },
+  { name: "Studio Ghibli", icon: "G", color: "#F97316" },
   { name: "Photorealistic", icon: "R", color: "#64B5F6" },
   { name: "Stained Glass", icon: "S", color: "#CE93D8" },
   { name: "Cartoon", icon: "T", color: "#FFB74D" },
@@ -22,9 +22,9 @@ const STYLES = [
 ];
 
 const PASTEL_BG = [
-  "rgba(255,107,107,0.04)",
-  "rgba(96,165,250,0.04)",
-  "rgba(244,114,182,0.04)",
+  "rgba(255,107,53,0.04)",
+  "rgba(129,140,248,0.04)",
+  "rgba(139,92,246,0.04)",
 ];
 
 export default function Home() {
@@ -32,9 +32,9 @@ export default function Home() {
     <>
       {/* HERO */}
       <section className="d-hero">
-        <div className="d-blob" style={{ top: "10%", left: "10%", width: 550, height: 550, background: "rgba(255,107,107,0.08)" }} />
-        <div className="d-blob" style={{ bottom: "15%", right: "10%", width: 500, height: 500, background: "rgba(96,165,250,0.08)" }} />
-        <div className="d-blob" style={{ top: "35%", left: "55%", width: 400, height: 400, background: "rgba(167,139,250,0.07)", filter: "blur(100px)" }} />
+        <div className="d-blob" style={{ top: "10%", left: "10%", width: 550, height: 550, background: "rgba(255,107,53,0.08)" }} />
+        <div className="d-blob" style={{ bottom: "15%", right: "10%", width: 500, height: 500, background: "rgba(129,140,248,0.08)" }} />
+        <div className="d-blob" style={{ top: "35%", left: "55%", width: 400, height: 400, background: "rgba(139,92,246,0.07)", filter: "blur(100px)" }} />
 
         {/* Drawing decoration - top right */}
         <div
@@ -107,24 +107,24 @@ export default function Home() {
               {
                 title: "AI Art Transformation",
                 desc: "Upload the scribble. AI makes it gallery-worthy. Your kid's vision, minus the skill gap.",
-                color: "rgba(255,107,107,0.08)",
-                stroke: "#FF6B6B",
+                color: "rgba(255,107,53,0.08)",
+                stroke: "#FF6B35",
                 href: "/create",
                 path: <><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></>,
               },
               {
                 title: "The Vault",
                 desc: "Every drawing, stored forever. No more \"I swear it was in this drawer.\" Scan it, save it, done.",
-                color: "rgba(167,139,250,0.08)",
-                stroke: "#A78BFA",
+                color: "rgba(139,92,246,0.08)",
+                stroke: "#8B5CF6",
                 href: "/vault",
                 path: <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />,
               },
               {
                 title: "Parenting Advice",
                 desc: "Terrible advice for every situation. By an AI. That has no children. What could go wrong.",
-                color: "rgba(96,165,250,0.08)",
-                stroke: "#60A5FA",
+                color: "rgba(129,140,248,0.08)",
+                stroke: "#818CF8",
                 href: "/advice",
                 path: <><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></>,
               },
@@ -180,27 +180,27 @@ export default function Home() {
                 </div>
                 <div style={{ borderTop: "1px solid rgba(229,231,235,0.5)", padding: "28px 32px", display: "flex", flexDirection: "column", gap: 20 }}>
                   <div className="d-bubble">
-                    <div className="d-bubble-avatar" style={{ background: "rgba(251,191,36,0.15)", color: "#FBBF24" }}>K</div>
+                    <div className="d-bubble-avatar" style={{ background: "rgba(251,191,36,0.15)", color: "#F59E0B" }}>K</div>
                     <div>
-                      <p className="d-bubble-label" style={{ color: "#FBBF24" }}>Kid says</p>
+                      <p className="d-bubble-label" style={{ color: "#F59E0B" }}>Kid says</p>
                       <p style={{ fontSize: 14, lineHeight: 1.4, color: "#1A1A2E" }}>&ldquo;{item.kidSays}&rdquo;</p>
                     </div>
                   </div>
                   <div className="d-bubble">
-                    <div className="d-bubble-avatar" style={{ background: "rgba(167,139,250,0.15)", color: "#A78BFA" }}>P</div>
+                    <div className="d-bubble-avatar" style={{ background: "rgba(139,92,246,0.15)", color: "#8B5CF6" }}>P</div>
                     <div>
-                      <p className="d-bubble-label" style={{ color: "#A78BFA" }}>Parent thinks</p>
+                      <p className="d-bubble-label" style={{ color: "#8B5CF6" }}>Parent thinks</p>
                       <p style={{ fontSize: 14, lineHeight: 1.4, color: "#6B7280", fontStyle: "italic" }}>&ldquo;{item.parentThinks}&rdquo;</p>
                     </div>
                   </div>
                 </div>
                 <div style={{ borderTop: "1px solid rgba(229,231,235,0.5)", padding: "20px 32px", background: "rgba(243,244,246,0.3)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div>
-                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#34D399" }}>Fixed it</p>
+                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#10B981" }}>Fixed it</p>
                     <p style={{ fontSize: 13, color: "#9CA3AF", marginTop: 4 }}>{item.style} -- {item.artist}</p>
                   </div>
-                  <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(52,211,153,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34D399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                  <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(16,185,129,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                   </div>
                 </div>
               </div>
@@ -231,21 +231,21 @@ export default function Home() {
                 step: "01",
                 title: "Upload the Evidence",
                 desc: "Take a photo of the drawing. Or upload it from your camera roll. We accept all levels of artistic crime.",
-                color: "#FF6B6B",
+                color: "#FF6B35",
                 icon: <><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></>,
               },
               {
                 step: "02",
                 title: "Pick a Style",
                 desc: "Oil painting? Anime? Cyberpunk? Pick how you want the masterpiece to look. We have 12 styles and counting.",
-                color: "#A78BFA",
+                color: "#8B5CF6",
                 icon: <><circle cx="13.5" cy="6.5" r=".5" /><circle cx="17.5" cy="10.5" r=".5" /><circle cx="8.5" cy="7.5" r=".5" /><circle cx="6.5" cy="12.5" r=".5" /><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 011.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" /></>,
               },
               {
                 step: "03",
                 title: "Witness the Magic",
                 desc: "AI transforms the doodle into actual art. Download, print, frame. Take full credit at Thanksgiving dinner.",
-                color: "#34D399",
+                color: "#10B981",
                 icon: <><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26" /></>,
               },
             ].map((item) => (
@@ -277,37 +277,37 @@ export default function Home() {
                 quote: "My mother-in-law cried when she saw the oil painting version of my son's stick figure family portrait. Best $0 I ever spent on a gift.",
                 name: "Jessica M.",
                 detail: "Mom of 2, Ohio",
-                color: "#FF6B6B",
+                color: "#FF6B35",
               },
               {
                 quote: "My 4-year-old thinks he's a 'real artist' now because his dinosaur drawing looks like concept art from Jurassic Park. The confidence boost alone is worth it.",
                 name: "David K.",
                 detail: "Dad of 1, Austin",
-                color: "#A78BFA",
+                color: "#8B5CF6",
               },
               {
                 quote: "I have 3 Doodie prints framed in my living room. Guests always ask where I got them. I just point at my 5-year-old and say 'commissioned.'",
                 name: "Sarah T.",
                 detail: "Mom of 3, Seattle",
-                color: "#60A5FA",
+                color: "#818CF8",
               },
               {
                 quote: "Turned my daughter's crayon cat into an anime character. She asked me if the cat was 'famous now.' I said yes. She hasn't stopped drawing since.",
                 name: "Mike R.",
                 detail: "Dad of 2, Denver",
-                color: "#34D399",
+                color: "#10B981",
               },
               {
                 quote: "Used this for my classroom end-of-year gifts. Every parent got a transformed version of their kid's self-portrait. The school newsletter featured us.",
                 name: "Ms. Thompson",
                 detail: "2nd Grade Teacher, Portland",
-                color: "#FBBF24",
+                color: "#F59E0B",
               },
               {
                 quote: "My son drew our house. The AI made it look like a Miyazaki film. It's his phone wallpaper now. He's 6. He doesn't have a phone. He uses mine.",
                 name: "Rachel P.",
                 detail: "Mom of 2, Brooklyn",
-                color: "#F472B6",
+                color: "#8B5CF6",
               },
             ].map((t, i) => (
               <div key={i} className="neu-card neu-card-testimonial" style={{ padding: 24, display: "flex", flexDirection: "column", justifyContent: "space-between", "--card-accent": t.color } as React.CSSProperties}>
@@ -375,8 +375,8 @@ export default function Home() {
         />
         <div className="d-container-sm d-center" style={{ position: "relative" }}>
           <h2 className="d-heading d-heading-lg" style={{ marginBottom: 24, lineHeight: 1.2 }}>
-            Look. <span style={{ color: "#FF6B6B" }}>The drawing is bad.</span><br />
-            <span style={{ color: "#60A5FA" }}>The kid is great.</span> We fix the first part.
+            Look. <span style={{ color: "#FF6B35" }}>The drawing is bad.</span><br />
+            <span style={{ color: "#818CF8" }}>The kid is great.</span> We fix the first part.
           </h2>
           <p className="d-body" style={{ maxWidth: 520, margin: "0 auto 40px" }}>
             You know that thing on the fridge? The one you smile at every morning while quietly wondering what it is?

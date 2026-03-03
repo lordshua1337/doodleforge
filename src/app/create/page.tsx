@@ -5,7 +5,7 @@ import Link from "next/link";
 import { PageTransition } from "@/components/page-transition";
 
 const STYLES = [
-  { id: "oil", name: "Oil Painting", desc: "Classic museum vibes", color: "#FF6B6B" },
+  { id: "oil", name: "Oil Painting", desc: "Classic museum vibes", color: "#FF6B35" },
   { id: "watercolor", name: "Watercolor", desc: "Soft and dreamy", color: "#64B5F6" },
   { id: "anime", name: "Anime", desc: "Studio-quality animation", color: "#F48FB1" },
   { id: "cyberpunk", name: "Cyberpunk", desc: "Neon-soaked future", color: "#B388FF" },
@@ -160,7 +160,7 @@ export default function CreatePage() {
         <div className="d-hero mx-auto max-w-3xl px-6">
           {/* Progress -- neumorphic pills */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 48 }}>
-            <ProgressDot active={step === "upload"} done={step !== "upload"} label="Upload" color="#FF6B6B" />
+            <ProgressDot active={step === "upload"} done={step !== "upload"} label="Upload" color="#FF6B35" />
             <ProgressLine done={step !== "upload"} />
             <ProgressDot active={step === "style"} done={step === "generating" || step === "result"} label="Style" color="#64B5F6" />
             <ProgressLine done={step === "generating" || step === "result"} />
@@ -193,8 +193,8 @@ export default function CreatePage() {
                   cursor: "pointer",
                   borderStyle: "dashed",
                   borderWidth: 2,
-                  borderColor: dragActive ? "#FF6B6B" : "rgba(229,231,235,0.5)",
-                  background: dragActive ? "rgba(255,107,107,0.03)" : "#fff",
+                  borderColor: dragActive ? "#FF6B35" : "rgba(229,231,235,0.5)",
+                  background: dragActive ? "rgba(255,107,53,0.03)" : "#fff",
                   transition: "all 0.25s ease",
                   transform: dragActive ? "scale(1.02)" : undefined,
                 }}
@@ -210,7 +210,7 @@ export default function CreatePage() {
                   }}
                 />
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
-                  <div style={{ width: 64, height: 64, borderRadius: 20, background: "rgba(255,107,107,0.08)", display: "flex", alignItems: "center", justifyContent: "center", color: "#FF6B6B" }}>
+                  <div style={{ width: 64, height: 64, borderRadius: 20, background: "rgba(255,107,53,0.08)", display: "flex", alignItems: "center", justifyContent: "center", color: "#FF6B35" }}>
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
                       <polyline points="17 8 12 3 7 8" />
@@ -229,7 +229,7 @@ export default function CreatePage() {
               </div>
 
               {error && (
-                <p style={{ marginTop: 16, fontSize: 14, color: "#FF6B6B" }}>{error}</p>
+                <p style={{ marginTop: 16, fontSize: 14, color: "#FF6B35" }}>{error}</p>
               )}
             </div>
           )}
@@ -290,7 +290,7 @@ export default function CreatePage() {
               </div>
 
               {error && (
-                <p style={{ textAlign: "center", fontSize: 14, color: "#FF6B6B", marginBottom: 16 }}>{error}</p>
+                <p style={{ textAlign: "center", fontSize: 14, color: "#FF6B35", marginBottom: 16 }}>{error}</p>
               )}
 
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16 }}>
@@ -326,11 +326,11 @@ export default function CreatePage() {
                     fontSize: 14,
                     fontWeight: 700,
                     color: "#fff",
-                    background: "linear-gradient(135deg, #FF6B6B, #F472B6)",
+                    background: "linear-gradient(135deg, #FF6B35, #8B5CF6)",
                     cursor: selectedStyle ? "pointer" : "not-allowed",
                     fontFamily: "inherit",
                     opacity: selectedStyle ? 1 : 0.4,
-                    boxShadow: "0 4px 16px rgba(255,107,107,0.25)",
+                    boxShadow: "0 4px 16px rgba(255,107,53,0.25)",
                     transition: "all 0.2s",
                     animation: selectedStyle ? undefined : "none",
                   }}
@@ -368,7 +368,7 @@ export default function CreatePage() {
                     style={{
                       height: "100%",
                       borderRadius: 999,
-                      background: "linear-gradient(90deg, #FF6B6B, #A78BFA, #60A5FA)",
+                      background: "linear-gradient(90deg, #FF6B35, #8B5CF6)",
                       animation: "paintStroke 25s ease-in-out forwards",
                     }}
                   />
@@ -402,7 +402,7 @@ export default function CreatePage() {
                 )}
 
                 {/* Arrow */}
-                <div style={{ color: "#FF6B6B" }}>
+                <div style={{ color: "#FF6B35" }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hidden md:block">
                     <line x1="5" y1="12" x2="19" y2="12" />
                     <polyline points="12 5 19 12 12 19" />
@@ -415,10 +415,10 @@ export default function CreatePage() {
 
                 {/* After */}
                 <div style={{ textAlign: "center" }}>
-                  <div style={{ marginBottom: 8, fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#34D399" }}>
+                  <div style={{ marginBottom: 8, fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#10B981" }}>
                     After
                   </div>
-                  <div className="neu-card" style={{ overflow: "hidden", padding: 0, border: "2px solid rgba(52,211,153,0.3)", boxShadow: "0 8px 30px rgba(52,211,153,0.1)" }}>
+                  <div className="neu-card" style={{ overflow: "hidden", padding: 0, border: "2px solid rgba(16,185,129,0.3)", boxShadow: "0 8px 30px rgba(16,185,129,0.1)" }}>
                     {resultUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={resultUrl} alt="Transformed" style={{ width: 192, height: 192, objectFit: "cover", display: "block" }} />
@@ -442,9 +442,9 @@ export default function CreatePage() {
                       fontSize: 14,
                       fontWeight: 700,
                       color: "#fff",
-                      background: "linear-gradient(135deg, #FF6B6B, #F472B6)",
+                      background: "linear-gradient(135deg, #FF6B35, #8B5CF6)",
                       textDecoration: "none",
-                      boxShadow: "0 4px 16px rgba(255,107,107,0.25)",
+                      boxShadow: "0 4px 16px rgba(255,107,53,0.25)",
                     }}
                   >
                     Download High-Res
@@ -457,9 +457,9 @@ export default function CreatePage() {
                     padding: "12px 32px",
                     fontSize: 14,
                     fontWeight: 600,
-                    color: "#A78BFA",
-                    background: "rgba(167,139,250,0.05)",
-                    border: "2px solid rgba(167,139,250,0.3)",
+                    color: "#8B5CF6",
+                    background: "rgba(139,92,246,0.05)",
+                    border: "2px solid rgba(139,92,246,0.3)",
                     textDecoration: "none",
                   }}
                 >
@@ -473,9 +473,9 @@ export default function CreatePage() {
                     padding: "12px 24px",
                     fontSize: 14,
                     fontWeight: 600,
-                    color: "#FF6B6B",
-                    background: "rgba(255,107,107,0.05)",
-                    border: "2px solid rgba(255,107,107,0.3)",
+                    color: "#FF6B35",
+                    background: "rgba(255,107,53,0.05)",
+                    border: "2px solid rgba(255,107,53,0.3)",
                     cursor: "pointer",
                     fontFamily: "inherit",
                   }}
@@ -512,7 +512,7 @@ function ProgressDot({
           borderRadius: "50%",
           transition: "all 0.2s",
           background: done ? "#69F0AE" : active ? color : undefined,
-          boxShadow: done || active ? `0 2px 8px ${done ? "rgba(52,211,153,0.3)" : `${color}33`}` : undefined,
+          boxShadow: done || active ? `0 2px 8px ${done ? "rgba(16,185,129,0.3)" : `${color}33`}` : undefined,
         }}
       />
       <span style={{ fontSize: 10, fontWeight: active || done ? 600 : 500, color: active || done ? "#1A1A2E" : "#9CA3AF" }}>
@@ -524,6 +524,6 @@ function ProgressDot({
 
 function ProgressLine({ done }: { done: boolean }) {
   return (
-    <div style={{ height: 1, width: 48, background: done ? "#34D399" : "#E5E7EB", transition: "background 0.2s" }} />
+    <div style={{ height: 1, width: 48, background: done ? "#10B981" : "#E5E7EB", transition: "background 0.2s" }} />
   );
 }

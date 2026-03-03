@@ -134,7 +134,7 @@ function SetupModal({
       <div className="kid-setup-modal">
         <div className="kid-setup-header">
           <div className="kid-setup-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
@@ -198,9 +198,9 @@ function SetupModal({
                     padding: "12px 16px",
                     borderRadius: 12,
                     border: "2px solid",
-                    borderColor: gender === opt.value ? "#A78BFA" : "#E5E7EB",
-                    background: gender === opt.value ? "rgba(167,139,250,0.06)" : "#fff",
-                    color: gender === opt.value ? "#A78BFA" : "#6B7280",
+                    borderColor: gender === opt.value ? "#8B5CF6" : "#E5E7EB",
+                    background: gender === opt.value ? "rgba(139,92,246,0.06)" : "#fff",
+                    color: gender === opt.value ? "#8B5CF6" : "#6B7280",
                     fontSize: 14,
                     fontWeight: 600,
                     cursor: "pointer",

@@ -23,8 +23,8 @@ const TIERS = [
     priceId: "single",
     mode: "payment",
     popular: false,
-    color: "#60A5FA",
-    bg: "rgba(96,165,250,0.04)",
+    color: "#818CF8",
+    bg: "rgba(129,140,248,0.04)",
   },
   {
     name: "The Binge",
@@ -45,8 +45,8 @@ const TIERS = [
     priceId: "pack",
     mode: "payment",
     popular: true,
-    color: "#FF6B6B",
-    bg: "rgba(255,107,107,0.03)",
+    color: "#FF6B35",
+    bg: "rgba(255,107,53,0.03)",
   },
   {
     name: "The Addiction",
@@ -70,8 +70,8 @@ const TIERS = [
     priceId: "unlimited",
     mode: "subscription",
     popular: false,
-    color: "#A78BFA",
-    bg: "rgba(167,139,250,0.04)",
+    color: "#8B5CF6",
+    bg: "rgba(139,92,246,0.04)",
   },
 ];
 
@@ -167,9 +167,9 @@ export default function PricingPage() {
                   <thead>
                     <tr style={{ borderBottom: "1px solid #E5E7EB" }}>
                       <th style={{ textAlign: "left", padding: "16px 20px", color: "#6B7280", fontWeight: 500, fontSize: 13 }}>Feature</th>
-                      <th style={{ textAlign: "center", padding: "16px 12px", color: "#60A5FA", fontWeight: 700 }}>The Dip</th>
-                      <th style={{ textAlign: "center", padding: "16px 12px", color: "#FF6B6B", fontWeight: 700 }}>The Binge</th>
-                      <th style={{ textAlign: "center", padding: "16px 12px", color: "#A78BFA", fontWeight: 700 }}>The Addiction</th>
+                      <th style={{ textAlign: "center", padding: "16px 12px", color: "#818CF8", fontWeight: 700 }}>The Dip</th>
+                      <th style={{ textAlign: "center", padding: "16px 12px", color: "#FF6B35", fontWeight: 700 }}>The Binge</th>
+                      <th style={{ textAlign: "center", padding: "16px 12px", color: "#8B5CF6", fontWeight: 700 }}>The Addiction</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -200,21 +200,21 @@ export default function PricingPage() {
           {/* Money-back guarantee */}
           <div
             className="neu-card mb-24 mx-auto max-w-2xl text-center"
-            style={{ padding: "40px 32px", border: "1px solid rgba(52,211,153,0.2)" }}
+            style={{ padding: "40px 32px", border: "1px solid rgba(16,185,129,0.2)" }}
           >
             <div
               style={{
                 width: 56,
                 height: 56,
                 borderRadius: "50%",
-                background: "rgba(52,211,153,0.1)",
+                background: "rgba(16,185,129,0.1)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 margin: "0 auto 20px",
               }}
             >
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34D399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 <polyline points="9 12 11 14 15 10" />
               </svg>
@@ -345,7 +345,7 @@ function PricingCard({ tier }: { tier: (typeof TIERS)[number] }) {
         padding: 0,
         overflow: "visible",
         "--gb-from": tier.color,
-        "--gb-to": tier.popular ? "#F472B6" : tier.color + "88",
+        "--gb-to": tier.popular ? "#8B5CF6" : tier.color + "88",
         transform: tier.popular ? "scale(1.03)" : undefined,
       } as React.CSSProperties}
     >
@@ -358,7 +358,7 @@ function PricingCard({ tier }: { tier: (typeof TIERS)[number] }) {
             left: 0,
             right: 0,
             height: 4,
-            background: `linear-gradient(90deg, ${tier.color}, #F472B6)`,
+            background: `linear-gradient(90deg, ${tier.color}, #8B5CF6)`,
             borderRadius: "20px 20px 0 0",
           }}
         />
@@ -462,7 +462,7 @@ function PricingCard({ tier }: { tier: (typeof TIERS)[number] }) {
             cursor: "pointer",
             transition: "all 0.2s",
             border: tier.popular ? "none" : "2px solid #E5E7EB",
-            background: tier.popular ? `linear-gradient(135deg, ${tier.color}, #F472B6)` : "#fff",
+            background: tier.popular ? `linear-gradient(135deg, ${tier.color}, #8B5CF6)` : "#fff",
             color: tier.popular ? "#fff" : "#1A1A2E",
             boxShadow: tier.popular ? `0 4px 16px ${tier.color}33` : "none",
             fontFamily: "inherit",

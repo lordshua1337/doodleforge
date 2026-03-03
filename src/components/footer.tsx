@@ -23,11 +23,11 @@ export function Footer() {
                 alignItems: "center",
                 justifyContent: "center",
                 borderRadius: 14,
-                background: "linear-gradient(135deg, #FF6B6B, #A78BFA, #60A5FA)",
+                background: "linear-gradient(135deg, #FF6B35, #8B5CF6)",
                 color: "#fff",
                 fontSize: 18,
                 fontWeight: 800,
-                boxShadow: "0 4px 16px rgba(255,107,107,0.2)",
+                boxShadow: "0 4px 16px rgba(255,107,53,0.2)",
               }}
             >
               D
@@ -47,10 +47,10 @@ export function Footer() {
               borderRadius: 999,
               fontSize: 14,
               fontWeight: 700,
-              background: "linear-gradient(135deg, #FF6B6B, #F472B6)",
+              background: "linear-gradient(135deg, #FF6B35, #8B5CF6)",
               color: "#fff",
               textDecoration: "none",
-              boxShadow: "0 4px 16px rgba(255,107,107,0.25)",
+              boxShadow: "0 4px 16px rgba(255,107,53,0.25)",
             }}
           >
             Make A Doodie &rarr;
@@ -68,7 +68,7 @@ export function Footer() {
             className="footer-grid"
           >
             <div>
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#FF6B6B", marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#FF6B35", marginBottom: 20 }}>
                 Product
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -82,7 +82,7 @@ export function Footer() {
             </div>
 
             <div>
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#A78BFA", marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#8B5CF6", marginBottom: 20 }}>
                 Features
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -94,7 +94,7 @@ export function Footer() {
             </div>
 
             <div>
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#60A5FA", marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#818CF8", marginBottom: 20 }}>
                 Company
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -106,7 +106,7 @@ export function Footer() {
             </div>
 
             <div>
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#34D399", marginBottom: 20 }}>
+              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#10B981", marginBottom: 20 }}>
                 Follow the Chaos
               </p>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>

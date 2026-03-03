@@ -31,7 +31,7 @@ const SCENARIOS: readonly Scenario[] = [
       "12": "{name} has stopped showing you drawings. Not because they stopped drawing -- because they started caring what you think, and caring what you think means the drawings stay in the sketchbook where they can't be judged. This is both a relief and absolutely devastating. You spent 10 years figuring out how to fake enthusiasm and now nobody's asking. You will miss the blob era. You will miss being handed a piece of paper with an unidentifiable shape and being told 'it's you, Mommy.' Save everything in the Vault. You'll want it later.",
     },
     icon: "?",
-    color: "#FF6B6B",
+    color: "#FF6B35",
   },
   {
     situation: "They want to give their art as a gift to grandma",
@@ -50,7 +50,7 @@ const SCENARIOS: readonly Scenario[] = [
       "12": "{name} will text grandma 'happy birthday' with maybe an emoji. Maybe. Miss the drawing era yet? Of course you do. Everyone does. That's why the Vault exists. Upload everything before the nostalgia eats you alive.",
     },
     icon: "G",
-    color: "#A78BFA",
+    color: "#8B5CF6",
   },
   {
     situation: "They drew on the wall",
@@ -69,7 +69,7 @@ const SCENARIOS: readonly Scenario[] = [
       "12": "This is no longer 'kids being kids.' This is a conversation. A real one. About choices and consequences and respecting shared spaces. But also -- and I cannot stress this enough -- take a photo first. Document everything. Because even the wall drawings are memories, and you will want them someday. You will want all of it.",
     },
     icon: "W",
-    color: "#60A5FA",
+    color: "#818CF8",
   },
   {
     situation: "They say they want to be an artist when they grow up",
@@ -88,7 +88,7 @@ const SCENARIOS: readonly Scenario[] = [
       "12": "{name} is about to enter middle school, where dreams go to either die or get forged in fire. They'll either double down on art as their identity, or they'll discover coding, sports, or whatever their friend group is into. Either way, you'll survive. And you'll have a Vault full of every drawing they ever made to look back on, no matter what they become.",
     },
     icon: "S",
-    color: "#34D399",
+    color: "#10B981",
   },
   {
     situation: "The fridge is full and they made another drawing",
@@ -107,7 +107,7 @@ const SCENARIOS: readonly Scenario[] = [
       "12": "The fridge is bare. Completely bare. Not a single drawing. Not a single magnet holding a single piece of paper. You can see the stainless steel. You miss the clutter. You never thought you'd miss the clutter. You never thought you'd stand in front of an empty fridge feeling like something important ended and you didn't get to say goodbye. Upload everything. Transform everything. Keep everything. The Vault doesn't forget, even when the fridge does.",
     },
     icon: "F",
-    color: "#FBBF24",
+    color: "#F59E0B",
   },
   {
     situation: "They're having a meltdown because their drawing 'doesn't look right'",
@@ -126,7 +126,7 @@ const SCENARIOS: readonly Scenario[] = [
       "12": "{name} might actually have a point -- the drawing might genuinely not look right. At 12, the critical eye is sharp and the skills haven't fully caught up. This is the most frustrating age for creative kids because they can finally see exactly how good they want to be and exactly how far they are from getting there. Help {name} fix it. Or upload it to Doodie and let AI bridge the gap. Either way, validate the feeling: 'I see what you were going for. Let's figure it out together.'",
     },
     icon: "M",
-    color: "#F472B6",
+    color: "#8B5CF6",
   },
   {
     situation: "They drew a portrait of you and it looks nothing like you",
@@ -145,7 +145,7 @@ const SCENARIOS: readonly Scenario[] = [
       "12": "{name} might have stopped drawing you entirely. The last portrait was months ago and it's been replaced by drawings of anime characters, celebrities, or their friend group. You are no longer the main character of {name}'s art, and this is fine. This is completely fine. You are an adult who does not need to be the subject of a 12-year-old's artwork to feel valued. You're fine. Upload every portrait they ever drew of you to the Vault. You'll want them all.",
     },
     icon: "P",
-    color: "#FB923C",
+    color: "#FF6B35",
   },
   {
     situation: "They compare their art to another kid's and feel bad",
@@ -327,9 +327,9 @@ function ShareButton({ text }: { readonly text: string }) {
         padding: "6px 14px",
         borderRadius: 999,
         border: "1px solid",
-        borderColor: copied ? "rgba(52,211,153,0.3)" : "rgba(229,231,235,0.8)",
-        background: copied ? "rgba(52,211,153,0.06)" : "rgba(243,244,246,0.5)",
-        color: copied ? "#34D399" : "#9CA3AF",
+        borderColor: copied ? "rgba(16,185,129,0.3)" : "rgba(229,231,235,0.8)",
+        background: copied ? "rgba(16,185,129,0.06)" : "rgba(243,244,246,0.5)",
+        color: copied ? "#10B981" : "#9CA3AF",
         fontSize: 12,
         fontWeight: 600,
         cursor: "pointer",
@@ -378,9 +378,9 @@ export function ParentingAdvice() {
         {kidName ? (
           <span
             className="d-badge"
-            style={{ background: "rgba(167,139,250,0.1)", border: "1px solid rgba(167,139,250,0.2)" }}
+            style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.2)" }}
           >
-            <span style={{ fontSize: 12, color: "#A78BFA", fontWeight: 600 }}>
+            <span style={{ fontSize: 12, color: "#8B5CF6", fontWeight: 600 }}>
               Personalized for {kidName}
             </span>
           </span>
@@ -388,9 +388,9 @@ export function ParentingAdvice() {
           <button
             onClick={() => setShowSetup(true)}
             className="d-badge"
-            style={{ cursor: "pointer", background: "rgba(255,107,107,0.06)", border: "1px solid rgba(255,107,107,0.15)" }}
+            style={{ cursor: "pointer", background: "rgba(255,107,53,0.06)", border: "1px solid rgba(255,107,53,0.15)" }}
           >
-            <span style={{ fontSize: 12, color: "#FF6B6B", fontWeight: 600 }}>
+            <span style={{ fontSize: 12, color: "#FF6B35", fontWeight: 600 }}>
               Add your kid&apos;s name for personalized advice
             </span>
           </button>
@@ -555,9 +555,9 @@ export function ParentingAdvice() {
                         height: 32,
                         borderRadius: 999,
                         border: "1px solid",
-                        borderColor: isFavorited ? "rgba(255,107,107,0.3)" : "rgba(229,231,235,0.8)",
-                        background: isFavorited ? "rgba(255,107,107,0.06)" : "transparent",
-                        color: isFavorited ? "#FF6B6B" : "#D1D5DB",
+                        borderColor: isFavorited ? "rgba(255,107,53,0.3)" : "rgba(229,231,235,0.8)",
+                        background: isFavorited ? "rgba(255,107,53,0.06)" : "transparent",
+                        color: isFavorited ? "#FF6B35" : "#D1D5DB",
                         cursor: "pointer",
                         transition: "all 0.2s",
                         padding: 0,

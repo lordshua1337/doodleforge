@@ -28,8 +28,8 @@ export default function AdvicePage() {
 
         {/* Hero */}
         <section className="d-hero" style={{ paddingBottom: 40 }}>
-          <div className="d-blob" style={{ top: "10%", left: "20%", width: 400, height: 400, background: "rgba(96,165,250,0.07)" }} />
-          <div className="d-blob" style={{ bottom: "10%", right: "15%", width: 350, height: 350, background: "rgba(244,114,182,0.06)" }} />
+          <div className="d-blob" style={{ top: "10%", left: "20%", width: 400, height: 400, background: "rgba(129,140,248,0.07)" }} />
+          <div className="d-blob" style={{ bottom: "10%", right: "15%", width: 350, height: 350, background: "rgba(139,92,246,0.06)" }} />
 
           <div className="d-container-sm" style={{ position: "relative", zIndex: 10, textAlign: "center" }}>
             <p className="d-eyebrow d-eyebrow-coral">Questionable parenting advice</p>
@@ -55,10 +55,10 @@ export default function AdvicePage() {
         <div className="d-container-md" style={{ paddingTop: 40, paddingBottom: 16 }}>
           <div className="neu-card" style={{ display: "flex", justifyContent: "center", gap: 48, padding: "24px 32px", flexWrap: "wrap" }}>
             {[
-              { value: "9", label: "Scenarios", color: "#FF6B6B" },
-              { value: "11", label: "Ages Covered", color: "#A78BFA" },
-              { value: "99", label: "Advice Entries", color: "#34D399" },
-              { value: "0", label: "Licensed Professionals", color: "#FBBF24" },
+              { value: "9", label: "Scenarios", color: "#FF6B35" },
+              { value: "11", label: "Ages Covered", color: "#8B5CF6" },
+              { value: "99", label: "Advice Entries", color: "#10B981" },
+              { value: "0", label: "Licensed Professionals", color: "#F59E0B" },
             ].map((stat) => (
               <div key={stat.label} style={{ textAlign: "center" }}>
                 <p style={{ fontSize: 24, fontWeight: 800, color: stat.color, fontFamily: "var(--font-mono, monospace)" }}>{stat.value}</p>
@@ -112,7 +112,7 @@ export default function AdvicePage() {
           <div className="d-container-sm d-center" style={{ position: "relative" }}>
             <h2 className="d-heading d-heading-md" style={{ marginBottom: 24 }}>
               Done reading bad advice?<br />
-              <span style={{ color: "#FF6B6B" }}>Time to fix some art.</span>
+              <span style={{ color: "#FF6B35" }}>Time to fix some art.</span>
             </h2>
             <p className="d-body" style={{ maxWidth: 420, margin: "0 auto 32px" }}>
               Upload a drawing. Pick a style. Let AI turn your kid&apos;s

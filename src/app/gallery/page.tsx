@@ -12,7 +12,7 @@ const GALLERY_ITEMS = [
     artist: "Emma, age 5",
     kidSays: "That's our family!",
     parentSays: "Why does everyone have 3 arms?",
-    color: "#FF6B6B",
+    color: "#FF6B35",
   },
   {
     original: "Green blob with legs and teeth",
@@ -75,7 +75,7 @@ const GALLERY_ITEMS = [
     artist: "Ethan, age 5",
     kidSays: "That's you Daddy!",
     parentSays: "I need to process this emotionally",
-    color: "#FF6B6B",
+    color: "#FF6B35",
   },
   {
     original: "Fish swimming in wavy water",
@@ -179,20 +179,20 @@ const GALLERY_ITEMS = [
 ];
 
 const PASTEL_BGS = [
-  "rgba(255,107,107,0.05)",
-  "rgba(52,211,153,0.05)",
-  "rgba(96,165,250,0.05)",
-  "rgba(244,114,182,0.05)",
-  "rgba(167,139,250,0.05)",
+  "rgba(255,107,53,0.05)",
+  "rgba(16,185,129,0.05)",
+  "rgba(129,140,248,0.05)",
+  "rgba(139,92,246,0.05)",
+  "rgba(139,92,246,0.05)",
   "rgba(251,191,36,0.05)",
   "rgba(251,146,60,0.05)",
-  "rgba(255,107,107,0.05)",
-  "rgba(96,165,250,0.05)",
-  "rgba(244,114,182,0.05)",
+  "rgba(255,107,53,0.05)",
+  "rgba(129,140,248,0.05)",
+  "rgba(139,92,246,0.05)",
   "rgba(251,146,60,0.05)",
-  "rgba(167,139,250,0.05)",
-  "rgba(52,211,153,0.05)",
-  "rgba(96,165,250,0.05)",
+  "rgba(139,92,246,0.05)",
+  "rgba(16,185,129,0.05)",
+  "rgba(129,140,248,0.05)",
   "rgba(251,191,36,0.05)",
   "rgba(206,147,216,0.05)",
   "rgba(255,183,77,0.05)",
@@ -414,7 +414,7 @@ function LightboxModal({
                   justifyContent: "center",
                   fontSize: 10,
                   fontWeight: 700,
-                  color: "#FBBF24",
+                  color: "#F59E0B",
                 }}
               >
                 K
@@ -426,7 +426,7 @@ function LightboxModal({
                     fontWeight: 600,
                     textTransform: "uppercase",
                     letterSpacing: "0.08em",
-                    color: "#FBBF24",
+                    color: "#F59E0B",
                     marginBottom: 4,
                   }}
                 >
@@ -444,13 +444,13 @@ function LightboxModal({
                   width: 28,
                   height: 28,
                   borderRadius: "50%",
-                  background: "rgba(167,139,250,0.15)",
+                  background: "rgba(139,92,246,0.15)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: 10,
                   fontWeight: 700,
-                  color: "#A78BFA",
+                  color: "#8B5CF6",
                 }}
               >
                 P
@@ -462,7 +462,7 @@ function LightboxModal({
                     fontWeight: 600,
                     textTransform: "uppercase",
                     letterSpacing: "0.08em",
-                    color: "#A78BFA",
+                    color: "#8B5CF6",
                     marginBottom: 4,
                   }}
                 >
@@ -585,10 +585,10 @@ export default function GalleryPage() {
           {/* Stats bar */}
           <div className="neu-card" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "16px 48px", padding: "24px 32px", marginBottom: 40 }}>
             {[
-              { value: 19, label: "Masterpieces", color: "#FF6B6B" },
-              { value: 12, label: "Art Styles", color: "#A78BFA" },
-              { value: 16, label: "Young Artists", color: "#34D399" },
-              { value: 0, label: "Art Degrees Required", color: "#FBBF24" },
+              { value: 19, label: "Masterpieces", color: "#FF6B35" },
+              { value: 12, label: "Art Styles", color: "#8B5CF6" },
+              { value: 16, label: "Young Artists", color: "#10B981" },
+              { value: 0, label: "Art Degrees Required", color: "#F59E0B" },
             ].map((stat) => (
               <div key={stat.label} style={{ textAlign: "center" }}>
                 <p style={{ fontSize: 24, fontWeight: 800, color: stat.color, fontFamily: "var(--font-mono, monospace)" }}><CountUp target={stat.value} /></p>
@@ -615,11 +615,11 @@ export default function GalleryPage() {
                 transition: "all 0.2s",
                 fontFamily: "inherit",
                 background: activeStyle === null
-                  ? "linear-gradient(135deg, #FF6B6B, #A78BFA)"
+                  ? "linear-gradient(135deg, #FF6B35, #8B5CF6)"
                   : "#fff",
                 color: activeStyle === null ? "#fff" : "#6B7280",
                 boxShadow: activeStyle === null
-                  ? "0 2px 8px rgba(255,107,107,0.3)"
+                  ? "0 2px 8px rgba(255,107,53,0.3)"
                   : "0 1px 3px rgba(0,0,0,0.05)",
               }}
             >
@@ -736,11 +736,11 @@ export default function GalleryPage() {
                       {/* Fun commentary */}
                       <div style={{ borderTop: "1px solid rgba(229,231,235,0.5)", paddingTop: 12, display: "flex", flexDirection: "column", gap: 8 }}>
                         <div style={{ display: "flex", gap: 8, alignItems: "start" }}>
-                          <span style={{ flexShrink: 0, width: 20, height: 20, borderRadius: "50%", background: "rgba(251,191,36,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, color: "#FBBF24" }}>K</span>
+                          <span style={{ flexShrink: 0, width: 20, height: 20, borderRadius: "50%", background: "rgba(251,191,36,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, color: "#F59E0B" }}>K</span>
                           <p style={{ fontSize: 12, color: "#1A1A2E" }}>&ldquo;{item.kidSays}&rdquo;</p>
                         </div>
                         <div style={{ display: "flex", gap: 8, alignItems: "start" }}>
-                          <span style={{ flexShrink: 0, width: 20, height: 20, borderRadius: "50%", background: "rgba(167,139,250,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, color: "#A78BFA" }}>P</span>
+                          <span style={{ flexShrink: 0, width: 20, height: 20, borderRadius: "50%", background: "rgba(139,92,246,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, color: "#8B5CF6" }}>P</span>
                           <p style={{ fontSize: 12, color: "#9CA3AF", fontStyle: "italic" }}>&ldquo;{item.parentSays}&rdquo;</p>
                         </div>
                       </div>

@@ -123,11 +123,11 @@ export function Nav() {
                 alignItems: "center",
                 justifyContent: "center",
                 borderRadius: 12,
-                background: "linear-gradient(135deg, #FF6B6B, #A78BFA, #60A5FA)",
+                background: "linear-gradient(135deg, #FF6B35, #8B5CF6)",
                 color: "#fff",
                 fontSize: 16,
                 fontWeight: 800,
-                boxShadow: "0 2px 8px rgba(255,107,107,0.2)",
+                boxShadow: "0 2px 8px rgba(255,107,53,0.2)",
               }}
             >
               D
@@ -185,10 +185,10 @@ export function Nav() {
               borderRadius: 999,
               fontSize: 14,
               fontWeight: 700,
-              background: "linear-gradient(135deg, #FF6B6B, #F472B6)",
+              background: "linear-gradient(135deg, #FF6B35, #8B5CF6)",
               color: "#fff",
               textDecoration: "none",
-              boxShadow: "0 2px 12px rgba(255,107,107,0.25)",
+              boxShadow: "0 2px 12px rgba(255,107,53,0.25)",
               transition: "all 0.2s",
               flexShrink: 0,
             }}

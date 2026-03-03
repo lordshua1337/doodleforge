@@ -130,12 +130,12 @@ const FAQ_ITEMS: FaqItem[] = [
 const CATEGORIES = [...new Set(FAQ_ITEMS.map((item) => item.category))];
 
 const CATEGORY_COLORS: Record<string, string> = {
-  "Getting Started": "#FF6B6B",
-  "The Art": "#A78BFA",
-  "Vault & Storage": "#60A5FA",
-  "Prints & Gifts": "#34D399",
-  "Privacy & Safety": "#FBBF24",
-  Pricing: "#F472B6",
+  "Getting Started": "#FF6B35",
+  "The Art": "#8B5CF6",
+  "Vault & Storage": "#818CF8",
+  "Prints & Gifts": "#10B981",
+  "Privacy & Safety": "#F59E0B",
+  Pricing: "#8B5CF6",
 };
 
 function FaqAccordion({
