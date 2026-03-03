@@ -2,15 +2,18 @@
 
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 
+type Gender = "boy" | "girl" | null;
+
 type KidProfile = {
   readonly kidName: string;
   readonly kidAge: number | null;
+  readonly kidGender: Gender;
   readonly hasSetup: boolean;
 };
 
 type KidContextValue = {
   readonly profile: KidProfile;
-  readonly setProfile: (name: string, age: number | null) => void;
+  readonly setProfile: (name: string, age: number | null, gender: Gender) => void;
   readonly clearProfile: () => void;
   readonly showSetup: boolean;
   readonly setShowSetup: (show: boolean) => void;
@@ -21,6 +24,7 @@ const STORAGE_KEY = "doodie-kid-profile";
 const DEFAULT_PROFILE: KidProfile = {
   kidName: "",
   kidAge: null,
+  kidGender: null,
   hasSetup: false,
 };
 
@@ -35,6 +39,7 @@ function loadProfile(): KidProfile {
     return {
       kidName: typeof parsed.kidName === "string" ? parsed.kidName : "",
       kidAge: typeof parsed.kidAge === "number" ? parsed.kidAge : null,
+      kidGender: parsed.kidGender === "boy" || parsed.kidGender === "girl" ? parsed.kidGender : null,
       hasSetup: typeof parsed.hasSetup === "boolean" ? parsed.hasSetup : false,
     };
   } catch {
@@ -65,10 +70,11 @@ export function KidProvider({ children }: { readonly children: ReactNode }) {
     setMounted(true);
   }, []);
 
-  const setProfile = useCallback((name: string, age: number | null) => {
+  const setProfile = useCallback((name: string, age: number | null, gender: Gender) => {
     const next: KidProfile = {
       kidName: name.trim(),
       kidAge: age,
+      kidGender: gender,
       hasSetup: true,
     };
     setProfileState(next);
@@ -101,19 +107,26 @@ export function useKid(): KidContextValue {
 
 const AGES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
+const GENDER_OPTIONS: { value: Gender; label: string }[] = [
+  { value: "boy", label: "Boy" },
+  { value: "girl", label: "Girl" },
+  { value: null, label: "Skip" },
+];
+
 function SetupModal({
   onComplete,
   onSkip,
 }: {
-  readonly onComplete: (name: string, age: number | null) => void;
+  readonly onComplete: (name: string, age: number | null, gender: Gender) => void;
   readonly onSkip: () => void;
 }) {
   const [name, setName] = useState("");
   const [age, setAge] = useState<number | null>(null);
+  const [gender, setGender] = useState<Gender>(null);
 
   const handleSubmit = () => {
     if (!name.trim()) return;
-    onComplete(name, age);
+    onComplete(name, age, gender);
   };
 
   return (
@@ -165,6 +178,37 @@ function SetupModal({
                   className={age === a ? "kid-age-btn kid-age-btn-active" : "kid-age-btn"}
                 >
                   {a}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="kid-setup-field">
+            <label className="kid-setup-label">
+              Boy or girl? <span style={{ fontWeight: 400, color: "#9CA3AF" }}>(optional -- for pronouns)</span>
+            </label>
+            <div style={{ display: "flex", gap: 8 }}>
+              {GENDER_OPTIONS.map((opt) => (
+                <button
+                  key={opt.label}
+                  type="button"
+                  onClick={() => setGender(gender === opt.value ? null : opt.value)}
+                  style={{
+                    flex: 1,
+                    padding: "12px 16px",
+                    borderRadius: 12,
+                    border: "2px solid",
+                    borderColor: gender === opt.value ? "#A78BFA" : "#E5E7EB",
+                    background: gender === opt.value ? "rgba(167,139,250,0.06)" : "#fff",
+                    color: gender === opt.value ? "#A78BFA" : "#6B7280",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                    transition: "all 0.15s",
+                  }}
+                >
+                  {opt.label}
                 </button>
               ))}
             </div>

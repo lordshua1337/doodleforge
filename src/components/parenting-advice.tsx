@@ -1,20 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useKid } from "@/lib/kid-context";
 
 const AGES = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
 type Scenario = {
   readonly situation: string;
-  readonly situationPersonalized: string; // version with {name} placeholder
+  readonly situationPersonalized: string;
   readonly advice: Record<string, string>;
   readonly icon: string;
   readonly color: string;
 };
 
-// Each advice entry uses {name} as a placeholder.
-// If no kid name is set, we replace {name} with "your kid" or "them" depending on context.
 const SCENARIOS: readonly Scenario[] = [
   {
     situation: "Your kid shows you a drawing and asks if it's good",
@@ -194,58 +192,111 @@ function injectName(text: string, name: string): string {
   return text.replace(/\{name\}/g, name);
 }
 
+function CopyIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+      <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+
+function ShareButton({ text }: { readonly text: string }) {
+  const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text).catch(() => {
+      // clipboard not available -- fail silently
+    });
+    setCopied(true);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      aria-label={copied ? "Copied" : "Copy advice to clipboard"}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+        padding: "6px 14px",
+        borderRadius: 999,
+        border: "1px solid",
+        borderColor: copied ? "rgba(52,211,153,0.3)" : "rgba(229,231,235,0.8)",
+        background: copied ? "rgba(52,211,153,0.06)" : "rgba(243,244,246,0.5)",
+        color: copied ? "#34D399" : "#9CA3AF",
+        fontSize: 12,
+        fontWeight: 600,
+        cursor: "pointer",
+        fontFamily: "inherit",
+        transition: "all 0.2s",
+      }}
+    >
+      {copied ? <CheckIcon /> : <CopyIcon />}
+      {copied ? "Copied" : "Copy"}
+    </button>
+  );
+}
+
 export function ParentingAdvice() {
   const { profile, setShowSetup } = useKid();
   const kidName = profile.kidName;
   const defaultAge = profile.kidAge ? String(profile.kidAge) : "5";
 
   const [selectedAge, setSelectedAge] = useState(defaultAge);
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   return (
-    <div className="d-section d-section-surface">
-      <div className="d-container">
-        {/* Personalization banner */}
+    <div style={{ position: "relative" }}>
+      {/* Personalization banner */}
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
         {kidName ? (
-          <div className="d-center" style={{ marginBottom: 32 }}>
-            <span
-              className="d-badge"
-              style={{ background: "rgba(167,139,250,0.1)", border: "1px solid rgba(167,139,250,0.2)" }}
-            >
-              <span style={{ fontSize: 12, color: "#A78BFA", fontWeight: 600 }}>
-                Personalized for {kidName}
-              </span>
+          <span
+            className="d-badge"
+            style={{ background: "rgba(167,139,250,0.1)", border: "1px solid rgba(167,139,250,0.2)" }}
+          >
+            <span style={{ fontSize: 12, color: "#A78BFA", fontWeight: 600 }}>
+              Personalized for {kidName}
             </span>
-          </div>
+          </span>
         ) : (
-          <div className="d-center" style={{ marginBottom: 32 }}>
-            <button
-              onClick={() => setShowSetup(true)}
-              className="d-badge"
-              style={{ cursor: "pointer", background: "rgba(255,107,107,0.06)", border: "1px solid rgba(255,107,107,0.15)" }}
-            >
-              <span style={{ fontSize: 12, color: "#FF6B6B", fontWeight: 600 }}>
-                Add your kid&apos;s name for personalized advice
-              </span>
-            </button>
-          </div>
+          <button
+            onClick={() => setShowSetup(true)}
+            className="d-badge"
+            style={{ cursor: "pointer", background: "rgba(255,107,107,0.06)", border: "1px solid rgba(255,107,107,0.15)" }}
+          >
+            <span style={{ fontSize: 12, color: "#FF6B6B", fontWeight: 600 }}>
+              Add your kid&apos;s name for personalized advice
+            </span>
+          </button>
         )}
+      </div>
 
-        <div className="d-center d-mb-2xl">
-          <p className="d-eyebrow d-eyebrow-coral">Questionable parenting advice</p>
-          <h2 className="d-heading d-heading-lg" style={{ marginBottom: 16 }}>
-            {kidName
-              ? `Terrible advice for raising ${kidName}.`
-              : "We shouldn't be giving advice. But here we are."}
-          </h2>
-          <p className="d-body" style={{ maxWidth: 520, margin: "0 auto" }}>
-            Select {kidName ? `${kidName}'s` : "your child's"} age. Read the advice.
-            Ignore it entirely. We are an art app, not licensed professionals.
-          </p>
-        </div>
-
-        {/* Age picker */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, marginBottom: 40 }}>
+      {/* Sticky age picker */}
+      <div
+        style={{
+          position: "sticky",
+          top: 72,
+          zIndex: 30,
+          background: "rgba(250,250,250,0.92)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          padding: "20px 0",
+          marginBottom: 32,
+          borderBottom: "1px solid rgba(229,231,235,0.5)",
+        }}
+      >
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
           <p style={{ fontSize: 14, fontWeight: 600, color: "#1A1A2E" }}>
             {kidName ? `${kidName} is:` : "My kid is:"}
           </p>
@@ -260,67 +311,131 @@ export function ParentingAdvice() {
               </button>
             ))}
           </div>
-          <p className="d-body-xs">
-            {kidName
-              ? `Showing advice for ${kidName} at age ${selectedAge}.`
-              : "(If you have multiple kids, pick the one causing the most problems right now.)"}
-          </p>
         </div>
+      </div>
 
-        {/* Scenarios */}
-        <div>
-          {SCENARIOS.map((scenario, i) => {
-            const isExpanded = expandedIndex === i;
-            const adviceText = injectName(scenario.advice[selectedAge], kidName);
-            const situationText = kidName
-              ? injectName(scenario.situationPersonalized, kidName)
-              : scenario.situation;
+      {/* Card feed */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        {SCENARIOS.map((scenario) => {
+          const adviceText = injectName(scenario.advice[selectedAge], kidName);
+          const situationText = kidName
+            ? injectName(scenario.situationPersonalized, kidName)
+            : scenario.situation;
 
-            return (
-              <div key={scenario.situation} className="d-advice-accordion">
-                <button
-                  onClick={() => setExpandedIndex(isExpanded ? null : i)}
-                  className="d-advice-trigger"
-                >
-                  <span style={{ width: 40, height: 40, borderRadius: 12, background: scenario.color, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 14, fontWeight: 700, flexShrink: 0 }}>
-                    {scenario.icon}
-                  </span>
-                  <span style={{ flex: 1, fontSize: 15, fontWeight: 600, color: "#1A1A2E" }}>
-                    {situationText}
-                  </span>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </button>
-                <div
+          return (
+            <div
+              key={scenario.situation}
+              className="neu-card d-card-hover"
+              style={{ padding: 0, overflow: "hidden" }}
+            >
+              {/* Card header */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 16,
+                  padding: "24px 28px 20px",
+                  borderBottom: "1px solid rgba(229,231,235,0.4)",
+                }}
+              >
+                <span
                   style={{
-                    maxHeight: isExpanded ? 600 : 0,
-                    opacity: isExpanded ? 1 : 0,
-                    overflow: "hidden",
-                    transition: "max-height 0.35s ease, opacity 0.25s ease",
+                    width: 44,
+                    height: 44,
+                    borderRadius: 14,
+                    background: scenario.color,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#fff",
+                    fontSize: 16,
+                    fontWeight: 700,
+                    flexShrink: 0,
+                    boxShadow: `0 2px 8px ${scenario.color}33`,
                   }}
                 >
-                  <div className="d-advice-body">
-                    <div style={{ display: "flex", alignItems: "start", gap: 12 }}>
-                      <span style={{ marginTop: 4, width: 28, height: 28, borderRadius: 8, background: scenario.color, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 10, fontWeight: 700, flexShrink: 0 }}>
-                        {selectedAge}
-                      </span>
-                      <div>
-                        <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#9CA3AF", marginBottom: 8 }}>
-                          Age {selectedAge} -- our advice{kidName ? ` for ${kidName}` : ""}
-                        </p>
-                        <p style={{ fontSize: 15, lineHeight: 1.75, color: "#4B5563" }}>{adviceText}</p>
-                      </div>
-                    </div>
-                    <p style={{ marginTop: 20, fontSize: 11, color: "#9CA3AF", fontStyle: "italic" }}>
-                      This is not real advice. Please do not sue us. We are an art app.
+                  {scenario.icon}
+                </span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h3
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 700,
+                      color: "#1A1A2E",
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {situationText}
+                  </h3>
+                </div>
+              </div>
+
+              {/* Card body -- the advice */}
+              <div style={{ padding: "24px 28px" }}>
+                <div style={{ display: "flex", alignItems: "start", gap: 12, marginBottom: 20 }}>
+                  <span
+                    style={{
+                      marginTop: 2,
+                      width: 28,
+                      height: 28,
+                      borderRadius: 8,
+                      background: `${scenario.color}18`,
+                      border: `1px solid ${scenario.color}30`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: scenario.color,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {selectedAge}
+                  </span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.1em",
+                        color: "#9CA3AF",
+                        marginBottom: 10,
+                      }}
+                    >
+                      Age {selectedAge}{kidName ? ` -- for ${kidName}` : ""}
+                    </p>
+                    <p
+                      style={{
+                        fontSize: 15,
+                        lineHeight: 1.8,
+                        color: "#4B5563",
+                      }}
+                    >
+                      {adviceText}
                     </p>
                   </div>
                 </div>
+
+                {/* Card footer -- copy + disclaimer */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    paddingTop: 16,
+                    borderTop: "1px solid rgba(229,231,235,0.3)",
+                  }}
+                >
+                  <p style={{ fontSize: 11, color: "#D1D5DB", fontStyle: "italic" }}>
+                    Not real advice. We are an art app.
+                  </p>
+                  <ShareButton text={`${situationText}\n\nAge ${selectedAge}: ${adviceText}\n\n-- Doodie (doodleforge.com/advice)`} />
+                </div>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
