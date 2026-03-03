@@ -27,7 +27,7 @@ export default function AdvicePage() {
         />
 
         {/* Hero */}
-        <section style={{ position: "relative", paddingTop: 80, paddingBottom: 40 }}>
+        <section className="d-hero" style={{ paddingBottom: 40 }}>
           <div className="d-blob" style={{ top: "10%", left: "20%", width: 400, height: 400, background: "rgba(96,165,250,0.07)" }} />
           <div className="d-blob" style={{ bottom: "10%", right: "15%", width: 350, height: 350, background: "rgba(244,114,182,0.06)" }} />
 
@@ -48,18 +48,8 @@ export default function AdvicePage() {
           </div>
         </section>
 
-        {/* Scribble divider */}
-        <div
-          style={{
-            width: "100%",
-            height: 60,
-            backgroundImage: "url(/drawings-2.png)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            opacity: 0.06,
-            borderRadius: 20,
-          }}
-        />
+        {/* Accent divider */}
+        <div className="d-divider-gradient" />
 
         {/* Stats bar */}
         <div className="d-container-md" style={{ paddingTop: 40, paddingBottom: 16 }}>

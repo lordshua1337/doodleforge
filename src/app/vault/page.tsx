@@ -25,7 +25,7 @@ export default function VaultPage() {
   return (
     <div className="relative z-10 min-h-screen">
       {/* Hero */}
-      <section style={{ position: "relative", paddingTop: 80, paddingBottom: 60 }}>
+      <section className="d-hero" style={{ paddingBottom: 60 }}>
         <div className="d-blob" style={{ top: "10%", left: "10%", width: 400, height: 400, background: "rgba(167,139,250,0.07)" }} />
         <div className="d-blob" style={{ bottom: "10%", right: "10%", width: 350, height: 350, background: "rgba(96,165,250,0.07)" }} />
 
@@ -65,18 +65,8 @@ export default function VaultPage() {
         </div>
       </section>
 
-      {/* Scribble divider */}
-      <div
-        style={{
-          width: "100%",
-          height: 60,
-          backgroundImage: "url(/drawings-1.png)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: 0.06,
-          borderRadius: 20,
-        }}
-      />
+      {/* Accent divider */}
+      <div className="d-divider-gradient" />
 
       {/* Features + Mock */}
       <div className="d-section d-section-surface" style={{ position: "relative" }}>

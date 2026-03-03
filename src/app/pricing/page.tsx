@@ -237,19 +237,8 @@ export default function PricingPage() {
             </p>
           </div>
 
-          {/* Scribble divider */}
-          <div
-            style={{
-              width: "100%",
-              height: 80,
-              backgroundImage: "url(/drawings-2.png)",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              opacity: 0.07,
-              borderRadius: 20,
-              marginBottom: 64,
-            }}
-          />
+          {/* Accent divider */}
+          <div className="d-divider-gradient" style={{ marginBottom: 64 }} />
 
           {/* FAQ */}
           <div className="mx-auto max-w-3xl">

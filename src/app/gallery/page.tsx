@@ -331,20 +331,8 @@ export default function GalleryPage() {
             </div>
           </StaggerContainer>
 
-          {/* Scribble divider */}
-          <div
-            style={{
-              width: "100%",
-              height: 80,
-              backgroundImage: "url(/drawings-2.png)",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              opacity: 0.06,
-              borderRadius: 20,
-              marginTop: 64,
-              marginBottom: 16,
-            }}
-          />
+          {/* Accent divider */}
+          <div className="d-divider-gradient" style={{ marginTop: 64, marginBottom: 16 }} />
 
           {/* CTA */}
           <div className="mt-16 text-center" style={{ position: "relative" }}>
