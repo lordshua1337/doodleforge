@@ -14,7 +14,11 @@ const STYLES = [
   { name: "Pop Art", icon: "!", color: "#FBBF24" },
   { name: "Pixel Art", icon: "#", color: "#34D399" },
   { name: "Studio Ghibli", icon: "G", color: "#FB923C" },
-  { name: "Photorealistic", icon: "R", color: "#60A5FA" },
+  { name: "Photorealistic", icon: "R", color: "#64B5F6" },
+  { name: "Stained Glass", icon: "S", color: "#CE93D8" },
+  { name: "Cartoon", icon: "T", color: "#FFB74D" },
+  { name: "Pencil Sketch", icon: "E", color: "#90A4AE" },
+  { name: "Fantasy Epic", icon: "F", color: "#A5D6A7" },
 ];
 
 const PASTEL_BG = [
@@ -208,8 +212,11 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Accent divider */}
+      <div className="d-divider-gradient" />
+
       {/* HOW IT WORKS */}
-      <div className="d-section" style={{ position: "relative" }}>
+      <div className="d-section d-section-alt" style={{ position: "relative" }}>
         <div className="d-container-md">
           <div className="d-center d-mb-2xl">
             <p className="d-eyebrow d-eyebrow-lavender">How it works</p>

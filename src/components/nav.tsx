@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 const NAV_LINKS = [
   { href: "/create", label: "Create" },
@@ -68,6 +69,14 @@ const MOBILE_TABS = [
 
 export function Nav() {
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
@@ -75,10 +84,12 @@ export function Nav() {
       <nav
         className="fixed top-0 left-0 right-0 z-50"
         style={{
-          background: "rgba(255,255,255,0.7)",
+          background: scrolled ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.7)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
-          borderBottom: "1px solid rgba(229,231,235,0.6)",
+          borderBottom: scrolled ? "1px solid rgba(229,231,235,0.8)" : "1px solid rgba(229,231,235,0.4)",
+          boxShadow: scrolled ? "0 1px 8px rgba(0,0,0,0.04)" : "none",
+          transition: "background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
         }}
       >
         <div
@@ -88,8 +99,9 @@ export function Nav() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            height: 72,
+            height: scrolled ? 64 : 72,
             padding: "0 32px",
+            transition: "height 0.3s ease",
           }}
         >
           {/* Logo */}
