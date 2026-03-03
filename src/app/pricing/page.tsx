@@ -124,7 +124,7 @@ export default function PricingPage() {
           }}
         />
 
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <div className="d-hero mx-auto max-w-6xl px-6">
           {/* Header */}
           <div className="mb-16 text-center">
             <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-sunny">
@@ -337,16 +337,17 @@ function PricingCard({ tier }: { tier: (typeof TIERS)[number] }) {
 
   return (
     <div
-      className="neu-card d-card-hover"
+      className={`neu-card d-card-hover d-gradient-border ${tier.popular ? "d-gradient-border-visible" : ""}`}
       style={{
         position: "relative",
         display: "flex",
         flexDirection: "column",
         padding: 0,
-        overflow: "hidden",
-        border: tier.popular ? `2px solid ${tier.color}` : undefined,
+        overflow: "visible",
+        "--gb-from": tier.color,
+        "--gb-to": tier.popular ? "#F472B6" : tier.color + "88",
         transform: tier.popular ? "scale(1.03)" : undefined,
-      }}
+      } as React.CSSProperties}
     >
       {/* Popular badge */}
       {tier.popular && (

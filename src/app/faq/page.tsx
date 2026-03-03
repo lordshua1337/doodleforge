@@ -251,7 +251,7 @@ export default function FaqPage() {
           }}
         />
 
-        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+        <div className="d-hero mx-auto max-w-3xl px-6">
           {/* Header */}
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-lavender">
@@ -268,6 +268,9 @@ export default function FaqPage() {
               drawing. Relax. We can explain everything.
             </p>
           </div>
+
+          {/* Accent divider below header */}
+          <div className="d-divider-gradient" style={{ marginBottom: 32 }} />
 
           {/* Category filter */}
           <div
@@ -347,8 +350,11 @@ export default function FaqPage() {
             ))}
           </div>
 
+          {/* Accent divider */}
+          <div className="d-divider-gradient" style={{ marginTop: 48, marginBottom: 48 }} />
+
           {/* CTA */}
-          <div className="mt-16 text-center">
+          <div className="mt-8 text-center d-section-alt" style={{ padding: "48px 24px", borderRadius: 20 }}>
             <h2
               className="mb-4 text-2xl font-extrabold tracking-tight"
               style={{ fontFamily: "var(--font-dm-serif)" }}

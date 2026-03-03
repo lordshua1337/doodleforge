@@ -157,7 +157,7 @@ export default function CreatePage() {
           }}
         />
 
-        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+        <div className="d-hero mx-auto max-w-3xl px-6">
           {/* Progress -- neumorphic pills */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 48 }}>
             <ProgressDot active={step === "upload"} done={step !== "upload"} label="Upload" color="#FF6B6B" />

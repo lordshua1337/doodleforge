@@ -2,21 +2,7 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer
-      className="relative z-10"
-      style={{
-        background: "#FAFAFA",
-        paddingBottom: 80,
-      }}
-    >
-      {/* Gradient divider */}
-      <div
-        style={{
-          height: 1,
-          background: "linear-gradient(90deg, transparent 5%, rgba(167,139,250,0.25) 30%, rgba(255,107,107,0.25) 50%, rgba(96,165,250,0.25) 70%, transparent 95%)",
-        }}
-      />
-
+    <footer className="d-footer-elevated relative z-10" style={{ paddingBottom: 80 }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "64px 32px 0" }}>
         {/* Top: logo + tagline + CTA */}
         <div
@@ -123,10 +109,25 @@ export function Footer() {
               <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#34D399", marginBottom: 20 }}>
                 Follow the Chaos
               </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                <FooterLink href="#">Instagram</FooterLink>
-                <FooterLink href="#">TikTok</FooterLink>
-                <FooterLink href="#">X (Twitter)</FooterLink>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                <SocialIcon href="#" label="Instagram">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                  </svg>
+                </SocialIcon>
+                <SocialIcon href="#" label="TikTok">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+                  </svg>
+                </SocialIcon>
+                <SocialIcon href="#" label="X">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
+                    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+                  </svg>
+                </SocialIcon>
               </div>
             </div>
           </div>
@@ -160,9 +161,23 @@ function FooterLink({ href, children }: { readonly href: string; readonly childr
   return (
     <Link
       href={href}
-      className="footer-link"
+      className="footer-link d-link-animated"
     >
       {children}
     </Link>
+  );
+}
+
+function SocialIcon({ href, label, children }: { readonly href: string; readonly label: string; readonly children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      className="d-social-icon"
+      aria-label={label}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+    </a>
   );
 }

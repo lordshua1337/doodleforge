@@ -80,7 +80,7 @@ export default function Home() {
           </div>
 
           <h1 className="d-heading d-heading-xl" style={{ marginBottom: 32 }}>
-            Fridge art. <span className="text-rainbow">Gallery upgrade.</span>
+            Fridge art. <span className="text-rainbow d-typewriter-cursor">Gallery upgrade.</span>
           </h1>
 
           <p className="d-body-lg" style={{ maxWidth: 520, margin: "0 auto 16px" }}>
