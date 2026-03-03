@@ -58,7 +58,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSans.variable} ${dmSerif.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${dmSans.variable} ${dmSerif.variable} ${geistMono.variable} font-sans antialiased d-noise`}
       >
         <KidProvider>
           <DoodleBg />

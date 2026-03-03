@@ -27,10 +27,10 @@ export default function Home() {
   return (
     <>
       {/* HERO */}
-      <section style={{ position: "relative", paddingTop: 80, paddingBottom: 80 }}>
-        <div className="d-blob" style={{ top: "15%", left: "15%", width: 500, height: 500, background: "rgba(255,107,107,0.07)" }} />
-        <div className="d-blob" style={{ bottom: "20%", right: "15%", width: 450, height: 450, background: "rgba(96,165,250,0.07)" }} />
-        <div className="d-blob" style={{ top: "40%", left: "55%", width: 350, height: 350, background: "rgba(167,139,250,0.06)", filter: "blur(100px)" }} />
+      <section className="d-hero">
+        <div className="d-blob" style={{ top: "10%", left: "10%", width: 550, height: 550, background: "rgba(255,107,107,0.08)" }} />
+        <div className="d-blob" style={{ bottom: "15%", right: "10%", width: 500, height: 500, background: "rgba(96,165,250,0.08)" }} />
+        <div className="d-blob" style={{ top: "35%", left: "55%", width: 400, height: 400, background: "rgba(167,139,250,0.07)", filter: "blur(100px)" }} />
 
         {/* Drawing decoration - top right */}
         <div
@@ -96,7 +96,7 @@ export default function Home() {
       </section>
 
       {/* THREE PILLARS -- neumorphic nav cards */}
-      <section className="d-section-surface" style={{ padding: "64px 0", position: "relative" }}>
+      <section className="d-section-accented" style={{ padding: "64px 0", position: "relative" }}>
         <div className="d-container">
           <div className="d-grid d-grid-3">
             {[
@@ -126,7 +126,7 @@ export default function Home() {
               },
             ].map((p) => (
               <Link key={p.title} href={p.href} className="neu-card d-card-hover" style={{ textDecoration: "none", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: 32 }}>
-                <div className="d-icon-box d-icon-box-center" style={{ background: p.color }}>
+                <div className="d-icon-box d-icon-box-center d-icon-box-hover" style={{ background: p.color }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={p.stroke} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{p.path}</svg>
                 </div>
                 <h3 style={{ fontSize: 18, fontWeight: 700, color: "#1A1A2E", marginBottom: 8 }}>{p.title}</h3>
@@ -230,7 +230,7 @@ export default function Home() {
               {
                 step: "02",
                 title: "Pick a Style",
-                desc: "Oil painting? Anime? Cyberpunk? Pick how you want the masterpiece to look. We have 8 styles and counting.",
+                desc: "Oil painting? Anime? Cyberpunk? Pick how you want the masterpiece to look. We have 12 styles and counting.",
                 color: "#A78BFA",
                 icon: <><circle cx="13.5" cy="6.5" r=".5" /><circle cx="17.5" cy="10.5" r=".5" /><circle cx="8.5" cy="7.5" r=".5" /><circle cx="6.5" cy="12.5" r=".5" /><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 011.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" /></>,
               },
@@ -242,12 +242,12 @@ export default function Home() {
                 icon: <><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26" /></>,
               },
             ].map((item) => (
-              <div key={item.step} style={{ textAlign: "center" }}>
-                <div style={{ display: "inline-flex", width: 64, height: 64, borderRadius: 20, background: `${item.color}12`, alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
+              <div key={item.step} className="neu-card d-card-hover" style={{ textAlign: "center", padding: "36px 28px" }}>
+                <div className="d-icon-box d-icon-box-center d-icon-box-hover" style={{ width: 64, height: 64, borderRadius: 20, background: `${item.color}12` }}>
                   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={item.color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{item.icon}</svg>
                 </div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 8 }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: item.color, fontFamily: "var(--font-mono, monospace)" }}>{item.step}</span>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 8 }}>
+                  <span className="d-step-number" style={{ background: `${item.color}15`, color: item.color }}>{item.step}</span>
                   <h3 style={{ fontSize: 18, fontWeight: 700, color: "#1A1A2E" }}>{item.title}</h3>
                 </div>
                 <p className="d-body" style={{ fontSize: 14 }}>{item.desc}</p>
@@ -303,7 +303,7 @@ export default function Home() {
                 color: "#F472B6",
               },
             ].map((t, i) => (
-              <div key={i} className="neu-card" style={{ padding: 24, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              <div key={i} className="neu-card neu-card-testimonial" style={{ padding: 24, display: "flex", flexDirection: "column", justifyContent: "space-between", "--card-accent": t.color } as React.CSSProperties}>
                 <div>
                   <div style={{ height: 3, width: 32, borderRadius: 999, marginBottom: 16, background: t.color }} />
                   <p style={{ fontSize: 14, lineHeight: 1.7, color: "#374151", marginBottom: 20 }}>
@@ -325,18 +325,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Scribble divider */}
-      <div
-        style={{
-          width: "100%",
-          height: 80,
-          backgroundImage: "url(/drawings-1.png)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: 0.06,
-          borderRadius: 20,
-        }}
-      />
+      {/* Accent gradient divider */}
+      <div className="d-divider-gradient" />
 
       {/* STYLE STRIP */}
       <div className="d-section d-section-surface">
@@ -344,7 +334,7 @@ export default function Home() {
           <div className="d-center d-mb-2xl">
             <p className="d-eyebrow d-eyebrow-sky">Art styles</p>
             <h2 className="d-heading d-heading-lg" style={{ marginBottom: 24 }}>Make it look intentional.</h2>
-            <p className="d-body">8 styles that turn &ldquo;what is that&rdquo; into &ldquo;where did you buy that?&rdquo;</p>
+            <p className="d-body">12 styles that turn &ldquo;what is that&rdquo; into &ldquo;where did you buy that?&rdquo;</p>
           </div>
           <div className="d-grid d-grid-4">
             {STYLES.map((s) => (
