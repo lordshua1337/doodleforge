@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DailySparkCard from "@/components/daily-spark";
 
 const WALL_OF_SHAME_PREVIEW = [
   { original: "Crayon stick figures under a yellow sun", kidSays: "That's our family at the beach!", parentThinks: "Why does Daddy have 7 fingers and no neck?", artist: "Emma, age 5", style: "Oil Painting" },
@@ -96,6 +97,13 @@ export default function Home() {
           </div>
 
           <p className="d-body-xs" style={{ marginTop: 40 }}>No account needed. No judgment. We&apos;ve seen worse.</p>
+        </div>
+      </section>
+
+      {/* Daily Doodle Spark */}
+      <section className="d-section" style={{ padding: "48px 0" }}>
+        <div className="d-container-sm">
+          <DailySparkCard />
         </div>
       </section>
 
