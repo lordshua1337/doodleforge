@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useKid } from "@/lib/kid-context";
 
 const AGES = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
@@ -222,6 +222,13 @@ function ShareButton({ text }: { readonly text: string }) {
     timeoutRef.current = setTimeout(() => setCopied(false), 2000);
   };
 
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
   return (
     <button
       onClick={handleCopy}
@@ -255,6 +262,13 @@ export function ParentingAdvice() {
   const defaultAge = profile.kidAge ? String(profile.kidAge) : "5";
 
   const [selectedAge, setSelectedAge] = useState(defaultAge);
+
+  // Sync age picker when profile rehydrates from localStorage
+  useEffect(() => {
+    if (profile.kidAge) {
+      setSelectedAge(String(profile.kidAge));
+    }
+  }, [profile.kidAge]);
 
   return (
     <div style={{ position: "relative" }}>

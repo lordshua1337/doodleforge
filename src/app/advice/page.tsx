@@ -79,7 +79,7 @@ export default function AdvicePage() {
         </div>
 
         {/* Advice Card Feed */}
-        <div className="d-container-md" style={{ padding: "0 32px", paddingBottom: 64 }}>
+        <div className="d-container-md" style={{ paddingBottom: 64 }}>
           <ParentingAdvice />
         </div>
 
