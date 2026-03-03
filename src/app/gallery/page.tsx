@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { PageTransition, StaggerContainer, StaggerItem } from "@/components/page-transition";
+import { loadVault, saveVault, addToVault, isInVault, type VaultState } from "@/lib/vault-data";
 
 const GALLERY_ITEMS = [
   {
@@ -244,6 +245,8 @@ function LightboxModal({
   onPrev,
   onNext,
   total,
+  vault,
+  onSaveToVault,
 }: {
   index: number;
   displayIndex: number;
@@ -251,8 +254,11 @@ function LightboxModal({
   onPrev: () => void;
   onNext: () => void;
   total: number;
+  vault: VaultState | null;
+  onSaveToVault: (index: number) => void;
 }) {
   const item = GALLERY_ITEMS[index];
+  const saved = vault ? isInVault(vault, index) : false;
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -484,9 +490,42 @@ function LightboxModal({
         </div>
       </div>
 
-      {/* Counter */}
-      <div className="d-lightbox-counter">
-        {displayIndex + 1} / {total}
+      {/* Counter + Save to Vault */}
+      <div className="d-lightbox-counter" style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <span>{displayIndex + 1} / {total}</span>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            if (!saved) onSaveToVault(index);
+          }}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "6px 14px",
+            borderRadius: 999,
+            border: "none",
+            fontSize: 11,
+            fontWeight: 700,
+            cursor: saved ? "default" : "pointer",
+            fontFamily: "inherit",
+            background: saved ? "rgba(16,185,129,0.15)" : "rgba(139,92,246,0.15)",
+            color: saved ? "#10B981" : "#8B5CF6",
+            transition: "all 0.2s",
+          }}
+        >
+          {saved ? (
+            <>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+              In Vault
+            </>
+          ) : (
+            <>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Save to Vault
+            </>
+          )}
+        </button>
       </div>
     </div>
   );
@@ -503,6 +542,21 @@ const STYLE_FILTERS = Array.from(
 export default function GalleryPage() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [activeStyle, setActiveStyle] = useState<string | null>(null);
+  const [vault, setVault] = useState<VaultState | null>(null);
+
+  useEffect(() => {
+    setVault(loadVault());
+  }, []);
+
+  const handleSaveToVault = useCallback((index: number) => {
+    const item = GALLERY_ITEMS[index];
+    const current = loadVault();
+    const updated = addToVault(current, index, item.transformed, item.artist);
+    if (updated !== current) {
+      saveVault(updated);
+      setVault(updated);
+    }
+  }, []);
 
   const filteredItems = activeStyle
     ? GALLERY_ITEMS.filter((item) => item.style === activeStyle)
@@ -799,6 +853,8 @@ export default function GalleryPage() {
           onPrev={goToPrev}
           onNext={goToNext}
           total={filteredItems.length}
+          vault={vault}
+          onSaveToVault={handleSaveToVault}
         />
       )}
     </PageTransition>
