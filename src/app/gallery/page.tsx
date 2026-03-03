@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { PageTransition, StaggerContainer, StaggerItem } from "@/components/page-transition";
 
@@ -199,6 +199,43 @@ const PASTEL_BGS = [
   "rgba(144,164,174,0.05)",
   "rgba(165,214,167,0.05)",
 ];
+
+function CountUp({ target, duration = 1200 }: { target: number; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      setCount(target);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        const start = performance.now();
+        const animate = (now: number) => {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setCount(Math.round(eased * target));
+          if (progress < 1) requestAnimationFrame(animate);
+        };
+        requestAnimationFrame(animate);
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [target, duration]);
+
+  return <span ref={ref}>{count}</span>;
+}
 
 function LightboxModal({
   index,
@@ -515,13 +552,13 @@ export default function GalleryPage() {
           {/* Stats bar */}
           <div className="neu-card" style={{ display: "flex", justifyContent: "center", gap: 48, padding: "24px 32px", marginBottom: 40 }}>
             {[
-              { value: "19", label: "Masterpieces", color: "#FF6B6B" },
-              { value: "12", label: "Art Styles", color: "#A78BFA" },
-              { value: "16", label: "Young Artists", color: "#34D399" },
-              { value: "0", label: "Art Degrees Required", color: "#FBBF24" },
+              { value: 19, label: "Masterpieces", color: "#FF6B6B" },
+              { value: 12, label: "Art Styles", color: "#A78BFA" },
+              { value: 16, label: "Young Artists", color: "#34D399" },
+              { value: 0, label: "Art Degrees Required", color: "#FBBF24" },
             ].map((stat) => (
               <div key={stat.label} style={{ textAlign: "center" }}>
-                <p style={{ fontSize: 24, fontWeight: 800, color: stat.color, fontFamily: "var(--font-mono, monospace)" }}>{stat.value}</p>
+                <p style={{ fontSize: 24, fontWeight: 800, color: stat.color, fontFamily: "var(--font-mono, monospace)" }}><CountUp target={stat.value} /></p>
                 <p style={{ fontSize: 11, fontWeight: 500, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.08em" }}>{stat.label}</p>
               </div>
             ))}

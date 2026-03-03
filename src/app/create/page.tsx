@@ -269,16 +269,18 @@ export default function CreatePage() {
                   <button
                     key={s.id}
                     onClick={() => setSelectedStyle(s.id)}
-                    className="neu-card d-card-hover"
+                    className={`neu-card d-card-hover d-gradient-border ${selectedStyle === s.id ? "d-gradient-border-visible" : ""}`}
                     style={{
                       padding: 16,
                       textAlign: "left",
                       cursor: "pointer",
-                      border: selectedStyle === s.id ? `2px solid ${s.color}` : "1px solid rgba(229,231,235,0.5)",
+                      overflow: "visible",
                       background: selectedStyle === s.id ? `${s.color}08` : "#fff",
                       transform: selectedStyle === s.id ? "scale(1.03)" : undefined,
                       fontFamily: "inherit",
-                    }}
+                      "--gb-from": s.color,
+                      "--gb-to": `${s.color}88`,
+                    } as React.CSSProperties}
                   >
                     <div style={{ height: 3, width: 32, borderRadius: 999, marginBottom: 8, background: s.color }} />
                     <div style={{ fontSize: 14, fontWeight: 600, color: "#1A1A2E", marginBottom: 4 }}>{s.name}</div>
