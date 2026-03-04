@@ -4,6 +4,7 @@ import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { KidProvider } from "@/lib/kid-context";
+import { SessionProvider } from "@/lib/auth/session-context";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -65,13 +66,15 @@ export default function RootLayout({
       <body
         className={`${nunito.variable} ${gaegu.variable} ${caveat.variable} ${geistMono.variable} font-sans antialiased`}
       >
-        <KidProvider>
-          <Nav />
-          <main className="relative z-10" style={{ paddingTop: 72, paddingBottom: 80 }}>
-            {children}
-          </main>
-          <Footer />
-        </KidProvider>
+        <SessionProvider>
+          <KidProvider>
+            <Nav />
+            <main className="relative z-10" style={{ paddingTop: 72, paddingBottom: 80 }}>
+              {children}
+            </main>
+            <Footer />
+          </KidProvider>
+        </SessionProvider>
       </body>
     </html>
   );

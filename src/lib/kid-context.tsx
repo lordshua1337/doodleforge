@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
+import { useSession } from "@/lib/auth/session-context";
 
 type Gender = "boy" | "girl" | null;
 
@@ -9,6 +10,7 @@ type KidProfile = {
   readonly kidAge: number | null;
   readonly kidGender: Gender;
   readonly hasSetup: boolean;
+  readonly childId: string | null; // Supabase child ID when authenticated
 };
 
 type KidContextValue = {
@@ -26,11 +28,12 @@ const DEFAULT_PROFILE: KidProfile = {
   kidAge: null,
   kidGender: null,
   hasSetup: false,
+  childId: null,
 };
 
 const KidContext = createContext<KidContextValue | null>(null);
 
-function loadProfile(): KidProfile {
+function loadLocalProfile(): KidProfile {
   if (typeof window === "undefined") return DEFAULT_PROFILE;
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -41,13 +44,14 @@ function loadProfile(): KidProfile {
       kidAge: typeof parsed.kidAge === "number" ? parsed.kidAge : null,
       kidGender: parsed.kidGender === "boy" || parsed.kidGender === "girl" ? parsed.kidGender : null,
       hasSetup: typeof parsed.hasSetup === "boolean" ? parsed.hasSetup : false,
+      childId: typeof parsed.childId === "string" ? parsed.childId : null,
     };
   } catch {
     return DEFAULT_PROFILE;
   }
 }
 
-function saveProfile(profile: KidProfile): void {
+function saveLocalProfile(profile: KidProfile): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
   } catch {
@@ -59,16 +63,50 @@ export function KidProvider({ children }: { readonly children: ReactNode }) {
   const [profile, setProfileState] = useState<KidProfile>(DEFAULT_PROFILE);
   const [showSetup, setShowSetup] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { user } = useSession();
 
-  // Rehydrate from localStorage on mount
+  // Load kid data: from Supabase if authenticated, localStorage as fallback
   useEffect(() => {
-    const stored = loadProfile();
-    setProfileState(stored);
-    if (!stored.hasSetup) {
-      setShowSetup(true);
+    if (user) {
+      // Try loading from Supabase
+      fetch("/api/children")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          const kids = data?.children ?? [];
+          if (kids.length > 0) {
+            const kid = kids[0]; // Use first child
+            const next: KidProfile = {
+              kidName: kid.name ?? "",
+              kidAge: kid.age ?? null,
+              kidGender: null, // Gender not stored in children table
+              hasSetup: true,
+              childId: kid.id,
+            };
+            setProfileState(next);
+            saveLocalProfile(next);
+          } else {
+            // Authenticated but no children -- load local
+            const stored = loadLocalProfile();
+            setProfileState(stored);
+            if (!stored.hasSetup) setShowSetup(true);
+          }
+          setMounted(true);
+        })
+        .catch(() => {
+          // Fallback to localStorage
+          const stored = loadLocalProfile();
+          setProfileState(stored);
+          if (!stored.hasSetup) setShowSetup(true);
+          setMounted(true);
+        });
+    } else {
+      // Not authenticated -- use localStorage
+      const stored = loadLocalProfile();
+      setProfileState(stored);
+      if (!stored.hasSetup) setShowSetup(true);
+      setMounted(true);
     }
-    setMounted(true);
-  }, []);
+  }, [user]);
 
   const setProfile = useCallback((name: string, age: number | null, gender: Gender) => {
     const next: KidProfile = {
@@ -76,15 +114,16 @@ export function KidProvider({ children }: { readonly children: ReactNode }) {
       kidAge: age,
       kidGender: gender,
       hasSetup: true,
+      childId: profile.childId,
     };
     setProfileState(next);
-    saveProfile(next);
+    saveLocalProfile(next);
     setShowSetup(false);
-  }, []);
+  }, [profile.childId]);
 
   const clearProfile = useCallback(() => {
     setProfileState(DEFAULT_PROFILE);
-    saveProfile(DEFAULT_PROFILE);
+    saveLocalProfile(DEFAULT_PROFILE);
   }, []);
 
   return (

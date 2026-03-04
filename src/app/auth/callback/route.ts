@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse, type NextRequest } from 'next/server'
+import { adminClient } from '@/lib/supabase/client'
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
@@ -25,7 +26,20 @@ export async function GET(request: NextRequest) {
       }
     )
 
-    await supabase.auth.exchangeCodeForSession(code)
+    const { data: { user } } = await supabase.auth.exchangeCodeForSession(code)
+
+    // Check if user has any children -- if not, redirect to onboarding
+    if (user) {
+      const { data: children } = await adminClient
+        .from('children')
+        .select('id')
+        .eq('user_id', user.id)
+        .limit(1)
+
+      if (!children || children.length === 0) {
+        return NextResponse.redirect(`${origin}/onboarding`)
+      }
+    }
   }
 
   return NextResponse.redirect(`${origin}/`)

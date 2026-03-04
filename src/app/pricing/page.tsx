@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth/session-context";
 
 const TIERS = [
   {
@@ -99,9 +101,32 @@ const FAQ = [
 ];
 
 export default function PricingPage() {
+  const { user, credits, loading } = useSession();
+
   return (
     <div className="relative z-10 min-h-screen">
       <div className="d-hero mx-auto max-w-6xl px-6">
+        {/* Current balance banner (authenticated users) */}
+        {!loading && user && (
+          <div
+            style={{
+              textAlign: "center",
+              marginBottom: 24,
+              padding: "12px 24px",
+              borderRadius: 8,
+              border: "2px solid #2B2D42",
+              background: "#FFF8F0",
+            }}
+          >
+            <span style={{ fontSize: 14, fontWeight: 600, color: "#2B2D42" }}>
+              Current balance:{" "}
+              <span style={{ color: credits > 0 ? "#06D6A0" : "#E63946", fontWeight: 700 }}>
+                {credits >= 999 ? "Unlimited" : `${credits} credits`}
+              </span>
+            </span>
+          </div>
+        )}
+
         {/* Header */}
         <div className="mb-16 text-center">
           <p className="d-eyebrow d-eyebrow-yellow">Pricing</p>
@@ -255,7 +280,16 @@ export default function PricingPage() {
 }
 
 function PricingCard({ tier }: { tier: (typeof TIERS)[number] }) {
+  const { user } = useSession();
+  const router = useRouter();
+
   const handleCheckout = async () => {
+    // Require auth before checkout
+    if (!user) {
+      router.push(`/auth?returnTo=/pricing`);
+      return;
+    }
+
     try {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",

@@ -165,3 +165,20 @@ alter table share_links enable row level security;
 create policy "Users can manage own share links" on share_links for all using (auth.uid() = user_id);
 create policy "Anyone can read share links by token" on share_links for select using (true);
 create index idx_share_token on share_links(token);
+
+-- ============================================
+-- VAULT ENTRIES (saved artwork)
+-- ============================================
+create table if not exists vault_entries (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  forge_id uuid references forges(id) on delete set null,
+  title text not null,
+  note text default '',
+  display_order integer default 0,
+  created_at timestamptz default now() not null
+);
+
+alter table vault_entries enable row level security;
+create policy "Users can manage own vault entries" on vault_entries for all using (auth.uid() = user_id);
+create index idx_vault_user on vault_entries(user_id);

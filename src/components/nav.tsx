@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "@/lib/auth/session-context";
 
 const NAV_LINKS = [
   { href: "/create", label: "Create" },
@@ -68,6 +69,10 @@ const MOBILE_TABS = [
 
 export function Nav() {
   const pathname = usePathname();
+  const { user, credits, loading, signOut } = useSession();
+
+  const userInitial = user?.email?.[0]?.toUpperCase() ?? "?";
+  const displayName = user?.user_metadata?.full_name ?? user?.email?.split("@")[0] ?? "";
 
   return (
     <>
@@ -140,15 +145,119 @@ export function Nav() {
                   }}
                 >
                   {link.label}
+                  {link.href === "/create" && user && !loading && (
+                    <span
+                      style={{
+                        marginLeft: 6,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        minWidth: 20,
+                        height: 20,
+                        borderRadius: 10,
+                        fontSize: 10,
+                        fontWeight: 700,
+                        background: credits > 0 ? "#06D6A0" : "#E63946",
+                        color: "#fff",
+                        fontFamily: "var(--font-nunito), sans-serif",
+                        padding: "0 5px",
+                      }}
+                    >
+                      {credits >= 999 ? "UNL" : credits}
+                    </span>
+                  )}
                 </Link>
               );
             })}
           </div>
 
-          {/* CTA button */}
+          {/* Auth area */}
+          <div className="hidden md:flex" style={{ alignItems: "center", gap: 12 }}>
+            {!loading && user ? (
+              <>
+                {/* User avatar + name */}
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <div
+                    style={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: 8,
+                      border: "2px solid #2B2D42",
+                      background: "#7B2D8E",
+                      color: "#fff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 14,
+                      fontWeight: 700,
+                      fontFamily: "var(--font-gaegu), cursive",
+                    }}
+                  >
+                    {userInitial}
+                  </div>
+                  <span
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: "#2B2D42",
+                      maxWidth: 100,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {displayName}
+                  </span>
+                </div>
+                <button
+                  onClick={() => signOut()}
+                  style={{
+                    padding: "6px 14px",
+                    borderRadius: 6,
+                    fontSize: 12,
+                    fontWeight: 700,
+                    fontFamily: "var(--font-gaegu), cursive",
+                    color: "#6C757D",
+                    background: "transparent",
+                    border: "2px solid #E5D5C3",
+                    cursor: "pointer",
+                    transition: "all 0.15s",
+                  }}
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : !loading ? (
+              <Link
+                href="/auth"
+                style={{
+                  padding: "6px 14px",
+                  borderRadius: 6,
+                  fontSize: 14,
+                  fontWeight: 700,
+                  fontFamily: "var(--font-gaegu), cursive",
+                  color: "#fff",
+                  background: "#7B2D8E",
+                  border: "2px solid #2B2D42",
+                  textDecoration: "none",
+                  transition: "all 0.15s",
+                }}
+              >
+                Sign In
+              </Link>
+            ) : null}
+            <Link
+              href="/create"
+              className="nav-cta-btn"
+            >
+              MAKE A DOODIE
+            </Link>
+          </div>
+
+          {/* Mobile CTA only (auth handled in mobile bar) */}
           <Link
             href="/create"
-            className="nav-cta-btn"
+            className="nav-cta-btn md:hidden"
           >
             MAKE A DOODIE
           </Link>

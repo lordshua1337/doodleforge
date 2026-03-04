@@ -4,12 +4,23 @@ import { config } from "@/lib/config";
 import { getUser } from "@/lib/auth/server";
 import { CREDIT_TIERS, type CreditTier } from "@/lib/credits/system";
 
-// Map Stripe price IDs to credit tiers
-function tierFromPriceId(priceId: string): CreditTier | null {
-  if (priceId === config.stripe.prices.single) return "dip";
-  if (priceId === config.stripe.prices.pack) return "binge";
-  if (priceId === config.stripe.prices.unlimited) return "addiction";
-  return null;
+// Map tier name strings (sent by pricing page) to CreditTier + real Stripe price IDs
+// The pricing page sends "single", "pack", or "unlimited" -- NOT the Stripe price ID.
+function tierFromName(tierName: string): {
+  tier: CreditTier;
+  stripePriceId: string;
+  mode: "payment" | "subscription";
+} | null {
+  switch (tierName) {
+    case "single":
+      return { tier: "dip", stripePriceId: config.stripe.prices.single, mode: "payment" };
+    case "pack":
+      return { tier: "binge", stripePriceId: config.stripe.prices.pack, mode: "payment" };
+    case "unlimited":
+      return { tier: "addiction", stripePriceId: config.stripe.prices.unlimited, mode: "subscription" };
+    default:
+      return null;
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -20,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { priceId, mode } = body;
+    const { priceId } = body;
 
     if (!priceId) {
       return NextResponse.json({ error: "Price ID required" }, { status: 400 });
@@ -36,8 +47,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const tier = tierFromPriceId(priceId);
-    const tierInfo = tier ? CREDIT_TIERS[tier] : null;
+    // Resolve the tier -- priceId is actually a tier name from the pricing page
+    const resolved = tierFromName(priceId);
+    if (!resolved) {
+      return NextResponse.json({ error: "Invalid pricing tier" }, { status: 400 });
+    }
+
+    if (!resolved.stripePriceId) {
+      return NextResponse.json(
+        {
+          error: `Stripe price not configured for ${priceId}. Set STRIPE_PRICE_${priceId.toUpperCase()} in .env.local`,
+          demo: true,
+        },
+        { status: 503 }
+      );
+    }
+
+    const tierInfo = CREDIT_TIERS[resolved.tier];
+    // Use the mode from the resolved tier -- never trust client-supplied mode
+    const checkoutMode = resolved.mode;
 
     const stripe = getStripe();
 
@@ -45,18 +73,18 @@ export async function POST(request: NextRequest) {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: priceId,
+          price: resolved.stripePriceId,
           quantity: 1,
         },
       ],
-      mode: mode === "subscription" ? "subscription" : "payment",
+      mode: checkoutMode,
       success_url: `${config.app.url}/create?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${config.app.url}/pricing?canceled=true`,
       metadata: {
         source: "doodleforge",
         user_id: user.id,
-        tier: tier || "unknown",
-        credits: String(tierInfo?.credits ?? 0),
+        tier: resolved.tier,
+        credits: String(tierInfo.credits),
       },
     });
 

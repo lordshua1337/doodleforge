@@ -4,6 +4,16 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { loadVault, saveVault, addToVault, isInVault, type VaultState } from "@/lib/vault-data";
 
+// Real forge from the database
+interface CommunityForge {
+  id: string;
+  style: string;
+  is_epic: boolean;
+  result_url: string | null;
+  created_at: string;
+  drawings: { original_url: string } | null;
+}
+
 const GALLERY_ITEMS = [
   { original: "Crayon stick figures under a yellow sun", transformed: "Renaissance-style family portrait with golden hour lighting", style: "Oil Painting", artist: "Emma, age 5", kidSays: "That's our family!", parentSays: "Why does everyone have 3 arms?", color: "#E63946" },
   { original: "Green blob with legs and teeth", transformed: "Majestic dinosaur in a prehistoric jungle landscape", style: "Photorealistic", artist: "Liam, age 4", kidSays: "RAWR it's a T-Rex!", parentSays: "Looks more like a melting pickle", color: "#06D6A0" },
@@ -158,8 +168,21 @@ export default function GalleryPage() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [activeStyle, setActiveStyle] = useState<string | null>(null);
   const [vault, setVault] = useState<VaultState | null>(null);
+  const [communityForges, setCommunityForges] = useState<CommunityForge[]>([]);
 
   useEffect(() => { setVault(loadVault()); }, []);
+
+  // Fetch real community forges
+  useEffect(() => {
+    fetch("/api/forges?scope=community&limit=20")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.forges?.length) {
+          setCommunityForges(data.forges);
+        }
+      })
+      .catch(() => { /* silently fall back to hardcoded items */ });
+  }, []);
 
   const handleSaveToVault = useCallback((index: number) => {
     const item = GALLERY_ITEMS[index];
@@ -264,6 +287,72 @@ export default function GalleryPage() {
             );
           })}
         </div>
+
+        {/* Real Community Forges from DB */}
+        {communityForges.length > 0 && !activeStyle && (
+          <>
+            <div style={{ textAlign: "center", marginBottom: 24 }}>
+              <p className="d-eyebrow d-eyebrow-purple">Fresh From the Community</p>
+              <h2 className="d-heading d-heading-sm" style={{ marginBottom: 8 }}>
+                Real forges by real parents
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" style={{ marginBottom: 48 }}>
+              {communityForges.map((forge) => (
+                <div
+                  key={forge.id}
+                  className="d-shame-card"
+                  style={{ cursor: "default" }}
+                >
+                  {forge.result_url ? (
+                    <div className="d-shame-top" style={{ padding: 0, aspectRatio: "4/3", overflow: "hidden" }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={forge.result_url}
+                        alt={`${forge.style} forge`}
+                        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="d-shame-top">
+                      <p style={{ fontSize: 14, color: "#6C757D", fontFamily: "var(--font-accent)" }}>
+                        Generating...
+                      </p>
+                    </div>
+                  )}
+                  <div className="d-shame-body" style={{ padding: "12px 16px" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          borderRadius: 4,
+                          padding: "4px 12px",
+                          fontSize: 10,
+                          fontWeight: 700,
+                          fontFamily: "var(--font-accent)",
+                          color: "#fff",
+                          background: forge.is_epic ? "#7B2D8E" : "#457B9D",
+                          border: "2px solid #2B2D42",
+                        }}
+                      >
+                        {forge.is_epic ? "EPIC" : forge.style}
+                      </span>
+                      <span style={{ fontSize: 11, color: "#ADB5BD", fontFamily: "var(--font-accent)" }}>
+                        {new Date(forge.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="d-divider-gradient" style={{ marginBottom: 32 }} />
+            <div style={{ textAlign: "center", marginBottom: 24 }}>
+              <h2 className="d-heading d-heading-sm">
+                Plus our curated favorites
+              </h2>
+            </div>
+          </>
+        )}
 
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

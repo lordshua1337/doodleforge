@@ -1,8 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { loadVault, saveVault, removeFromVault, type VaultState, type VaultEntry } from "@/lib/vault-data";
+import { useSession } from "@/lib/auth/session-context";
+import {
+  loadVault,
+  saveVault,
+  removeFromVault,
+  hasLocalVaultEntries,
+  wasVaultMigrated,
+  migrateLocalVaultToDb,
+  type VaultState,
+  type VaultEntry,
+  type DbVaultEntry,
+} from "@/lib/vault-data";
 
 function Check() {
   return (
@@ -17,7 +28,127 @@ function formatDate(iso: string): string {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
-function VaultCard({
+// ---------------------------------------------------------------------------
+// DB-backed vault card
+// ---------------------------------------------------------------------------
+function DbVaultCard({
+  entry,
+  onRemove,
+}: {
+  entry: DbVaultEntry;
+  onRemove: (id: string) => void;
+}) {
+  const colors = ["#E63946", "#7B2D8E", "#06D6A0", "#FFD166", "#457B9D"];
+  const color = colors[entry.display_order % colors.length];
+  const forge = entry.forges;
+
+  return (
+    <div
+      style={{
+        border: "3px solid #2B2D42",
+        borderRadius: 8,
+        background: "#FFF8F0",
+        overflow: "hidden",
+        transition: "transform 0.2s",
+      }}
+    >
+      {/* Color bar */}
+      <div style={{ height: 6, background: color }} />
+
+      {/* Image preview */}
+      {forge?.result_url && (
+        <div style={{ aspectRatio: "4/3", overflow: "hidden", borderBottom: "2px solid #E5D5C3" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={forge.result_url}
+            alt={entry.title}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+        </div>
+      )}
+
+      <div style={{ padding: 20 }}>
+        <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 12 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ fontSize: 15, fontWeight: 700, color: "#2B2D42", marginBottom: 4, lineHeight: 1.4, fontFamily: "var(--font-display)" }}>
+              {entry.title}
+            </p>
+            <p style={{ fontSize: 12, color: "#ADB5BD", marginBottom: 8, fontFamily: "var(--font-accent)" }}>
+              {forge?.style && <span style={{ textTransform: "capitalize" }}>{forge.style}</span>}
+              {forge?.style && " -- "}
+              Saved {formatDate(entry.created_at)}
+            </p>
+          </div>
+          <button
+            onClick={() => onRemove(entry.id)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 28,
+              height: 28,
+              borderRadius: 6,
+              border: "2px solid #E63946",
+              background: "rgba(230,57,70,0.08)",
+              color: "#E63946",
+              cursor: "pointer",
+              fontSize: 14,
+              flexShrink: 0,
+              transition: "all 0.2s",
+              fontFamily: "inherit",
+            }}
+            aria-label="Remove from vault"
+          >
+            &#x2715;
+          </button>
+        </div>
+
+        {/* Status pills */}
+        <div style={{ display: "flex", gap: 6 }}>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "3px 10px",
+              borderRadius: 4,
+              fontSize: 10,
+              fontWeight: 700,
+              fontFamily: "var(--font-accent)",
+              background: "rgba(6,214,160,0.15)",
+              color: "#06D6A0",
+              border: "1px solid #06D6A0",
+            }}
+          >
+            <Check /> Saved
+          </span>
+          {forge?.is_epic && (
+            <span
+              style={{
+                display: "inline-flex",
+                padding: "3px 10px",
+                borderRadius: 4,
+                fontSize: 10,
+                fontWeight: 700,
+                fontFamily: "var(--font-accent)",
+                background: "rgba(123,45,142,0.15)",
+                color: "#7B2D8E",
+                border: "1px solid #7B2D8E",
+              }}
+            >
+              EPIC
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Legacy localStorage vault card (unchanged from original)
+// ---------------------------------------------------------------------------
+function LocalVaultCard({
   entry,
   onRemove,
 }: {
@@ -37,9 +168,7 @@ function VaultCard({
         transition: "transform 0.2s",
       }}
     >
-      {/* Color bar */}
       <div style={{ height: 6, background: color }} />
-
       <div style={{ padding: 20 }}>
         <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 12 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -73,8 +202,6 @@ function VaultCard({
             &#x2715;
           </button>
         </div>
-
-        {/* Status pill */}
         <span
           style={{
             display: "inline-flex",
@@ -97,22 +224,70 @@ function VaultCard({
   );
 }
 
+// ---------------------------------------------------------------------------
+// Main page
+// ---------------------------------------------------------------------------
 export default function VaultPage() {
+  const { user, loading: authLoading } = useSession();
   const [vault, setVault] = useState<VaultState | null>(null);
+  const [dbEntries, setDbEntries] = useState<DbVaultEntry[]>([]);
+  const [loadingDb, setLoadingDb] = useState(false);
+  const [migrating, setMigrating] = useState(false);
 
+  const isAuthenticated = !!user;
+
+  // Load vault data
   useEffect(() => {
-    setVault(loadVault());
+    if (authLoading) return;
+
+    if (isAuthenticated) {
+      setLoadingDb(true);
+      fetch("/api/vault")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          setDbEntries(data?.entries ?? []);
+          setLoadingDb(false);
+
+          // Trigger migration if localStorage has entries and not yet migrated
+          if (hasLocalVaultEntries() && !wasVaultMigrated()) {
+            setMigrating(true);
+            migrateLocalVaultToDb().then(() => {
+              setMigrating(false);
+              // Reload DB entries after migration
+              fetch("/api/vault")
+                .then((res) => (res.ok ? res.json() : null))
+                .then((data2) => setDbEntries(data2?.entries ?? []));
+            });
+          }
+        })
+        .catch(() => setLoadingDb(false));
+    } else {
+      setVault(loadVault());
+    }
+  }, [isAuthenticated, authLoading]);
+
+  // Handlers
+  const handleRemoveLocal = useCallback((entryId: string) => {
+    setVault((prev) => {
+      if (!prev) return prev;
+      const updated = removeFromVault(prev, entryId);
+      saveVault(updated);
+      return updated;
+    });
   }, []);
 
-  function handleRemove(entryId: string) {
-    if (!vault) return;
-    const updated = removeFromVault(vault, entryId);
-    saveVault(updated);
-    setVault(updated);
-  }
+  const handleRemoveDb = useCallback(async (entryId: string) => {
+    const res = await fetch(`/api/vault?id=${entryId}`, { method: "DELETE" });
+    if (res.ok) {
+      setDbEntries((prev) => prev.filter((e) => e.id !== entryId));
+    }
+  }, []);
 
-  const entries = vault?.entries ?? [];
-  const hasEntries = entries.length > 0;
+  // Determine entries to display
+  const localEntries = vault?.entries ?? [];
+  const hasEntries = isAuthenticated ? dbEntries.length > 0 : localEntries.length > 0;
+  const entryCount = isAuthenticated ? dbEntries.length : localEntries.length;
+  const isLoading = authLoading || loadingDb;
 
   return (
     <div className="relative z-10 min-h-screen">
@@ -124,7 +299,7 @@ export default function VaultPage() {
             {hasEntries ? (
               <>
                 Your saved drawings.<br />
-                <span style={{ color: "#7B2D8E" }}>{entries.length} and counting.</span>
+                <span style={{ color: "#7B2D8E" }}>{entryCount} and counting.</span>
               </>
             ) : (
               <>
@@ -135,36 +310,77 @@ export default function VaultPage() {
           </h1>
           <p className="d-body-lg" style={{ maxWidth: 560, margin: "0 auto 16px" }}>
             {hasEntries
-              ? "Everything you've saved from the gallery lives here. Organized, safe, and ready to transform."
+              ? "Everything you've saved lives here. Organized, safe, and ready to transform."
               : "Every parent has a drawer. The drawer is full. The guilt is real. You know you've thrown away drawings when they weren't looking."}
           </p>
           {!hasEntries && (
             <p className="d-body-sm" style={{ maxWidth: 480, margin: "0 auto 40px" }}>
-              Head to the Gallery, open any artwork, and tap &ldquo;Save to Vault&rdquo; to start collecting.
+              {isAuthenticated
+                ? "Create a forge, then save it to your vault."
+                : "Head to the Gallery, open any artwork, and tap \"Save to Vault\" to start collecting."}
             </p>
           )}
-          <Link href="/gallery" className="d-btn-primary">
-            {hasEntries ? "Browse Gallery" : "Start Saving"}
+          <Link href={isAuthenticated ? "/create" : "/gallery"} className="d-btn-primary">
+            {hasEntries ? (isAuthenticated ? "Create More" : "Browse Gallery") : "Start Saving"}
           </Link>
         </div>
       </section>
 
       <div className="d-divider-gradient" />
 
-      {/* Saved Items */}
-      {hasEntries && (
+      {/* Migration banner */}
+      {migrating && (
+        <div style={{ padding: "12px 24px", textAlign: "center", background: "rgba(123,45,142,0.1)", borderBottom: "2px solid #7B2D8E" }}>
+          <p style={{ fontSize: 14, color: "#7B2D8E", fontWeight: 600 }}>
+            Migrating your saved drawings to the cloud...
+          </p>
+        </div>
+      )}
+
+      {/* Loading */}
+      {isLoading && (
+        <div className="d-section" style={{ background: "#FFF8F0", textAlign: "center" }}>
+          <p style={{ color: "#ADB5BD" }}>Loading your vault...</p>
+        </div>
+      )}
+
+      {/* DB-backed entries (authenticated) */}
+      {!isLoading && isAuthenticated && hasEntries && (
         <div className="d-section" style={{ background: "#FFF8F0" }}>
           <div className="d-container-md">
             <div className="d-center d-mb-2xl">
               <p className="d-eyebrow d-eyebrow-blue">Your Collection</p>
               <h2 className="d-heading d-heading-md" style={{ marginBottom: 8 }}>
-                {entries.length} {entries.length === 1 ? "drawing" : "drawings"} saved
+                {entryCount} {entryCount === 1 ? "drawing" : "drawings"} saved
               </h2>
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
-              {[...entries].reverse().map((entry) => (
-                <VaultCard key={entry.id} entry={entry} onRemove={handleRemove} />
+              {dbEntries.map((entry) => (
+                <DbVaultCard key={entry.id} entry={entry} onRemove={handleRemoveDb} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* LocalStorage entries (unauthenticated) */}
+      {!isLoading && !isAuthenticated && hasEntries && (
+        <div className="d-section" style={{ background: "#FFF8F0" }}>
+          <div className="d-container-md">
+            <div className="d-center d-mb-2xl">
+              <p className="d-eyebrow d-eyebrow-blue">Your Collection</p>
+              <h2 className="d-heading d-heading-md" style={{ marginBottom: 8 }}>
+                {entryCount} {entryCount === 1 ? "drawing" : "drawings"} saved
+              </h2>
+              <p className="d-body-sm" style={{ maxWidth: 480, margin: "8px auto 0" }}>
+                <Link href="/auth" style={{ color: "#7B2D8E", fontWeight: 600 }}>Sign in</Link> to sync your vault across devices.
+              </p>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
+              {[...localEntries].reverse().map((entry) => (
+                <LocalVaultCard key={entry.id} entry={entry} onRemove={handleRemoveLocal} />
               ))}
             </div>
           </div>
@@ -172,7 +388,7 @@ export default function VaultPage() {
       )}
 
       {/* Empty state */}
-      {!hasEntries && (
+      {!isLoading && !hasEntries && (
         <div className="d-section" style={{ background: "#FFF8F0" }}>
           <div className="d-container">
             <div className="d-grid d-grid-2" style={{ alignItems: "center" }}>

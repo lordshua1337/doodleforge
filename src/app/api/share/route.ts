@@ -39,6 +39,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: parsed.error.issues }, { status: 400 })
     }
 
+    // Ownership validation: verify all forge_ids belong to this user
+    if (parsed.data.forge_ids.length > 0) {
+      const { data: ownedForges } = await adminClient
+        .from('forges')
+        .select('id')
+        .eq('user_id', user.id)
+        .in('id', parsed.data.forge_ids)
+
+      const ownedIds = new Set((ownedForges ?? []).map((f) => f.id))
+      const unowned = parsed.data.forge_ids.filter((id) => !ownedIds.has(id))
+
+      if (unowned.length > 0) {
+        return NextResponse.json(
+          { error: 'You can only share your own forges' },
+          { status: 403 }
+        )
+      }
+    }
+
     const token = crypto.randomBytes(16).toString('hex')
 
     const { data: link, error } = await adminClient

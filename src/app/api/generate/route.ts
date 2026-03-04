@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { config } from "@/lib/config";
 import { uploadToR2 } from "@/lib/r2";
 import { getUser } from "@/lib/auth/server";
-import { getCredits, useCredit } from "@/lib/credits/system";
+import { getCredits, useCredit, refundCredit } from "@/lib/credits/system";
+import { adminClient } from "@/lib/supabase/client";
 
 const STYLE_PROMPTS: Record<string, string> = {
   oil: "Transform this child's drawing into a museum-quality oil painting. Rich brushstrokes, classical composition, dramatic lighting. Maintain the original subject and scene but elevate it to fine art quality.",
@@ -20,6 +21,14 @@ const STYLE_PROMPTS: Record<string, string> = {
     "Transform this child's drawing into Studio Ghibli style art. Soft colors, magical atmosphere, detailed nature elements, warm and whimsical. Same subject, Ghibli magic.",
   realistic:
     "Transform this child's drawing into a photorealistic image. Hyper-detailed, realistic textures and lighting, as if photographed. Same subject, photorealistic rendering.",
+  "stained-glass":
+    "Transform this child's drawing into a stained glass window design. Rich jewel tones, lead-line outlines, cathedral window patterns, luminous backlit colors. Same subject, stained glass art style.",
+  cartoon:
+    "Transform this child's drawing into a professional cartoon illustration. Bold outlines, vibrant flat colors, Saturday morning animation quality, fun and energetic. Same subject, cartoon style.",
+  "pencil-sketch":
+    "Transform this child's drawing into a refined pencil sketch. Detailed graphite shading, cross-hatching, elegant line work, fine art quality. Same subject, pencil sketch style.",
+  fantasy:
+    "Transform this child's drawing into epic fantasy art. Dramatic lighting, magical elements, cinematic composition, Lord of the Rings quality. Same subject, fantasy epic style.",
 };
 
 // EPIC mode uses higher settings -- costs 2 credits
@@ -98,6 +107,37 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    // Create a forge record before generation starts
+    const { data: forge } = await adminClient
+      .from("forges")
+      .insert({
+        user_id: user.id,
+        style,
+        is_epic: isEpic,
+        status: "generating",
+        prompt_used: STYLE_PROMPTS[style],
+      })
+      .select("id")
+      .single();
+
+    const forgeId = forge?.id ?? `forge-${Date.now()}`;
+
+    // Deduct credit before generation
+    const creditUsed = await useCredit(user.id, forgeId, isEpic);
+    if (!creditUsed) {
+      // Credits depleted between check and use
+      if (forge) {
+        await adminClient
+          .from("forges")
+          .update({ status: "failed" })
+          .eq("id", forgeId);
+      }
+      return NextResponse.json(
+        { error: "Credits depleted. Please purchase more.", upgrade_url: "/pricing" },
+        { status: 402 }
+      );
+    }
+
     // Convert file to base64 data URI for Replicate
     const bytes = await image.arrayBuffer();
     const base64 = Buffer.from(bytes).toString("base64");
@@ -105,8 +145,44 @@ export async function POST(request: NextRequest) {
 
     const prompt = STYLE_PROMPTS[style];
 
+    // Upload original to R2 if configured
+    let originalUrl = "";
+    if (config.r2.accountId && config.r2.accessKeyId) {
+      try {
+        const originalFileName = `originals/${user.id}/${Date.now()}-${image.name}`;
+        originalUrl = await uploadToR2(Buffer.from(bytes), originalFileName, image.type);
+      } catch (r2Error) {
+        console.error("R2 original upload failed:", r2Error);
+      }
+    }
+
+    // Create drawing record
+    let drawingId: string | null = null;
+    if (originalUrl) {
+      const { data: drawing } = await adminClient
+        .from("drawings")
+        .insert({
+          user_id: user.id,
+          original_url: originalUrl,
+          file_name: image.name,
+          file_size: image.size,
+        })
+        .select("id")
+        .single();
+
+      drawingId = drawing?.id ?? null;
+    }
+
+    // Link forge to drawing
+    if (drawingId && forge) {
+      await adminClient
+        .from("forges")
+        .update({ drawing_id: drawingId })
+        .eq("id", forgeId);
+    }
+
     // Create prediction using Replicate's ControlNet Scribble model
-    // This preserves the child's original composition (85%+ fidelity)
+    const startTime = Date.now();
     const createRes = await fetch(REPLICATE_API, {
       method: "POST",
       headers: {
@@ -132,6 +208,14 @@ export async function POST(request: NextRequest) {
     if (!createRes.ok) {
       const errorText = await createRes.text();
       console.error("Replicate create error:", createRes.status, errorText);
+      // Refund credit on generation failure
+      await refundCredit(user.id, cost, "Generation failed (API error)");
+      if (forge) {
+        await adminClient
+          .from("forges")
+          .update({ status: "failed" })
+          .eq("id", forgeId);
+      }
       return NextResponse.json(
         { error: "Image generation failed. Please try again." },
         { status: 500 }
@@ -141,7 +225,7 @@ export async function POST(request: NextRequest) {
     let prediction = await createRes.json();
 
     // If the prediction is still processing, poll for the result
-    if (prediction.status !== "succeeded" && prediction.status !== "failed") {
+    if (prediction.status !== "succeeded" && prediction.status !== "failed" && prediction.urls?.get) {
       for (let attempt = 0; attempt < MAX_POLL_ATTEMPTS; attempt++) {
         await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
 
@@ -166,6 +250,13 @@ export async function POST(request: NextRequest) {
 
     if (prediction.status === "failed") {
       console.error("Replicate generation failed:", prediction.error);
+      await refundCredit(user.id, cost, "Generation failed (model error)");
+      if (forge) {
+        await adminClient
+          .from("forges")
+          .update({ status: "failed" })
+          .eq("id", forgeId);
+      }
       return NextResponse.json(
         { error: "Image generation failed. Please try again." },
         { status: 500 }
@@ -173,6 +264,13 @@ export async function POST(request: NextRequest) {
     }
 
     if (prediction.status !== "succeeded" || !prediction.output) {
+      await refundCredit(user.id, cost, "Generation timed out");
+      if (forge) {
+        await adminClient
+          .from("forges")
+          .update({ status: "failed" })
+          .eq("id", forgeId);
+      }
       return NextResponse.json(
         { error: "Generation timed out. Please try again." },
         { status: 500 }
@@ -190,7 +288,7 @@ export async function POST(request: NextRequest) {
       try {
         const imageRes = await fetch(outputUrl);
         const imageBuffer = Buffer.from(await imageRes.arrayBuffer());
-        const fileName = `${style}-${Date.now()}.png`;
+        const fileName = `forges/${user.id}/${style}-${Date.now()}.png`;
         finalUrl = await uploadToR2(imageBuffer, fileName, "image/png");
       } catch (r2Error) {
         // R2 upload failed, fall back to Replicate URL
@@ -198,15 +296,18 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Deduct credit after successful generation
-    const forgeId = `forge-${Date.now()}`;
-    const creditUsed = await useCredit(user.id, forgeId, isEpic);
-    if (!creditUsed) {
-      // Rare race condition -- credits depleted between check and use
-      return NextResponse.json(
-        { error: "Credits depleted. Please purchase more.", upgrade_url: "/pricing" },
-        { status: 402 }
-      );
+    const generationTimeMs = Date.now() - startTime;
+
+    // Update forge record with result
+    if (forge) {
+      await adminClient
+        .from("forges")
+        .update({
+          result_url: finalUrl,
+          status: "complete",
+          generation_time_ms: generationTimeMs,
+        })
+        .eq("id", forgeId);
     }
 
     const remainingCredits = await getCredits(user.id);
@@ -215,6 +316,7 @@ export async function POST(request: NextRequest) {
       imageUrl: finalUrl,
       mode: "live",
       credits_remaining: remainingCredits,
+      forge_id: forgeId,
     });
   } catch (error) {
     console.error("Generate error:", error);

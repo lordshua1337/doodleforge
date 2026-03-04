@@ -71,6 +71,14 @@ export async function useCredit(userId: string, forgeId: string, isEpic: boolean
   return true
 }
 
+export async function refundCredit(
+  userId: string,
+  amount: number,
+  reason: string
+): Promise<number> {
+  return grantCredits(userId, amount, 'refund', `Refund: ${reason}`)
+}
+
 export async function grantCredits(
   userId: string,
   amount: number,

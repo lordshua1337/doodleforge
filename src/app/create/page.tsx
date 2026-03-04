@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useSession } from "@/lib/auth/session-context";
 
 const STYLES = [
   { id: "oil", name: "Oil Painting", desc: "Classic museum vibes", color: "#E63946" },
@@ -37,10 +38,25 @@ export default function CreatePage() {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [forgeId, setForgeId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
+  const [showSuccess, setShowSuccess] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { credits, refreshCredits } = useSession();
+
+  // Check for Stripe success redirect
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("success") === "true") {
+      setShowSuccess(true);
+      refreshCredits();
+      // Clean URL
+      window.history.replaceState({}, "", "/create");
+      setTimeout(() => setShowSuccess(false), 5000);
+    }
+  }, [refreshCredits]);
 
   useEffect(() => {
     if (step !== "generating") return;
@@ -101,6 +117,8 @@ export default function CreatePage() {
 
       const data = await res.json();
       setResultUrl(data.imageUrl);
+      setForgeId(data.forge_id ?? null);
+      refreshCredits();
       setStep("result");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Try again.");
@@ -114,12 +132,55 @@ export default function CreatePage() {
     setPreview(null);
     setSelectedStyle(null);
     setResultUrl(null);
+    setForgeId(null);
     setError(null);
   };
 
   return (
     <div className="relative z-10 min-h-screen">
       <div className="d-hero mx-auto max-w-3xl px-6">
+        {/* Success banner after Stripe purchase */}
+        {showSuccess && (
+          <div
+            style={{
+              padding: "12px 24px",
+              marginBottom: 24,
+              borderRadius: 8,
+              border: "2px solid #06D6A0",
+              background: "rgba(6,214,160,0.1)",
+              textAlign: "center",
+              fontSize: 14,
+              fontWeight: 600,
+              color: "#06D6A0",
+            }}
+          >
+            Credits added! You now have {credits >= 999 ? "unlimited" : credits} credits.
+          </div>
+        )}
+
+        {/* Credit balance */}
+        {credits > 0 && step === "upload" && (
+          <div style={{ textAlign: "center", marginBottom: 16 }}>
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "6px 16px",
+                borderRadius: 6,
+                border: "2px solid #2B2D42",
+                background: "#FFF8F0",
+                fontSize: 13,
+                fontWeight: 700,
+                color: "#2B2D42",
+                fontFamily: "var(--font-gaegu), cursive",
+              }}
+            >
+              Credits: {credits >= 999 ? "Unlimited" : credits}
+            </span>
+          </div>
+        )}
+
         {/* Progress -- craft pills */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 48 }}>
           <ProgressDot active={step === "upload"} done={step !== "upload"} label="Upload" color="#E63946" />
