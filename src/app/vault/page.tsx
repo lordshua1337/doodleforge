@@ -23,60 +23,108 @@ function Check() {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Date grouping helpers
+// ---------------------------------------------------------------------------
+
 function formatDate(iso: string): string {
   const d = new Date(iso);
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
+function getDateKey(iso: string): string {
+  return new Date(iso).toISOString().slice(0, 10);
+}
+
+function formatDateLabel(dateKey: string): string {
+  const d = new Date(dateKey + "T12:00:00");
+  const today = new Date();
+  const todayKey = today.toISOString().slice(0, 10);
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayKey = yesterday.toISOString().slice(0, 10);
+
+  if (dateKey === todayKey) return "Today";
+  if (dateKey === yesterdayKey) return "Yesterday";
+
+  return d.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function getDateParts(dateKey: string): { day: string; month: string } {
+  const d = new Date(dateKey + "T12:00:00");
+  return {
+    day: String(d.getDate()),
+    month: d.toLocaleDateString("en-US", { month: "short" }),
+  };
+}
+
+interface DateGroup<T> {
+  readonly dateKey: string;
+  readonly entries: readonly T[];
+}
+
+function groupByDate<T>(items: readonly T[], getDate: (item: T) => string): readonly DateGroup<T>[] {
+  const groups = new Map<string, T[]>();
+  for (const item of items) {
+    const key = getDateKey(getDate(item));
+    const existing = groups.get(key);
+    if (existing) {
+      existing.push(item);
+    } else {
+      groups.set(key, [item]);
+    }
+  }
+
+  // Sort groups newest first
+  return Array.from(groups.entries())
+    .sort((a, b) => b[0].localeCompare(a[0]))
+    .map(([dateKey, entries]) => ({ dateKey, entries }));
+}
+
 // ---------------------------------------------------------------------------
-// DB-backed vault card
+// Timeline badge colors (cycles through DoodleForge palette)
 // ---------------------------------------------------------------------------
-function DbVaultCard({
+
+const BADGE_COLORS = ["#E63946", "#7B2D8E", "#06D6A0", "#FFD166", "#457B9D"];
+
+// ---------------------------------------------------------------------------
+// DB-backed timeline card
+// ---------------------------------------------------------------------------
+
+function DbTimelineCard({
   entry,
   onRemove,
 }: {
   entry: DbVaultEntry;
   onRemove: (id: string) => void;
 }) {
-  const colors = ["#E63946", "#7B2D8E", "#06D6A0", "#FFD166", "#457B9D"];
-  const color = colors[entry.display_order % colors.length];
   const forge = entry.forges;
 
   return (
-    <div
-      style={{
-        border: "3px solid #2B2D42",
-        borderRadius: 8,
-        background: "#FFF8F0",
-        overflow: "hidden",
-        transition: "transform 0.2s",
-      }}
-    >
-      {/* Color bar */}
-      <div style={{ height: 6, background: color }} />
-
-      {/* Image preview */}
+    <div className="d-vault-timeline-card">
       {forge?.result_url && (
-        <div style={{ aspectRatio: "4/3", overflow: "hidden", borderBottom: "2px solid #E5D5C3" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={forge.result_url}
-            alt={entry.title}
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-          />
-        </div>
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={forge.result_url}
+          alt={entry.title}
+          className="d-vault-timeline-thumb"
+        />
       )}
-
-      <div style={{ padding: 20 }}>
+      <div className="d-vault-timeline-content">
         <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 12 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: 15, fontWeight: 700, color: "#2B2D42", marginBottom: 4, lineHeight: 1.4, fontFamily: "var(--font-display)" }}>
+            <p style={{ fontSize: 15, fontWeight: 700, color: "#2B2D42", marginBottom: 2, lineHeight: 1.4, fontFamily: "var(--font-display)" }}>
               {entry.title}
             </p>
-            <p style={{ fontSize: 12, color: "#ADB5BD", marginBottom: 8, fontFamily: "var(--font-accent)" }}>
+            <p style={{ fontSize: 12, color: "#ADB5BD", fontFamily: "var(--font-accent)" }}>
               {forge?.style && <span style={{ textTransform: "capitalize" }}>{forge.style}</span>}
               {forge?.style && " -- "}
-              Saved {formatDate(entry.created_at)}
+              {formatDate(entry.created_at)}
             </p>
           </div>
           <button
@@ -85,14 +133,14 @@ function DbVaultCard({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              width: 28,
-              height: 28,
+              width: 24,
+              height: 24,
               borderRadius: 6,
               border: "2px solid #E63946",
               background: "rgba(230,57,70,0.08)",
               color: "#E63946",
               cursor: "pointer",
-              fontSize: 14,
+              fontSize: 12,
               flexShrink: 0,
               transition: "all 0.2s",
               fontFamily: "inherit",
@@ -104,15 +152,15 @@ function DbVaultCard({
         </div>
 
         {/* Status pills */}
-        <div style={{ display: "flex", gap: 6 }}>
+        <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
           <span
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: 4,
-              padding: "3px 10px",
+              padding: "2px 8px",
               borderRadius: 4,
-              fontSize: 10,
+              fontSize: 9,
               fontWeight: 700,
               fontFamily: "var(--font-accent)",
               background: "rgba(6,214,160,0.15)",
@@ -126,9 +174,9 @@ function DbVaultCard({
             <span
               style={{
                 display: "inline-flex",
-                padding: "3px 10px",
+                padding: "2px 8px",
                 borderRadius: 4,
-                fontSize: 10,
+                fontSize: 9,
                 fontWeight: 700,
                 fontFamily: "var(--font-accent)",
                 background: "rgba(123,45,142,0.15)",
@@ -146,37 +194,26 @@ function DbVaultCard({
 }
 
 // ---------------------------------------------------------------------------
-// Legacy localStorage vault card (unchanged from original)
+// Legacy localStorage timeline card
 // ---------------------------------------------------------------------------
-function LocalVaultCard({
+
+function LocalTimelineCard({
   entry,
   onRemove,
 }: {
   entry: VaultEntry;
   onRemove: (id: string) => void;
 }) {
-  const colors = ["#E63946", "#7B2D8E", "#06D6A0", "#FFD166", "#457B9D"];
-  const color = colors[entry.galleryIndex % colors.length];
-
   return (
-    <div
-      style={{
-        border: "3px solid #2B2D42",
-        borderRadius: 8,
-        background: "#FFF8F0",
-        overflow: "hidden",
-        transition: "transform 0.2s",
-      }}
-    >
-      <div style={{ height: 6, background: color }} />
-      <div style={{ padding: 20 }}>
+    <div className="d-vault-timeline-card">
+      <div className="d-vault-timeline-content">
         <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 12 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: 15, fontWeight: 700, color: "#2B2D42", marginBottom: 4, lineHeight: 1.4, fontFamily: "var(--font-display)" }}>
+            <p style={{ fontSize: 15, fontWeight: 700, color: "#2B2D42", marginBottom: 2, lineHeight: 1.4, fontFamily: "var(--font-display)" }}>
               {entry.title}
             </p>
-            <p style={{ fontSize: 12, color: "#ADB5BD", marginBottom: 8, fontFamily: "var(--font-accent)" }}>
-              {entry.artist} -- Saved {formatDate(entry.savedAt)}
+            <p style={{ fontSize: 12, color: "#ADB5BD", fontFamily: "var(--font-accent)" }}>
+              {entry.artist} -- {formatDate(entry.savedAt)}
             </p>
           </div>
           <button
@@ -185,14 +222,14 @@ function LocalVaultCard({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              width: 28,
-              height: 28,
+              width: 24,
+              height: 24,
               borderRadius: 6,
               border: "2px solid #E63946",
               background: "rgba(230,57,70,0.08)",
               color: "#E63946",
               cursor: "pointer",
-              fontSize: 14,
+              fontSize: 12,
               flexShrink: 0,
               transition: "all 0.2s",
               fontFamily: "inherit",
@@ -202,24 +239,64 @@ function LocalVaultCard({
             &#x2715;
           </button>
         </div>
-        <span
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 4,
-            padding: "3px 10px",
-            borderRadius: 4,
-            fontSize: 10,
-            fontWeight: 700,
-            fontFamily: "var(--font-accent)",
-            background: "rgba(6,214,160,0.15)",
-            color: "#06D6A0",
-            border: "1px solid #06D6A0",
-          }}
-        >
-          <Check /> Saved
-        </span>
+        <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "2px 8px",
+              borderRadius: 4,
+              fontSize: 9,
+              fontWeight: 700,
+              fontFamily: "var(--font-accent)",
+              background: "rgba(6,214,160,0.15)",
+              color: "#06D6A0",
+              border: "1px solid #06D6A0",
+            }}
+          >
+            <Check /> Saved
+          </span>
+        </div>
       </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Timeline renderer (generic -- works for both DB and local entries)
+// ---------------------------------------------------------------------------
+
+function VaultTimeline<T>({
+  groups,
+  renderCard,
+  getKey,
+}: {
+  groups: readonly DateGroup<T>[];
+  renderCard: (entry: T) => React.ReactNode;
+  getKey: (entry: T) => string;
+}) {
+  return (
+    <div className="d-vault-timeline">
+      {groups.map((group, gi) => {
+        const { day, month } = getDateParts(group.dateKey);
+        const color = BADGE_COLORS[gi % BADGE_COLORS.length];
+
+        return (
+          <div key={group.dateKey} className="d-vault-date-group">
+            <div className="d-vault-date-badge" style={{ background: color }}>
+              <span className="d-vault-date-badge-day">{day}</span>
+              <span className="d-vault-date-badge-month">{month}</span>
+            </div>
+            <p className="d-vault-date-label">{formatDateLabel(group.dateKey)}</p>
+            <div className="d-vault-date-entries">
+              {group.entries.map((entry) => (
+                <div key={getKey(entry)}>{renderCard(entry)}</div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -227,6 +304,7 @@ function LocalVaultCard({
 // ---------------------------------------------------------------------------
 // Main page
 // ---------------------------------------------------------------------------
+
 export default function VaultPage() {
   const { user, loading: authLoading } = useSession();
   const [vault, setVault] = useState<VaultState | null>(null);
@@ -289,6 +367,10 @@ export default function VaultPage() {
   const entryCount = isAuthenticated ? dbEntries.length : localEntries.length;
   const isLoading = authLoading || loadingDb;
 
+  // Group entries by date for timeline
+  const dbGroups = groupByDate(dbEntries, (e) => e.created_at);
+  const localGroups = groupByDate([...localEntries].reverse(), (e) => e.savedAt);
+
   return (
     <div className="relative z-10 min-h-screen">
       {/* Hero */}
@@ -310,7 +392,7 @@ export default function VaultPage() {
           </h1>
           <p className="d-body-lg" style={{ maxWidth: 560, margin: "0 auto 16px" }}>
             {hasEntries
-              ? "Everything you've saved lives here. Organized, safe, and ready to transform."
+              ? "Everything you've saved lives here. Organized by date, safe, and ready to transform."
               : "Every parent has a drawer. The drawer is full. The guilt is real. You know you've thrown away drawings when they weren't looking."}
           </p>
           {!hasEntries && (
@@ -344,7 +426,7 @@ export default function VaultPage() {
         </div>
       )}
 
-      {/* DB-backed entries (authenticated) */}
+      {/* DB-backed entries (authenticated) -- Timeline layout */}
       {!isLoading && isAuthenticated && hasEntries && (
         <div className="d-section" style={{ background: "#FFF8F0" }}>
           <div className="d-container-md">
@@ -355,16 +437,18 @@ export default function VaultPage() {
               </h2>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
-              {dbEntries.map((entry) => (
-                <DbVaultCard key={entry.id} entry={entry} onRemove={handleRemoveDb} />
-              ))}
-            </div>
+            <VaultTimeline
+              groups={dbGroups}
+              renderCard={(entry: DbVaultEntry) => (
+                <DbTimelineCard entry={entry} onRemove={handleRemoveDb} />
+              )}
+              getKey={(entry: DbVaultEntry) => entry.id}
+            />
           </div>
         </div>
       )}
 
-      {/* LocalStorage entries (unauthenticated) */}
+      {/* LocalStorage entries (unauthenticated) -- Timeline layout */}
       {!isLoading && !isAuthenticated && hasEntries && (
         <div className="d-section" style={{ background: "#FFF8F0" }}>
           <div className="d-container-md">
@@ -378,11 +462,13 @@ export default function VaultPage() {
               </p>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
-              {[...localEntries].reverse().map((entry) => (
-                <LocalVaultCard key={entry.id} entry={entry} onRemove={handleRemoveLocal} />
-              ))}
-            </div>
+            <VaultTimeline
+              groups={localGroups}
+              renderCard={(entry: VaultEntry) => (
+                <LocalTimelineCard entry={entry} onRemove={handleRemoveLocal} />
+              )}
+              getKey={(entry: VaultEntry) => entry.id}
+            />
           </div>
         </div>
       )}
@@ -410,24 +496,48 @@ export default function VaultPage() {
                 <Link href="/gallery" className="d-btn-primary">Browse the Gallery</Link>
               </div>
 
-              {/* Mock UI */}
+              {/* Mock timeline UI */}
               <div style={{ border: "3px solid #2B2D42", borderRadius: 8, padding: 32, background: "#FFFFFF", boxShadow: "4px 4px 0px #2B2D42" }}>
                 <div style={{ marginBottom: 16 }}>
                   <p style={{ fontSize: 16, fontWeight: 700, color: "#2B2D42", marginBottom: 4, fontFamily: "var(--font-display)" }}>Your Vault</p>
                   <p style={{ fontSize: 12, color: "#ADB5BD" }}>Save artwork to see it here</p>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                  {["Monday blob", "Tuesday scribble", "Wednesday... cat?"].map((name, i) => (
-                    <div key={name} className="d-vault-row" style={{ opacity: 0.5 }}>
-                      <div className="d-vault-day" style={{ background: ["#E63946", "#7B2D8E", "#06D6A0"][i] }}>
-                        {["M", "T", "W"][i]}
+                <div style={{ position: "relative", paddingLeft: 40 }}>
+                  {/* Mini timeline line */}
+                  <div style={{ position: "absolute", left: 15, top: 0, bottom: 0, width: 2, background: "linear-gradient(to bottom, #E63946, #7B2D8E, #06D6A0)", borderRadius: 999 }} />
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    {[
+                      { name: "Monday blob", badge: "4", month: "Mar", color: "#E63946" },
+                      { name: "Tuesday scribble", badge: "3", month: "Mar", color: "#7B2D8E" },
+                      { name: "Wednesday... cat?", badge: "2", month: "Mar", color: "#06D6A0" },
+                    ].map((item) => (
+                      <div key={item.name} style={{ display: "flex", alignItems: "center", gap: 12, opacity: 0.5 }}>
+                        <div style={{
+                          position: "absolute",
+                          left: -40 + 40,
+                          marginLeft: -24,
+                          width: 32,
+                          height: 32,
+                          borderRadius: 6,
+                          background: item.color,
+                          border: "2px solid #2B2D42",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "#fff",
+                          zIndex: 2,
+                        }}>
+                          <span style={{ fontSize: 12, fontWeight: 700, lineHeight: 1, fontFamily: "var(--font-display)" }}>{item.badge}</span>
+                          <span style={{ fontSize: 6, fontWeight: 600, lineHeight: 1, fontFamily: "var(--font-display)" }}>{item.month}</span>
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0, marginLeft: 16 }}>
+                          <p style={{ fontSize: 14, fontWeight: 700, color: "#2B2D42", fontFamily: "var(--font-display)" }}>{item.name}</p>
+                          <p style={{ fontSize: 12, color: "#ADB5BD" }}>Example -- Emma, age 5</p>
+                        </div>
                       </div>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ fontSize: 14, fontWeight: 700, color: "#2B2D42", fontFamily: "var(--font-display)" }}>{name}</p>
-                        <p style={{ fontSize: 12, color: "#ADB5BD" }}>Example -- Emma, age 5</p>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
