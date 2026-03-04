@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { PageTransition } from "@/components/page-transition";
 
 const TIERS = [
   {
@@ -23,8 +22,7 @@ const TIERS = [
     priceId: "single",
     mode: "payment",
     popular: false,
-    color: "#818CF8",
-    bg: "rgba(129,140,248,0.04)",
+    color: "#457B9D",
   },
   {
     name: "The Binge",
@@ -45,8 +43,7 @@ const TIERS = [
     priceId: "pack",
     mode: "payment",
     popular: true,
-    color: "#FF6B35",
-    bg: "rgba(255,107,53,0.03)",
+    color: "#E63946",
   },
   {
     name: "The Addiction",
@@ -70,8 +67,7 @@ const TIERS = [
     priceId: "unlimited",
     mode: "subscription",
     popular: false,
-    color: "#8B5CF6",
-    bg: "rgba(139,92,246,0.04)",
+    color: "#7B2D8E",
   },
 ];
 
@@ -104,205 +100,157 @@ const FAQ = [
 
 export default function PricingPage() {
   return (
-    <PageTransition>
-      <div className="relative z-10 min-h-screen">
-        {/* Drawing decoration - top right */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            width: 400,
-            height: 400,
-            backgroundImage: "url(/drawings-1.png)",
-            backgroundSize: "cover",
-            backgroundPosition: "top right",
-            opacity: 0.06,
-            pointerEvents: "none",
-            maskImage: "linear-gradient(135deg, transparent 20%, black 50%, transparent 90%)",
-            WebkitMaskImage: "linear-gradient(135deg, transparent 20%, black 50%, transparent 90%)",
-          }}
-        />
+    <div className="relative z-10 min-h-screen">
+      <div className="d-hero mx-auto max-w-6xl px-6">
+        {/* Header */}
+        <div className="mb-16 text-center">
+          <p className="d-eyebrow d-eyebrow-yellow">Pricing</p>
+          <h1 className="d-heading d-heading-xl" style={{ marginBottom: 16 }}>
+            Cheaper than <span className="text-rainbow">art school</span>.
+          </h1>
+          <p className="d-body" style={{ maxWidth: 480, margin: "0 auto" }}>
+            Also cheaper than therapy, framing supplies, and the lie you&apos;ve been living for the last 5 years.
+          </p>
+        </div>
 
-        <div className="d-hero mx-auto max-w-6xl px-6">
-          {/* Header */}
-          <div className="mb-16 text-center">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-sunny">
-              Pricing
-            </p>
-            <h1
-              className="mb-6 text-4xl font-extrabold tracking-tight md:text-5xl"
-              style={{ fontFamily: "var(--font-dm-serif)" }}
-            >
-              Cheaper than <span className="text-rainbow">art school</span>.
-            </h1>
-            <p className="mx-auto max-w-md text-text-secondary" style={{ fontSize: 16, lineHeight: 1.7 }}>
-              Also cheaper than therapy, framing supplies, and the lie you&apos;ve been living for the last 5 years.
-            </p>
-          </div>
+        {/* Pricing Cards */}
+        <div className="mb-24 grid grid-cols-1 gap-8 md:grid-cols-3 items-start">
+          {TIERS.map((tier) => (
+            <PricingCard key={tier.name} tier={tier} />
+          ))}
+        </div>
 
-          {/* Pricing Cards */}
-          <div className="mb-24 grid grid-cols-1 gap-8 md:grid-cols-3 items-start">
-            {TIERS.map((tier) => (
-              <PricingCard key={tier.name} tier={tier} />
-            ))}
-          </div>
-
-          {/* Comparison Table */}
-          <div className="mb-24 mx-auto max-w-3xl">
-            <div className="mb-8 text-center">
-              <h2
-                className="mb-3 text-2xl font-extrabold tracking-tight"
-                style={{ fontFamily: "var(--font-dm-serif)" }}
-              >
-                Side by side.
-              </h2>
-              <p className="text-text-secondary" style={{ fontSize: 14 }}>
-                Because tables are easier than reading three cards and doing math in your head.
-              </p>
-            </div>
-            <div className="neu-card" style={{ overflow: "hidden", padding: 0 }}>
-              <div style={{ overflowX: "auto" }}>
-                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
-                  <thead>
-                    <tr style={{ borderBottom: "1px solid #E5E7EB" }}>
-                      <th style={{ textAlign: "left", padding: "16px 20px", color: "#6B7280", fontWeight: 500, fontSize: 13 }}>Feature</th>
-                      <th style={{ textAlign: "center", padding: "16px 12px", color: "#818CF8", fontWeight: 700 }}>The Dip</th>
-                      <th style={{ textAlign: "center", padding: "16px 12px", color: "#FF6B35", fontWeight: 700 }}>The Binge</th>
-                      <th style={{ textAlign: "center", padding: "16px 12px", color: "#8B5CF6", fontWeight: 700 }}>The Addiction</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      { feature: "Transformations", dip: "1", binge: "5", addiction: "Unlimited" },
-                      { feature: "Art Styles", dip: "4", binge: "All 12", addiction: "All 12" },
-                      { feature: "4K Downloads", dip: "Yes", binge: "Yes", addiction: "Yes" },
-                      { feature: "Print-Ready Files", dip: "Yes", binge: "Yes", addiction: "Yes" },
-                      { feature: "Priority Processing", dip: "--", binge: "Yes", addiction: "Yes" },
-                      { feature: "Commercial License", dip: "--", binge: "--", addiction: "Yes" },
-                      { feature: "API Access", dip: "--", binge: "--", addiction: "Yes" },
-                      { feature: "Early Access Styles", dip: "--", binge: "--", addiction: "Yes" },
-                      { feature: "Price per Transform", dip: "$4.99", binge: "$2.60", addiction: "< $1" },
-                    ].map((row, i) => (
-                      <tr key={row.feature} style={{ borderBottom: i < 8 ? "1px solid rgba(229,231,235,0.5)" : "none" }}>
-                        <td style={{ padding: "12px 20px", color: "#4B5563", fontWeight: 500 }}>{row.feature}</td>
-                        <td style={{ padding: "12px 12px", textAlign: "center", color: row.dip === "--" ? "#D1D5DB" : "#4B5563" }}>{row.dip}</td>
-                        <td style={{ padding: "12px 12px", textAlign: "center", color: row.binge === "--" ? "#D1D5DB" : "#4B5563", fontWeight: row.binge !== "--" && row.binge !== row.dip ? 600 : 400 }}>{row.binge}</td>
-                        <td style={{ padding: "12px 12px", textAlign: "center", color: row.addiction === "--" ? "#D1D5DB" : "#4B5563", fontWeight: row.addiction !== "--" ? 600 : 400 }}>{row.addiction}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          {/* Money-back guarantee */}
-          <div
-            className="neu-card mb-24 mx-auto max-w-2xl text-center"
-            style={{ padding: "40px 32px", border: "1px solid rgba(16,185,129,0.2)" }}
-          >
-            <div
-              style={{
-                width: 56,
-                height: 56,
-                borderRadius: "50%",
-                background: "rgba(16,185,129,0.1)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "0 auto 20px",
-              }}
-            >
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                <polyline points="9 12 11 14 15 10" />
-              </svg>
-            </div>
-            <h3
-              style={{
-                fontSize: 22,
-                fontWeight: 700,
-                marginBottom: 12,
-                fontFamily: "var(--font-dm-serif)",
-                color: "#1A1A2E",
-              }}
-            >
-              Not impressed? Money back.
-            </h3>
-            <p style={{ fontSize: 14, lineHeight: 1.7, color: "#6B7280", maxWidth: 480, margin: "0 auto" }}>
-              If the AI turns your kid&apos;s masterpiece into something that looks worse than
-              the original (unlikely, but we respect your standards), we&apos;ll refund you. No
-              questions asked. Within 7 days. We&apos;re that confident.
-            </p>
-          </div>
-
-          {/* Accent divider */}
-          <div className="d-divider-gradient" style={{ marginBottom: 64 }} />
-
-          {/* FAQ */}
-          <div className="mx-auto max-w-3xl">
-            <div className="mb-12 text-center">
-              <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-lavender">
-                FAQ
-              </p>
-              <h2
-                className="mb-4 text-3xl font-extrabold tracking-tight"
-                style={{ fontFamily: "var(--font-dm-serif)" }}
-              >
-                Questions you probably have.
-              </h2>
-              <p className="text-text-secondary">
-                We anticipated your doubt. Here are answers.
-              </p>
-            </div>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {FAQ.map((item, i) => (
-                <FaqItem key={i} question={item.q} answer={item.a} />
-              ))}
-            </div>
-          </div>
-
-          {/* Bottom CTA */}
-          <div className="mt-24 text-center" style={{ position: "relative" }}>
-            {/* Drawing accent behind CTA */}
-            <div
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 500,
-                height: 300,
-                backgroundImage: "url(/drawings-1.png)",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                opacity: 0.04,
-                borderRadius: 24,
-                pointerEvents: "none",
-              }}
-            />
-            <h2
-              className="mb-4 text-3xl font-extrabold"
-              style={{ fontFamily: "var(--font-dm-serif)", position: "relative" }}
-            >
-              Still reading? Just <span className="text-coral">make a doodie</span>.
+        {/* Comparison Table */}
+        <div className="mb-24 mx-auto max-w-3xl">
+          <div className="mb-8 text-center">
+            <h2 className="d-heading d-heading-md" style={{ marginBottom: 8 }}>
+              Side by side.
             </h2>
-            <p className="mb-8 text-text-secondary" style={{ position: "relative" }}>
-              It takes 30 seconds. Your kid will think they&apos;re Picasso. You&apos;ll have art you actually want to frame.
+            <p className="d-body-sm">
+              Because tables are easier than reading three cards and doing math in your head.
             </p>
-            <Link
-              href="/create"
-              className="d-btn-primary glow-cta"
-              style={{ position: "relative" }}
-            >
-              Make A Doodie &rarr;
-            </Link>
+          </div>
+          <div style={{ overflow: "hidden", border: "3px solid #2B2D42", borderRadius: 8 }}>
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+                <thead>
+                  <tr style={{ borderBottom: "3px solid #2B2D42", background: "#F5E6D3" }}>
+                    <th style={{ textAlign: "left", padding: "16px 20px", color: "#6C757D", fontWeight: 600, fontSize: 13 }}>Feature</th>
+                    <th style={{ textAlign: "center", padding: "16px 12px", color: "#457B9D", fontWeight: 700, fontFamily: "var(--font-display)" }}>The Dip</th>
+                    <th style={{ textAlign: "center", padding: "16px 12px", color: "#E63946", fontWeight: 700, fontFamily: "var(--font-display)" }}>The Binge</th>
+                    <th style={{ textAlign: "center", padding: "16px 12px", color: "#7B2D8E", fontWeight: 700, fontFamily: "var(--font-display)" }}>The Addiction</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { feature: "Transformations", dip: "1", binge: "5", addiction: "Unlimited" },
+                    { feature: "Art Styles", dip: "4", binge: "All 12", addiction: "All 12" },
+                    { feature: "4K Downloads", dip: "Yes", binge: "Yes", addiction: "Yes" },
+                    { feature: "Print-Ready Files", dip: "Yes", binge: "Yes", addiction: "Yes" },
+                    { feature: "Priority Processing", dip: "--", binge: "Yes", addiction: "Yes" },
+                    { feature: "Commercial License", dip: "--", binge: "--", addiction: "Yes" },
+                    { feature: "API Access", dip: "--", binge: "--", addiction: "Yes" },
+                    { feature: "Early Access Styles", dip: "--", binge: "--", addiction: "Yes" },
+                    { feature: "Price per Transform", dip: "$4.99", binge: "$2.60", addiction: "< $1" },
+                  ].map((row, i) => (
+                    <tr key={row.feature} style={{ borderBottom: i < 8 ? "1px solid #E5D5C3" : "none", background: i % 2 === 0 ? "#FFF8F0" : "#FFFFFF" }}>
+                      <td style={{ padding: "12px 20px", color: "#2B2D42", fontWeight: 500 }}>{row.feature}</td>
+                      <td style={{ padding: "12px 12px", textAlign: "center", color: row.dip === "--" ? "#E5D5C3" : "#2B2D42" }}>{row.dip}</td>
+                      <td style={{ padding: "12px 12px", textAlign: "center", color: row.binge === "--" ? "#E5D5C3" : "#2B2D42", fontWeight: row.binge !== "--" && row.binge !== row.dip ? 600 : 400 }}>{row.binge}</td>
+                      <td style={{ padding: "12px 12px", textAlign: "center", color: row.addiction === "--" ? "#E5D5C3" : "#2B2D42", fontWeight: row.addiction !== "--" ? 600 : 400 }}>{row.addiction}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
+
+        {/* Money-back guarantee */}
+        <div
+          style={{
+            padding: "40px 32px",
+            border: "3px solid #06D6A0",
+            borderRadius: 8,
+            background: "#FFF8F0",
+            boxShadow: "4px 4px 0px #06D6A0",
+            textAlign: "center",
+            maxWidth: 640,
+            margin: "0 auto 64px",
+          }}
+        >
+          <div
+            style={{
+              width: 56,
+              height: 56,
+              borderRadius: 8,
+              background: "rgba(6,214,160,0.15)",
+              border: "2px solid #2B2D42",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 20px",
+            }}
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#06D6A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <polyline points="9 12 11 14 15 10" />
+            </svg>
+          </div>
+          <h3
+            style={{
+              fontSize: 24,
+              fontWeight: 700,
+              marginBottom: 12,
+              fontFamily: "var(--font-display)",
+              color: "#2B2D42",
+            }}
+          >
+            Not impressed? Money back.
+          </h3>
+          <p style={{ fontSize: 14, lineHeight: 1.7, color: "#6C757D", maxWidth: 480, margin: "0 auto" }}>
+            If the AI turns your kid&apos;s masterpiece into something that looks worse than
+            the original (unlikely, but we respect your standards), we&apos;ll refund you. No
+            questions asked. Within 7 days. We&apos;re that confident.
+          </p>
+        </div>
+
+        {/* Divider */}
+        <div className="d-divider-gradient" style={{ marginBottom: 64 }} />
+
+        {/* FAQ */}
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-12 text-center">
+            <p className="d-eyebrow d-eyebrow-purple">FAQ</p>
+            <h2 className="d-heading d-heading-lg" style={{ marginBottom: 12 }}>
+              Questions you probably have.
+            </h2>
+            <p className="d-body">
+              We anticipated your doubt. Here are answers.
+            </p>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {FAQ.map((item, i) => (
+              <FaqItem key={i} question={item.q} answer={item.a} />
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="mt-24 text-center">
+          <h2 className="d-heading d-heading-md" style={{ marginBottom: 12 }}>
+            Still reading? Just <span style={{ color: "#E63946" }}>make a doodie</span>.
+          </h2>
+          <p className="d-body" style={{ marginBottom: 32, maxWidth: 480, margin: "0 auto 32px" }}>
+            It takes 30 seconds. Your kid will think they&apos;re Picasso. You&apos;ll have art you actually want to frame.
+          </p>
+          <Link href="/create" className="d-btn-primary">
+            MAKE A DOODIE
+          </Link>
+        </div>
       </div>
-    </PageTransition>
+    </div>
   );
 }
 
@@ -337,83 +285,28 @@ function PricingCard({ tier }: { tier: (typeof TIERS)[number] }) {
 
   return (
     <div
-      className={`neu-card d-card-hover d-gradient-border ${tier.popular ? "d-gradient-border-visible" : ""}`}
-      style={{
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        padding: 0,
-        overflow: "visible",
-        "--gb-from": tier.color,
-        "--gb-to": tier.popular ? "#8B5CF6" : tier.color + "88",
-        transform: tier.popular ? "scale(1.03)" : undefined,
-      } as React.CSSProperties}
+      className={`d-pricing-card ${tier.popular ? "d-pricing-popular" : ""}`}
+      style={{ overflow: "visible" }}
     >
       {/* Popular badge */}
       {tier.popular && (
-        <div
-          style={{
-            position: "absolute",
-            top: -1,
-            left: 0,
-            right: 0,
-            height: 4,
-            background: `linear-gradient(90deg, ${tier.color}, #8B5CF6)`,
-            borderRadius: "20px 20px 0 0",
-          }}
-        />
+        <span className="d-popular-badge">MOST POPULAR</span>
       )}
 
-      {/* Drawing accent on popular card */}
-      {tier.popular && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            right: 0,
-            width: 200,
-            height: 200,
-            backgroundImage: "url(/drawings-1.png)",
-            backgroundSize: "cover",
-            backgroundPosition: "bottom right",
-            opacity: 0.04,
-            pointerEvents: "none",
-          }}
-        />
-      )}
-
-      {/* Card header with accent bg */}
-      <div style={{ padding: "32px 32px 24px", background: tier.bg }}>
-        {tier.popular && (
-          <span
-            style={{
-              display: "inline-block",
-              padding: "4px 14px",
-              borderRadius: 999,
-              fontSize: 10,
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              background: tier.color,
-              color: "#fff",
-              marginBottom: 16,
-            }}
-          >
-            Most Popular
-          </span>
-        )}
-        <h3 style={{ fontSize: 22, fontWeight: 700, color: "#1A1A2E", marginBottom: 4 }}>
+      {/* Card header */}
+      <div style={{ marginBottom: 24 }}>
+        <h3 style={{ fontSize: 22, fontWeight: 700, color: "#2B2D42", marginBottom: 4, fontFamily: "var(--font-display)" }}>
           {tier.name}
         </h3>
-        <p style={{ fontSize: 13, color: "#9CA3AF", fontStyle: "italic", marginBottom: 20 }}>
+        <p style={{ fontSize: 13, color: "#ADB5BD", fontStyle: "italic", fontFamily: "var(--font-accent)", marginBottom: 20 }}>
           {tier.tagline}
         </p>
         <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-          <span style={{ fontSize: 48, fontWeight: 800, letterSpacing: "-0.02em", color: "#1A1A2E" }}>
+          <span style={{ fontSize: 48, fontWeight: 700, letterSpacing: "-0.02em", color: "#2B2D42", fontFamily: "var(--font-display)" }}>
             {tier.price}
           </span>
           {tier.period && (
-            <span style={{ fontSize: 15, color: "#9CA3AF", fontWeight: 500 }}>
+            <span style={{ fontSize: 15, color: "#ADB5BD", fontWeight: 500 }}>
               {tier.period}
             </span>
           )}
@@ -421,56 +314,37 @@ function PricingCard({ tier }: { tier: (typeof TIERS)[number] }) {
       </div>
 
       {/* Description */}
-      <div style={{ padding: "20px 32px 0" }}>
-        <p style={{ fontSize: 14, lineHeight: 1.6, color: "#6B7280" }}>{tier.desc}</p>
-      </div>
+      <p style={{ fontSize: 14, lineHeight: 1.6, color: "#6C757D", marginBottom: 24 }}>{tier.desc}</p>
 
       {/* Features */}
-      <div style={{ padding: "20px 32px", flex: 1 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {tier.features.map((f) => (
-            <div key={f} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={tier.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              <span style={{ fontSize: 14, color: "#4B5563" }}>{f}</span>
-            </div>
-          ))}
-          {tier.notIncluded.map((f) => (
-            <div key={f} style={{ display: "flex", alignItems: "center", gap: 10, opacity: 0.4 }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-              <span style={{ fontSize: 14, color: "#9CA3AF", textDecoration: "line-through" }}>{f}</span>
-            </div>
-          ))}
-        </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32, flex: 1 }}>
+        {tier.features.map((f) => (
+          <div key={f} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={tier.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <span style={{ fontSize: 14, color: "#2B2D42" }}>{f}</span>
+          </div>
+        ))}
+        {tier.notIncluded.map((f) => (
+          <div key={f} style={{ display: "flex", alignItems: "center", gap: 10, opacity: 0.4 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ADB5BD" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+            <span style={{ fontSize: 14, color: "#ADB5BD", textDecoration: "line-through" }}>{f}</span>
+          </div>
+        ))}
       </div>
 
       {/* CTA */}
-      <div style={{ padding: "16px 32px 32px" }}>
-        <button
-          onClick={handleCheckout}
-          className={tier.popular ? "glow-cta" : ""}
-          style={{
-            width: "100%",
-            padding: "14px 0",
-            borderRadius: 14,
-            fontSize: 15,
-            fontWeight: 700,
-            cursor: "pointer",
-            transition: "all 0.2s",
-            border: tier.popular ? "none" : "2px solid #E5E7EB",
-            background: tier.popular ? `linear-gradient(135deg, ${tier.color}, #8B5CF6)` : "#fff",
-            color: tier.popular ? "#fff" : "#1A1A2E",
-            boxShadow: tier.popular ? `0 4px 16px ${tier.color}33` : "none",
-            fontFamily: "inherit",
-          }}
-        >
-          {tier.cta}
-        </button>
-      </div>
+      <button
+        onClick={handleCheckout}
+        className={tier.popular ? "d-btn-primary d-btn-block" : "d-btn-secondary d-btn-block"}
+        style={{ fontFamily: "inherit" }}
+      >
+        {tier.cta}
+      </button>
     </div>
   );
 }
@@ -480,8 +354,10 @@ function FaqItem({ question, answer }: { readonly question: string; readonly ans
 
   return (
     <div
-      className="neu-card"
       style={{
+        border: "3px solid #2B2D42",
+        borderRadius: 8,
+        background: "#FFF8F0",
         overflow: "hidden",
         transition: "all 0.2s",
       }}
@@ -493,7 +369,7 @@ function FaqItem({ question, answer }: { readonly question: string; readonly ans
           width: "100%",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "20px 28px",
+          padding: "18px 24px",
           textAlign: "left",
           background: "none",
           border: "none",
@@ -501,7 +377,7 @@ function FaqItem({ question, answer }: { readonly question: string; readonly ans
           fontFamily: "inherit",
         }}
       >
-        <span style={{ paddingRight: 16, fontSize: 15, fontWeight: 600, color: "#1A1A2E" }}>
+        <span style={{ paddingRight: 16, fontSize: 15, fontWeight: 700, color: "#2B2D42", fontFamily: "var(--font-display)" }}>
           {question}
         </span>
         <svg
@@ -509,7 +385,7 @@ function FaqItem({ question, answer }: { readonly question: string; readonly ans
           height="18"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#9CA3AF"
+          stroke="#2B2D42"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -530,8 +406,8 @@ function FaqItem({ question, answer }: { readonly question: string; readonly ans
           transition: "max-height 0.3s ease, opacity 0.2s ease",
         }}
       >
-        <div style={{ padding: "0 28px 24px", borderTop: "1px solid rgba(229,231,235,0.5)" }}>
-          <p style={{ fontSize: 14, lineHeight: 1.75, color: "#6B7280", paddingTop: 20 }}>
+        <div style={{ padding: "0 24px 24px", borderTop: "2px solid #E5D5C3" }}>
+          <p style={{ fontSize: 14, lineHeight: 1.75, color: "#6C757D", paddingTop: 20 }}>
             {answer}
           </p>
         </div>

@@ -2,21 +2,20 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
-import { PageTransition } from "@/components/page-transition";
 
 const STYLES = [
-  { id: "oil", name: "Oil Painting", desc: "Classic museum vibes", color: "#FF6B35" },
-  { id: "watercolor", name: "Watercolor", desc: "Soft and dreamy", color: "#64B5F6" },
-  { id: "anime", name: "Anime", desc: "Studio-quality animation", color: "#F48FB1" },
-  { id: "cyberpunk", name: "Cyberpunk", desc: "Neon-soaked future", color: "#B388FF" },
-  { id: "pop-art", name: "Pop Art", desc: "Bold and colorful", color: "#FFD54F" },
-  { id: "pixel", name: "Pixel Art", desc: "8-bit nostalgia", color: "#69F0AE" },
-  { id: "ghibli", name: "Studio Ghibli", desc: "Miyazaki magic", color: "#FFAB91" },
-  { id: "realistic", name: "Photorealistic", desc: "Uncanny valley territory", color: "#64B5F6" },
-  { id: "stained-glass", name: "Stained Glass", desc: "Cathedral window vibes", color: "#CE93D8" },
-  { id: "cartoon", name: "Cartoon", desc: "Saturday morning energy", color: "#FFB74D" },
-  { id: "pencil-sketch", name: "Pencil Sketch", desc: "Refined graphite look", color: "#90A4AE" },
-  { id: "fantasy", name: "Fantasy Epic", desc: "Lord of the Rings energy", color: "#A5D6A7" },
+  { id: "oil", name: "Oil Painting", desc: "Classic museum vibes", color: "#E63946" },
+  { id: "watercolor", name: "Watercolor", desc: "Soft and dreamy", color: "#457B9D" },
+  { id: "anime", name: "Anime", desc: "Studio-quality animation", color: "#7B2D8E" },
+  { id: "cyberpunk", name: "Cyberpunk", desc: "Neon-soaked future", color: "#457B9D" },
+  { id: "pop-art", name: "Pop Art", desc: "Bold and colorful", color: "#FFD166" },
+  { id: "pixel", name: "Pixel Art", desc: "8-bit nostalgia", color: "#06D6A0" },
+  { id: "ghibli", name: "Studio Ghibli", desc: "Miyazaki magic", color: "#E63946" },
+  { id: "realistic", name: "Photorealistic", desc: "Uncanny valley territory", color: "#457B9D" },
+  { id: "stained-glass", name: "Stained Glass", desc: "Cathedral window vibes", color: "#7B2D8E" },
+  { id: "cartoon", name: "Cartoon", desc: "Saturday morning energy", color: "#FFD166" },
+  { id: "pencil-sketch", name: "Pencil Sketch", desc: "Refined graphite look", color: "#6C757D" },
+  { id: "fantasy", name: "Fantasy Epic", desc: "Lord of the Rings energy", color: "#06D6A0" },
 ];
 
 const LOADING_MESSAGES = [
@@ -43,7 +42,6 @@ export default function CreatePage() {
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Cycle loading messages during generation
   useEffect(() => {
     if (step !== "generating") return;
     let idx = 0;
@@ -120,374 +118,344 @@ export default function CreatePage() {
   };
 
   return (
-    <PageTransition>
-      <div className="relative z-10 min-h-screen">
-        {/* Drawing decoration - top right */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            width: 350,
-            height: 350,
-            backgroundImage: "url(/drawings-1.png)",
-            backgroundSize: "cover",
-            backgroundPosition: "top right",
-            opacity: 0.05,
-            pointerEvents: "none",
-            maskImage: "linear-gradient(135deg, transparent 15%, black 50%, transparent 90%)",
-            WebkitMaskImage: "linear-gradient(135deg, transparent 15%, black 50%, transparent 90%)",
-          }}
-        />
-        {/* Drawing decoration - bottom left */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            width: 300,
-            height: 300,
-            backgroundImage: "url(/drawings-2.png)",
-            backgroundSize: "cover",
-            backgroundPosition: "bottom left",
-            opacity: 0.04,
-            pointerEvents: "none",
-            maskImage: "linear-gradient(315deg, transparent 10%, black 40%, transparent 85%)",
-            WebkitMaskImage: "linear-gradient(315deg, transparent 10%, black 40%, transparent 85%)",
-          }}
-        />
+    <div className="relative z-10 min-h-screen">
+      <div className="d-hero mx-auto max-w-3xl px-6">
+        {/* Progress -- craft pills */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 48 }}>
+          <ProgressDot active={step === "upload"} done={step !== "upload"} label="Upload" color="#E63946" />
+          <ProgressLine done={step !== "upload"} />
+          <ProgressDot active={step === "style"} done={step === "generating" || step === "result"} label="Style" color="#457B9D" />
+          <ProgressLine done={step === "generating" || step === "result"} />
+          <ProgressDot active={step === "generating" || step === "result"} done={step === "result"} label="Result" color="#06D6A0" />
+        </div>
 
-        <div className="d-hero mx-auto max-w-3xl px-6">
-          {/* Progress -- neumorphic pills */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 48 }}>
-            <ProgressDot active={step === "upload"} done={step !== "upload"} label="Upload" color="#FF6B35" />
-            <ProgressLine done={step !== "upload"} />
-            <ProgressDot active={step === "style"} done={step === "generating" || step === "result"} label="Style" color="#64B5F6" />
-            <ProgressLine done={step === "generating" || step === "result"} />
-            <ProgressDot active={step === "generating" || step === "result"} done={step === "result"} label="Result" color="#69F0AE" />
-          </div>
+        {/* Upload Step */}
+        {step === "upload" && (
+          <div className="text-center">
+            <h1
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(32px, 5vw, 48px)",
+                fontWeight: 700,
+                color: "#2B2D42",
+                marginBottom: 12,
+              }}
+            >
+              Drop the <span style={{ color: "#E63946" }}>doodle</span>.
+            </h1>
+            <p style={{ color: "#6C757D", marginBottom: 40 }}>
+              Drag the drawing here, or click to browse. PNG, JPG, WebP. Max 10MB.
+            </p>
 
-          {/* Upload Step */}
-          {step === "upload" && (
-            <div className="text-center">
-              <h1 className="mb-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
-                Drop the <span className="text-coral">doodle</span>.
-              </h1>
-              <p className="mb-10 text-text-secondary">
-                Drag the drawing here, or click to browse. PNG, JPG, WebP. Max 10MB.
-              </p>
-
-              <div
-                className="neu-card"
-                onClick={() => inputRef.current?.click()}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  setDragActive(true);
+            <div
+              className={dragActive ? "upload-zone-drag" : "upload-zone-animated"}
+              onClick={() => inputRef.current?.click()}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragActive(true);
+              }}
+              onDragLeave={() => setDragActive(false)}
+              onDrop={handleDrop}
+              style={{
+                maxWidth: 480,
+                margin: "0 auto",
+                padding: 64,
+                cursor: "pointer",
+              }}
+            >
+              <input
+                ref={inputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                className="hidden"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) handleFile(f);
                 }}
-                onDragLeave={() => setDragActive(false)}
-                onDrop={handleDrop}
+              />
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+                <div
+                  style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: 12,
+                    background: "rgba(230,57,70,0.1)",
+                    border: "2px solid #2B2D42",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#E63946",
+                  }}
+                >
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                  </svg>
+                </div>
+                <div>
+                  <p style={{ fontWeight: 700, color: "#2B2D42", fontFamily: "var(--font-display)", fontSize: 18 }}>
+                    {dragActive ? "Drop it like it's hot" : "Drop your kid's art here"}
+                  </p>
+                  <p style={{ marginTop: 4, fontSize: 14, color: "#ADB5BD" }}>
+                    or click to browse files
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {error && (
+              <p style={{ marginTop: 16, fontSize: 14, color: "#E63946", fontWeight: 600 }}>{error}</p>
+            )}
+          </div>
+        )}
+
+        {/* Style Step */}
+        {step === "style" && (
+          <div>
+            <div style={{ textAlign: "center", marginBottom: 32 }}>
+              <h1
                 style={{
-                  maxWidth: 480,
-                  margin: "0 auto",
-                  padding: 64,
-                  cursor: "pointer",
-                  borderStyle: "dashed",
-                  borderWidth: 2,
-                  borderColor: dragActive ? "#FF6B35" : "rgba(229,231,235,0.5)",
-                  background: dragActive ? "rgba(255,107,53,0.03)" : "#fff",
-                  transition: "all 0.25s ease",
-                  transform: dragActive ? "scale(1.02)" : undefined,
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(32px, 5vw, 48px)",
+                  fontWeight: 700,
+                  color: "#2B2D42",
+                  marginBottom: 12,
                 }}
               >
-                <input
-                  ref={inputRef}
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp"
-                  className="hidden"
-                  onChange={(e) => {
-                    const f = e.target.files?.[0];
-                    if (f) handleFile(f);
-                  }}
-                />
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
-                  <div style={{ width: 64, height: 64, borderRadius: 20, background: "rgba(255,107,53,0.08)", display: "flex", alignItems: "center", justifyContent: "center", color: "#FF6B35" }}>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-                      <polyline points="17 8 12 3 7 8" />
-                      <line x1="12" y1="3" x2="12" y2="15" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p style={{ fontWeight: 600, color: "#1A1A2E" }}>
-                      {dragActive ? "Drop it like it's hot" : "Drop your kid's art here"}
-                    </p>
-                    <p style={{ marginTop: 4, fontSize: 14, color: "#9CA3AF" }}>
-                      or click to browse files
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {error && (
-                <p style={{ marginTop: 16, fontSize: 14, color: "#FF6B35" }}>{error}</p>
-              )}
+                Pick a <span style={{ color: "#457B9D" }}>style</span>.
+              </h1>
+              <p style={{ color: "#6C757D" }}>
+                How do you want this masterpiece reborn?
+              </p>
             </div>
-          )}
 
-          {/* Style Step */}
-          {step === "style" && (
-            <div>
-              <div style={{ textAlign: "center", marginBottom: 32 }}>
-                <h1 className="mb-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
-                  Pick a <span className="text-sky">style</span>.
-                </h1>
-                <p className="text-text-secondary">
-                  How do you want this masterpiece reborn?
-                </p>
-              </div>
-
-              {/* Preview */}
-              {preview && (
-                <div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
-                  <div className="neu-card" style={{ overflow: "hidden", padding: 0, position: "relative" }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={preview}
-                      alt="Your kid's drawing"
-                      style={{ width: 160, height: 160, objectFit: "cover", display: "block" }}
-                    />
-                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,0.6), transparent)", padding: 8 }}>
-                      <p style={{ fontSize: 10, fontWeight: 500, color: "rgba(255,255,255,0.8)" }}>The original</p>
-                    </div>
-                  </div>
+            {/* Preview */}
+            {preview && (
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
+                <div
+                  style={{
+                    overflow: "hidden",
+                    border: "3px solid #2B2D42",
+                    borderRadius: 8,
+                    boxShadow: "4px 4px 0px #2B2D42",
+                    transform: "rotate(-2deg)",
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={preview}
+                    alt="Your kid's drawing"
+                    style={{ width: 160, height: 160, objectFit: "cover", display: "block" }}
+                  />
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* Style Grid -- neumorphic */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12, marginBottom: 32 }} className="md:!grid-cols-4">
-                {STYLES.map((s) => (
+            {/* Style Grid */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12, marginBottom: 32 }} className="md:!grid-cols-4">
+              {STYLES.map((s) => {
+                const isSelected = selectedStyle === s.id;
+                return (
                   <button
                     key={s.id}
                     onClick={() => setSelectedStyle(s.id)}
-                    className={`neu-card d-card-hover d-gradient-border ${selectedStyle === s.id ? "d-gradient-border-visible" : ""}`}
                     style={{
                       padding: 16,
                       textAlign: "left",
                       cursor: "pointer",
-                      overflow: "visible",
-                      background: selectedStyle === s.id ? `${s.color}08` : "#fff",
-                      transform: selectedStyle === s.id ? "scale(1.03)" : undefined,
                       fontFamily: "inherit",
-                      "--gb-from": s.color,
-                      "--gb-to": `${s.color}88`,
-                    } as React.CSSProperties}
+                      borderRadius: 8,
+                      border: isSelected ? `3px solid ${s.color}` : "3px solid #2B2D42",
+                      background: isSelected ? `${s.color}15` : "#FFF8F0",
+                      boxShadow: isSelected ? `3px 3px 0px ${s.color}` : "none",
+                      transform: isSelected ? "translateY(-2px)" : undefined,
+                      transition: "all 0.15s",
+                    }}
                   >
-                    <div style={{ height: 3, width: 32, borderRadius: 999, marginBottom: 8, background: s.color }} />
-                    <div style={{ fontSize: 14, fontWeight: 600, color: "#1A1A2E", marginBottom: 4 }}>{s.name}</div>
-                    <div style={{ fontSize: 12, color: "#9CA3AF" }}>{s.desc}</div>
+                    <div style={{ height: 4, width: 32, borderRadius: 2, marginBottom: 8, background: s.color }} />
+                    <div style={{ fontSize: 14, fontWeight: 700, color: "#2B2D42", marginBottom: 4, fontFamily: "var(--font-display)" }}>{s.name}</div>
+                    <div style={{ fontSize: 12, color: "#ADB5BD" }}>{s.desc}</div>
                   </button>
-                ))}
-              </div>
+                );
+              })}
+            </div>
 
-              {error && (
-                <p style={{ textAlign: "center", fontSize: 14, color: "#FF6B35", marginBottom: 16 }}>{error}</p>
+            {error && (
+              <p style={{ textAlign: "center", fontSize: 14, color: "#E63946", fontWeight: 600, marginBottom: 16 }}>{error}</p>
+            )}
+
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16 }}>
+              <button
+                onClick={() => {
+                  setStep("upload");
+                  setFile(null);
+                  setPreview(null);
+                }}
+                className="d-btn-secondary"
+                style={{ fontFamily: "inherit" }}
+              >
+                Back
+              </button>
+              <button
+                onClick={handleGenerate}
+                disabled={!selectedStyle}
+                className="d-btn-primary"
+                style={{
+                  fontFamily: "inherit",
+                  opacity: selectedStyle ? 1 : 0.4,
+                  cursor: selectedStyle ? "pointer" : "not-allowed",
+                }}
+              >
+                MAKE A DOODIE
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Generating Step */}
+        {step === "generating" && (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", paddingTop: 64, paddingBottom: 64, textAlign: "center" }}>
+            <div className="doodie-loader" style={{ marginBottom: 40 }}>
+              {(["top", "bottom", "left", "right"] as const).map((dir) => (
+                <div key={dir} className={`doodie-loader-arm doodie-loader-${dir}`}>
+                  <div className="doodie-loader-bar"><div className="doodie-loader-bar"><div className="doodie-loader-bar"><div className="doodie-loader-bar"><div className="doodie-loader-bar"><div className="doodie-loader-bar" /></div></div></div></div></div>
+                </div>
+              ))}
+            </div>
+
+            <h2
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: 32,
+                fontWeight: 700,
+                color: "#2B2D42",
+                marginBottom: 8,
+              }}
+            >
+              Working on it...
+            </h2>
+            <p style={{ color: "#6C757D", marginBottom: 8, fontFamily: "var(--font-accent)", fontSize: 18 }}>
+              {loadingMsg}
+            </p>
+            <p style={{ fontSize: 12, color: "#ADB5BD" }}>This usually takes 15-30 seconds.</p>
+
+            {/* Progress bar */}
+            <div
+              style={{
+                marginTop: 32,
+                width: "100%",
+                maxWidth: 280,
+                padding: 8,
+                background: "#F5E6D3",
+                border: "2px solid #2B2D42",
+                borderRadius: 8,
+              }}
+            >
+              <div style={{ height: 6, width: "100%", borderRadius: 4, background: "#E5D5C3", overflow: "hidden" }}>
+                <div
+                  style={{
+                    height: "100%",
+                    borderRadius: 4,
+                    background: "linear-gradient(90deg, #E63946, #FFD166, #457B9D, #06D6A0)",
+                    animation: "paintStroke 25s ease-in-out forwards",
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Result Step */}
+        {step === "result" && (
+          <div className="text-center result-reveal">
+            <h1
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(32px, 5vw, 48px)",
+                fontWeight: 700,
+                color: "#2B2D42",
+                marginBottom: 12,
+              }}
+            >
+              <span style={{ color: "#06D6A0" }}>Ta-da!</span> Look at that.
+            </h1>
+            <p style={{ color: "#6C757D", marginBottom: 32 }}>
+              From doodle to masterpiece. Frame-worthy if we do say so ourselves.
+            </p>
+
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, marginBottom: 32 }} className="md:!flex-row md:!justify-center md:!gap-32">
+              {/* Before */}
+              {preview && (
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ marginBottom: 8, fontSize: 12, fontWeight: 700, fontFamily: "var(--font-accent)", color: "#ADB5BD" }}>
+                    Before
+                  </div>
+                  <div style={{ overflow: "hidden", border: "3px solid #2B2D42", borderRadius: 8, boxShadow: "3px 3px 0px #2B2D42" }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={preview} alt="Original" style={{ width: 192, height: 192, objectFit: "cover", display: "block" }} />
+                  </div>
+                </div>
               )}
 
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16 }}>
-                <button
-                  onClick={() => {
-                    setStep("upload");
-                    setFile(null);
-                    setPreview(null);
-                  }}
-                  style={{
-                    borderRadius: 999,
-                    border: "2px solid #E5E7EB",
-                    padding: "12px 24px",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: "#6B7280",
-                    background: "#fff",
-                    cursor: "pointer",
-                    fontFamily: "inherit",
-                    transition: "all 0.2s",
-                  }}
-                >
-                  Back
-                </button>
-                <button
-                  onClick={handleGenerate}
-                  disabled={!selectedStyle}
-                  className="glow-cta"
-                  style={{
-                    borderRadius: 999,
-                    border: "none",
-                    padding: "12px 32px",
-                    fontSize: 14,
-                    fontWeight: 700,
-                    color: "#fff",
-                    background: "linear-gradient(135deg, #FF6B35, #8B5CF6)",
-                    cursor: selectedStyle ? "pointer" : "not-allowed",
-                    fontFamily: "inherit",
-                    opacity: selectedStyle ? 1 : 0.4,
-                    boxShadow: "0 4px 16px rgba(255,107,53,0.25)",
-                    transition: "all 0.2s",
-                    animation: selectedStyle ? undefined : "none",
-                  }}
-                >
-                  Make A Doodie &rarr;
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Generating Step */}
-          {step === "generating" && (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", paddingTop: 64, paddingBottom: 64, textAlign: "center" }}>
-              {/* Squares loader */}
-              <div className="doodie-loader" style={{ marginBottom: 40 }}>
-                {(["top", "bottom", "left", "right"] as const).map((dir) => (
-                  <div key={dir} className={`doodie-loader-arm doodie-loader-${dir}`}>
-                    <div className="doodie-loader-bar"><div className="doodie-loader-bar"><div className="doodie-loader-bar"><div className="doodie-loader-bar"><div className="doodie-loader-bar"><div className="doodie-loader-bar" /></div></div></div></div></div>
-                  </div>
-                ))}
+              {/* Arrow */}
+              <div style={{ color: "#E63946" }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hidden md:block">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="md:hidden">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <polyline points="19 12 12 19 5 12" />
+                </svg>
               </div>
 
-              <h2 className="mb-2 text-2xl font-extrabold" style={{ fontFamily: "var(--font-dm-serif)" }}>
-                Working on it...
-              </h2>
-              <p style={{ color: "#6B7280", marginBottom: 8 }}>
-                {loadingMsg}
-              </p>
-              <p style={{ fontSize: 12, color: "#9CA3AF" }}>This usually takes 15-30 seconds.</p>
-
-              {/* Paint stroke progress bar */}
-              <div className="neu-card-inset" style={{ marginTop: 32, width: "100%", maxWidth: 280, padding: 8 }}>
-                <div style={{ height: 4, width: "100%", borderRadius: 999, background: "#F3F4F6", overflow: "hidden" }}>
-                  <div
-                    style={{
-                      height: "100%",
-                      borderRadius: 999,
-                      background: "linear-gradient(90deg, #FF6B35, #8B5CF6)",
-                      animation: "paintStroke 25s ease-in-out forwards",
-                    }}
-                  />
+              {/* After */}
+              <div style={{ textAlign: "center" }}>
+                <div style={{ marginBottom: 8, fontSize: 12, fontWeight: 700, fontFamily: "var(--font-accent)", color: "#06D6A0" }}>
+                  After
                 </div>
-              </div>
-            </div>
-          )}
-
-          {/* Result Step */}
-          {step === "result" && (
-            <div className="text-center result-reveal">
-              <h1 className="mb-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-dm-serif)" }}>
-                <span className="text-mint">Ta-da!</span> Look at that.
-              </h1>
-              <p style={{ color: "#6B7280", marginBottom: 32 }}>
-                From doodle to masterpiece. Frame-worthy if we do say so ourselves.
-              </p>
-
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, marginBottom: 32 }} className="md:!flex-row md:!justify-center md:!gap-32">
-                {/* Before */}
-                {preview && (
-                  <div style={{ textAlign: "center" }}>
-                    <div style={{ marginBottom: 8, fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#9CA3AF" }}>
-                      Before
+                <div style={{ overflow: "hidden", border: "3px solid #06D6A0", borderRadius: 8, boxShadow: "4px 4px 0px #2B2D42" }}>
+                  {resultUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={resultUrl} alt="Transformed" style={{ width: 192, height: 192, objectFit: "cover", display: "block" }} />
+                  ) : (
+                    <div style={{ width: 192, height: 192, display: "flex", alignItems: "center", justifyContent: "center", background: "#F5E6D3", fontSize: 12, color: "#ADB5BD" }}>
+                      Preview unavailable
                     </div>
-                    <div className="neu-card" style={{ overflow: "hidden", padding: 0 }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={preview} alt="Original" style={{ width: 192, height: 192, objectFit: "cover", display: "block" }} />
-                    </div>
-                  </div>
-                )}
-
-                {/* Arrow */}
-                <div style={{ color: "#FF6B35" }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hidden md:block">
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="md:hidden">
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <polyline points="19 12 12 19 5 12" />
-                  </svg>
+                  )}
                 </div>
-
-                {/* After */}
-                <div style={{ textAlign: "center" }}>
-                  <div style={{ marginBottom: 8, fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#10B981" }}>
-                    After
-                  </div>
-                  <div className="neu-card" style={{ overflow: "hidden", padding: 0, border: "2px solid rgba(16,185,129,0.3)", boxShadow: "0 8px 30px rgba(16,185,129,0.1)" }}>
-                    {resultUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={resultUrl} alt="Transformed" style={{ width: 192, height: 192, objectFit: "cover", display: "block" }} />
-                    ) : (
-                      <div style={{ width: 192, height: 192, display: "flex", alignItems: "center", justifyContent: "center", background: "#F3F4F6", fontSize: 12, color: "#9CA3AF" }}>
-                        Preview unavailable
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }} className="sm:!flex-row sm:!justify-center">
-                {resultUrl && (
-                  <a
-                    href={resultUrl}
-                    download="doodie-art.png"
-                    style={{
-                      borderRadius: 999,
-                      padding: "12px 32px",
-                      fontSize: 14,
-                      fontWeight: 700,
-                      color: "#fff",
-                      background: "linear-gradient(135deg, #FF6B35, #8B5CF6)",
-                      textDecoration: "none",
-                      boxShadow: "0 4px 16px rgba(255,107,53,0.25)",
-                    }}
-                  >
-                    Download High-Res
-                  </a>
-                )}
-                <Link
-                  href="/pricing"
-                  style={{
-                    borderRadius: 999,
-                    padding: "12px 32px",
-                    fontSize: 14,
-                    fontWeight: 600,
-                    color: "#8B5CF6",
-                    background: "rgba(139,92,246,0.05)",
-                    border: "2px solid rgba(139,92,246,0.3)",
-                    textDecoration: "none",
-                  }}
-                >
-                  Order a Print
-                </Link>
-                <button
-                  onClick={handleReset}
-                  className="glow-cta"
-                  style={{
-                    borderRadius: 999,
-                    padding: "12px 24px",
-                    fontSize: 14,
-                    fontWeight: 600,
-                    color: "#FF6B35",
-                    background: "rgba(255,107,53,0.05)",
-                    border: "2px solid rgba(255,107,53,0.3)",
-                    cursor: "pointer",
-                    fontFamily: "inherit",
-                  }}
-                >
-                  Make Another Doodie
-                </button>
               </div>
             </div>
-          )}
-        </div>
+
+            <div className="d-btn-row">
+              {resultUrl && (
+                <a
+                  href={resultUrl}
+                  download="doodie-art.png"
+                  className="d-btn-primary"
+                >
+                  Download High-Res
+                </a>
+              )}
+              <Link
+                href="/pricing"
+                className="d-btn-secondary"
+              >
+                Order a Print
+              </Link>
+              <button
+                onClick={handleReset}
+                className="d-btn-secondary"
+                style={{ fontFamily: "inherit" }}
+              >
+                Make Another Doodie
+              </button>
+            </div>
+          </div>
+        )}
       </div>
-    </PageTransition>
+    </div>
   );
 }
 
@@ -505,17 +473,23 @@ function ProgressDot({
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
       <div
-        className={done || active ? "" : "neu-card-inset"}
         style={{
-          width: 14,
-          height: 14,
-          borderRadius: "50%",
+          width: 16,
+          height: 16,
+          borderRadius: 4,
+          border: "2px solid #2B2D42",
           transition: "all 0.2s",
-          background: done ? "#69F0AE" : active ? color : undefined,
-          boxShadow: done || active ? `0 2px 8px ${done ? "rgba(16,185,129,0.3)" : `${color}33`}` : undefined,
+          background: done ? "#06D6A0" : active ? color : "#FFF8F0",
         }}
       />
-      <span style={{ fontSize: 10, fontWeight: active || done ? 600 : 500, color: active || done ? "#1A1A2E" : "#9CA3AF" }}>
+      <span
+        style={{
+          fontSize: 11,
+          fontWeight: active || done ? 700 : 500,
+          color: active || done ? "#2B2D42" : "#ADB5BD",
+          fontFamily: "var(--font-accent)",
+        }}
+      >
         {label}
       </span>
     </div>
@@ -524,6 +498,6 @@ function ProgressDot({
 
 function ProgressLine({ done }: { done: boolean }) {
   return (
-    <div style={{ height: 1, width: 48, background: done ? "#10B981" : "#E5E7EB", transition: "background 0.2s" }} />
+    <div style={{ height: 3, width: 48, background: done ? "#06D6A0" : "#E5D5C3", borderRadius: 2, transition: "background 0.2s" }} />
   );
 }

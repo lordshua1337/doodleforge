@@ -2,25 +2,37 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
 
 const NAV_LINKS = [
   { href: "/create", label: "Create" },
   { href: "/gallery", label: "Gallery" },
   { href: "/vault", label: "Vault" },
+  { href: "/guess", label: "Guess" },
   { href: "/advice", label: "Advice" },
-  { href: "/faq", label: "FAQ" },
   { href: "/pricing", label: "Pricing" },
 ];
+
+const MAGNET_COLORS = ["#E63946", "#457B9D", "#FFD166", "#06D6A0", "#7B2D8E", "#E63946"];
 
 const MOBILE_TABS = [
   {
     href: "/",
-    label: "Home",
+    label: "Fridge",
     icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
         <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    ),
+  },
+  {
+    href: "/guess",
+    label: "Guess",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
+        <line x1="12" y1="17" x2="12.01" y2="17" />
       </svg>
     ),
   },
@@ -28,20 +40,9 @@ const MOBILE_TABS = [
     href: "/create",
     label: "Create",
     icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 20h9" />
         <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
-      </svg>
-    ),
-  },
-  {
-    href: "/gallery",
-    label: "Gallery",
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-        <circle cx="8.5" cy="8.5" r="1.5" />
-        <polyline points="21 15 16 10 5 21" />
       </svg>
     ),
   },
@@ -49,7 +50,7 @@ const MOBILE_TABS = [
     href: "/vault",
     label: "Vault",
     icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
       </svg>
     ),
@@ -58,10 +59,8 @@ const MOBILE_TABS = [
     href: "/advice",
     label: "Advice",
     icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
-        <line x1="12" y1="17" x2="12.01" y2="17" />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
       </svg>
     ),
   },
@@ -69,14 +68,6 @@ const MOBILE_TABS = [
 
 export function Nav() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <>
@@ -84,12 +75,8 @@ export function Nav() {
       <nav
         className="fixed top-0 left-0 right-0 z-50"
         style={{
-          background: scrolled ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.7)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          borderBottom: scrolled ? "1px solid rgba(229,231,235,0.8)" : "1px solid rgba(229,231,235,0.4)",
-          boxShadow: scrolled ? "0 1px 8px rgba(0,0,0,0.04)" : "none",
-          transition: "background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
+          background: "#FFF8F0",
+          borderBottom: "3px solid #2B2D42",
         }}
       >
         <div
@@ -99,73 +86,57 @@ export function Nav() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            height: scrolled ? 64 : 72,
+            height: 68,
             padding: "0 32px",
-            transition: "height 0.3s ease",
           }}
         >
-          {/* Logo */}
+          {/* Logo -- hand-written style */}
           <Link
             href="/"
             style={{
               display: "flex",
-              alignItems: "center",
-              gap: 12,
+              alignItems: "baseline",
+              gap: 0,
               textDecoration: "none",
               flexShrink: 0,
             }}
           >
             <span
               style={{
-                display: "flex",
-                width: 40,
-                height: 40,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 12,
-                background: "linear-gradient(135deg, #FF6B35, #8B5CF6)",
-                color: "#fff",
-                fontSize: 16,
-                fontWeight: 800,
-                boxShadow: "0 2px 8px rgba(255,107,53,0.2)",
+                fontFamily: "var(--font-gaegu), cursive",
+                fontSize: 32,
+                fontWeight: 700,
+                color: "#2B2D42",
+                letterSpacing: "-0.02em",
+                lineHeight: 1,
               }}
             >
-              D
-            </span>
-            <span style={{ fontSize: 20, fontWeight: 700, color: "#1A1A2E", letterSpacing: "-0.01em" }}>
-              Doodie
+              DOODIE
             </span>
           </Link>
 
-          {/* Desktop links */}
-          <div className="hidden md:flex" style={{ alignItems: "center", gap: 8 }}>
-            {NAV_LINKS.map((link) => {
+          {/* Desktop magnet links */}
+          <div className="hidden md:flex" style={{ alignItems: "center", gap: 6 }}>
+            {NAV_LINKS.map((link, i) => {
               const active = pathname === link.href;
+              const color = MAGNET_COLORS[i % MAGNET_COLORS.length];
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   style={{
-                    padding: "10px 20px",
-                    borderRadius: 10,
-                    fontSize: 15,
-                    fontWeight: active ? 600 : 500,
-                    color: active ? "#1A1A2E" : "#6B7280",
-                    background: active ? "rgba(243,244,246,0.8)" : "transparent",
+                    padding: "6px 16px",
+                    borderRadius: 6,
+                    fontSize: 14,
+                    fontWeight: 700,
+                    fontFamily: "var(--font-gaegu), cursive",
+                    color: active ? "#fff" : "#2B2D42",
+                    background: active ? color : "transparent",
+                    border: active ? "2px solid #2B2D42" : "2px solid transparent",
+                    boxShadow: active ? "2px 2px 0px #2B2D42" : "none",
                     textDecoration: "none",
                     transition: "all 0.15s",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!active) {
-                      e.currentTarget.style.color = "#1A1A2E";
-                      e.currentTarget.style.background = "rgba(243,244,246,0.5)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!active) {
-                      e.currentTarget.style.color = "#6B7280";
-                      e.currentTarget.style.background = "transparent";
-                    }
+                    transform: active ? `rotate(${(i % 3 - 1) * 1.5}deg)` : "none",
                   }}
                 >
                   {link.label}
@@ -177,23 +148,9 @@ export function Nav() {
           {/* CTA button */}
           <Link
             href="/create"
-            className="glow-cta"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              padding: "10px 28px",
-              borderRadius: 999,
-              fontSize: 14,
-              fontWeight: 700,
-              background: "linear-gradient(135deg, #FF6B35, #8B5CF6)",
-              color: "#fff",
-              textDecoration: "none",
-              boxShadow: "0 2px 12px rgba(255,107,53,0.25)",
-              transition: "all 0.2s",
-              flexShrink: 0,
-            }}
+            className="nav-cta-btn"
           >
-            Make A Doodie
+            MAKE A DOODIE
           </Link>
         </div>
       </nav>

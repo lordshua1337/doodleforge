@@ -1,21 +1,26 @@
 import type { Metadata } from "next";
-import { Geist_Mono, DM_Sans, DM_Serif_Display } from "next/font/google";
+import { Geist_Mono, Nunito, Gaegu, Caveat } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
-import { DoodleBg } from "@/components/doodle-bg";
 import { KidProvider } from "@/lib/kid-context";
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const dmSerif = DM_Serif_Display({
-  variable: "--font-dm-serif",
+const gaegu = Gaegu({
+  variable: "--font-gaegu",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["300", "400", "700"],
+});
+
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -47,7 +52,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#FAFAFA",
+  themeColor: "#FFF8F0",
 };
 
 export default function RootLayout({
@@ -58,10 +63,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSans.variable} ${dmSerif.variable} ${geistMono.variable} font-sans antialiased d-noise`}
+        className={`${nunito.variable} ${gaegu.variable} ${caveat.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <KidProvider>
-          <DoodleBg />
           <Nav />
           <main className="relative z-10" style={{ paddingTop: 72, paddingBottom: 80 }}>
             {children}

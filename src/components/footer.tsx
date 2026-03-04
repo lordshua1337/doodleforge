@@ -14,51 +14,38 @@ export function Footer() {
             marginBottom: 56,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-            <span
-              style={{
-                display: "flex",
-                width: 44,
-                height: 44,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 14,
-                background: "linear-gradient(135deg, #FF6B35, #8B5CF6)",
-                color: "#fff",
-                fontSize: 18,
-                fontWeight: 800,
-                boxShadow: "0 4px 16px rgba(255,107,53,0.2)",
-              }}
-            >
-              D
-            </span>
-            <span style={{ fontSize: 22, fontWeight: 700, color: "#1A1A2E" }}>Doodie</span>
-          </div>
-          <p style={{ fontSize: 15, color: "#6B7280", maxWidth: 380, lineHeight: 1.6, marginBottom: 28 }}>
+          <span
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: 36,
+              fontWeight: 700,
+              color: "#2B2D42",
+              letterSpacing: "-0.02em",
+              marginBottom: 16,
+            }}
+          >
+            DOODIE
+          </span>
+          <p style={{ fontSize: 15, color: "#6C757D", maxWidth: 380, lineHeight: 1.6, marginBottom: 28 }}>
             Your kid&apos;s art is bad. We fix that. You hang it up. Grandma cries. Everyone wins.
           </p>
           <Link
             href="/create"
-            className="glow-cta"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              padding: "12px 32px",
-              borderRadius: 999,
-              fontSize: 14,
-              fontWeight: 700,
-              background: "linear-gradient(135deg, #FF6B35, #8B5CF6)",
-              color: "#fff",
-              textDecoration: "none",
-              boxShadow: "0 4px 16px rgba(255,107,53,0.25)",
-            }}
+            className="d-btn-primary"
           >
-            Make A Doodie &rarr;
+            MAKE A DOODIE
           </Link>
         </div>
 
-        {/* Link columns in neumorphic card */}
-        <div className="neu-card" style={{ padding: "40px 48px" }}>
+        {/* Link columns in craft card */}
+        <div
+          style={{
+            background: "#FFF8F0",
+            border: "3px solid #2B2D42",
+            borderRadius: 8,
+            padding: "40px 48px",
+          }}
+        >
           <div
             style={{
               display: "grid",
@@ -68,7 +55,7 @@ export function Footer() {
             className="footer-grid"
           >
             <div>
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#FF6B35", marginBottom: 20 }}>
+              <p style={{ fontSize: 13, fontWeight: 700, fontFamily: "var(--font-accent)", color: "#E63946", marginBottom: 20 }}>
                 Product
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -82,7 +69,7 @@ export function Footer() {
             </div>
 
             <div>
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#8B5CF6", marginBottom: 20 }}>
+              <p style={{ fontSize: 13, fontWeight: 700, fontFamily: "var(--font-accent)", color: "#457B9D", marginBottom: 20 }}>
                 Features
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -94,7 +81,7 @@ export function Footer() {
             </div>
 
             <div>
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#818CF8", marginBottom: 20 }}>
+              <p style={{ fontSize: 13, fontWeight: 700, fontFamily: "var(--font-accent)", color: "#7B2D8E", marginBottom: 20 }}>
                 Company
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -106,7 +93,7 @@ export function Footer() {
             </div>
 
             <div>
-              <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#10B981", marginBottom: 20 }}>
+              <p style={{ fontSize: 13, fontWeight: 700, fontFamily: "var(--font-accent)", color: "#06D6A0", marginBottom: 20 }}>
                 Follow the Chaos
               </p>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -145,10 +132,10 @@ export function Footer() {
             padding: "0 8px",
           }}
         >
-          <p style={{ fontSize: 12, color: "#9CA3AF" }}>
+          <p style={{ fontSize: 12, color: "#ADB5BD" }}>
             &copy; {new Date().getFullYear()} Doodie. All rights reserved.
           </p>
-          <p style={{ fontSize: 12, color: "#9CA3AF", fontStyle: "italic" }}>
+          <p style={{ fontSize: 12, color: "#ADB5BD", fontStyle: "italic", fontFamily: "var(--font-accent)" }}>
             Turning parental guilt into wall art since 2025.
           </p>
         </div>
@@ -161,7 +148,7 @@ function FooterLink({ href, children }: { readonly href: string; readonly childr
   return (
     <Link
       href={href}
-      className="footer-link d-link-animated"
+      className="footer-link"
     >
       {children}
     </Link>
