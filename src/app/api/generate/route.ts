@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { config } from "@/lib/config";
 import { uploadToR2 } from "@/lib/r2";
+import { getUser } from "@/lib/auth/server";
+import { getCredits, useCredit } from "@/lib/credits/system";
 
 const STYLE_PROMPTS: Record<string, string> = {
   oil: "Transform this child's drawing into a museum-quality oil painting. Rich brushstrokes, classical composition, dramatic lighting. Maintain the original subject and scene but elevate it to fine art quality.",
@@ -20,6 +22,9 @@ const STYLE_PROMPTS: Record<string, string> = {
     "Transform this child's drawing into a photorealistic image. Hyper-detailed, realistic textures and lighting, as if photographed. Same subject, photorealistic rendering.",
 };
 
+// EPIC mode uses higher settings -- costs 2 credits
+const EPIC_STYLES = new Set(["epic"]);
+
 const REPLICATE_API = "https://api.replicate.com/v1/predictions";
 
 // Poll interval and max attempts for async Replicate API
@@ -28,6 +33,15 @@ const MAX_POLL_ATTEMPTS = 60; // 2 minutes max
 
 export async function POST(request: NextRequest) {
   try {
+    // Auth check -- user must be signed in
+    const user = await getUser();
+    if (!user) {
+      return NextResponse.json(
+        { error: "Sign in to generate art" },
+        { status: 401 }
+      );
+    }
+
     const formData = await request.formData();
     const image = formData.get("image") as File | null;
     const style = formData.get("style") as string | null;
@@ -56,9 +70,26 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid style selected" }, { status: 400 });
     }
 
+    // Credit check -- verify user has enough credits before generating
+    const isEpic = EPIC_STYLES.has(style);
+    const cost = isEpic ? 2 : 1;
+    const credits = await getCredits(user.id);
+
+    if (credits < cost) {
+      return NextResponse.json(
+        {
+          error: "Not enough credits",
+          credits_remaining: credits,
+          cost,
+          upgrade_url: "/pricing",
+        },
+        { status: 402 }
+      );
+    }
+
     // Check for API key
     if (!config.replicate.apiToken) {
-      // Demo mode: return a placeholder
+      // Demo mode: return a placeholder (don't deduct credits)
       return NextResponse.json({
         imageUrl: `/api/generate/demo?style=${style}`,
         mode: "demo",
@@ -167,7 +198,24 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ imageUrl: finalUrl, mode: "live" });
+    // Deduct credit after successful generation
+    const forgeId = `forge-${Date.now()}`;
+    const creditUsed = await useCredit(user.id, forgeId, isEpic);
+    if (!creditUsed) {
+      // Rare race condition -- credits depleted between check and use
+      return NextResponse.json(
+        { error: "Credits depleted. Please purchase more.", upgrade_url: "/pricing" },
+        { status: 402 }
+      );
+    }
+
+    const remainingCredits = await getCredits(user.id);
+
+    return NextResponse.json({
+      imageUrl: finalUrl,
+      mode: "live",
+      credits_remaining: remainingCredits,
+    });
   } catch (error) {
     console.error("Generate error:", error);
     return NextResponse.json(

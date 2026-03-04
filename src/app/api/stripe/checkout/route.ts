@@ -1,9 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import { config } from "@/lib/config";
+import { getUser } from "@/lib/auth/server";
+import { CREDIT_TIERS, type CreditTier } from "@/lib/credits/system";
+
+// Map Stripe price IDs to credit tiers
+function tierFromPriceId(priceId: string): CreditTier | null {
+  if (priceId === config.stripe.prices.single) return "dip";
+  if (priceId === config.stripe.prices.pack) return "binge";
+  if (priceId === config.stripe.prices.unlimited) return "addiction";
+  return null;
+}
 
 export async function POST(request: NextRequest) {
   try {
+    const user = await getUser();
+    if (!user) {
+      return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+    }
+
     const body = await request.json();
     const { priceId, mode } = body;
 
@@ -21,6 +36,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const tier = tierFromPriceId(priceId);
+    const tierInfo = tier ? CREDIT_TIERS[tier] : null;
+
     const stripe = getStripe();
 
     const session = await stripe.checkout.sessions.create({
@@ -36,6 +54,9 @@ export async function POST(request: NextRequest) {
       cancel_url: `${config.app.url}/pricing?canceled=true`,
       metadata: {
         source: "doodleforge",
+        user_id: user.id,
+        tier: tier || "unknown",
+        credits: String(tierInfo?.credits ?? 0),
       },
     });
 
