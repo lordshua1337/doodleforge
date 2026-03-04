@@ -36,6 +36,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No image provided" }, { status: 400 });
     }
 
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+    if (!allowedTypes.includes(image.type)) {
+      return NextResponse.json(
+        { error: "Invalid file type. Only JPEG, PNG, GIF, or WebP allowed." },
+        { status: 400 }
+      );
+    }
+
+    const maxSize = 20 * 1024 * 1024; // 20MB
+    if (image.size > maxSize) {
+      return NextResponse.json(
+        { error: "Image too large. Maximum size is 20MB." },
+        { status: 413 }
+      );
+    }
+
     if (!style || !STYLE_PROMPTS[style]) {
       return NextResponse.json({ error: "Invalid style selected" }, { status: 400 });
     }
