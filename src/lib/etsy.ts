@@ -76,9 +76,9 @@ export async function createPrintListing(order: PrintOrder) {
       headers: getHeaders(),
       body: JSON.stringify({
         quantity: order.quantity,
-        title: `DoodleForge Custom ${printTypeNames[order.printType]} - ${order.size}`,
+        title: `Doodie Custom ${printTypeNames[order.printType]} - ${order.size}`,
         description:
-          "Custom art print created by DoodleForge AI. Original child's drawing transformed into professional artwork.",
+          "Custom art print created by Doodie AI. Original child's drawing transformed into professional artwork.",
         price: printTypePrices[order.printType] / 100,
         who_made: "someone_else",
         when_made: "made_to_order",

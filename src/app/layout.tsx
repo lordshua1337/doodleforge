@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Nunito, Gaegu, Caveat } from "next/font/google";
+import { Geist_Mono, Nunito, Gaegu, Caveat, Fredoka } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
@@ -22,6 +22,12 @@ const caveat = Caveat({
   variable: "--font-caveat",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+});
+
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
+  subsets: ["latin"],
+  weight: ["600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -64,7 +70,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${nunito.variable} ${gaegu.variable} ${caveat.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${nunito.variable} ${gaegu.variable} ${caveat.variable} ${fredoka.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <SessionProvider>
           <KidProvider>

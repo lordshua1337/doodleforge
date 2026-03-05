@@ -100,89 +100,90 @@ const FAQ = [
   },
 ];
 
+const COMPARISON_ROWS = [
+  { feature: "Transformations", dip: "1", binge: "5", addiction: "Unlimited" },
+  { feature: "Art Styles", dip: "4", binge: "All 12", addiction: "All 12" },
+  { feature: "4K Downloads", dip: "Yes", binge: "Yes", addiction: "Yes" },
+  { feature: "Print-Ready Files", dip: "Yes", binge: "Yes", addiction: "Yes" },
+  { feature: "Priority Processing", dip: "--", binge: "Yes", addiction: "Yes" },
+  { feature: "Commercial License", dip: "--", binge: "--", addiction: "Yes" },
+  { feature: "API Access", dip: "--", binge: "--", addiction: "Yes" },
+  { feature: "Early Access Styles", dip: "--", binge: "--", addiction: "Yes" },
+  { feature: "Price per Transform", dip: "$4.99", binge: "$2.60", addiction: "< $1" },
+];
+
 export default function PricingPage() {
   const { user, credits, loading } = useSession();
 
   return (
     <div className="relative z-10 min-h-screen">
-      <div className="d-hero mx-auto max-w-6xl px-6">
-        {/* Current balance banner (authenticated users) */}
-        {!loading && user && (
-          <div
-            style={{
-              textAlign: "center",
-              marginBottom: 24,
-              padding: "12px 24px",
-              borderRadius: 8,
-              border: "2px solid #2B2D42",
-              background: "#FFF8F0",
-            }}
-          >
-            <span style={{ fontSize: 14, fontWeight: 600, color: "#2B2D42" }}>
-              Current balance:{" "}
-              <span style={{ color: credits > 0 ? "#06D6A0" : "#E63946", fontWeight: 700 }}>
-                {credits >= 999 ? "Unlimited" : `${credits} credits`}
+      {/* Hero */}
+      <section className="d-hero">
+        <div className="d-container-sm" style={{ position: "relative", zIndex: 10, textAlign: "center" }}>
+          {/* Current balance banner */}
+          {!loading && user && (
+            <div className="d-banner d-mb-lg" style={{ borderRadius: 8 }}>
+              <span className="d-body-sm" style={{ fontWeight: 600 }}>
+                Current balance:{" "}
+                <span style={{ color: credits > 0 ? "#06D6A0" : "#E63946", fontWeight: 700 }}>
+                  {credits >= 999 ? "Unlimited" : `${credits} credits`}
+                </span>
               </span>
-            </span>
-          </div>
-        )}
+            </div>
+          )}
 
-        {/* Header */}
-        <div className="mb-16 text-center">
           <p className="d-eyebrow d-eyebrow-yellow">Pricing</p>
-          <h1 className="d-heading d-heading-xl" style={{ marginBottom: 16 }}>
+          <h1 className="d-heading d-heading-xl d-mb-sm">
             Cheaper than <span className="text-rainbow">art school</span>.
           </h1>
           <p className="d-body" style={{ maxWidth: 480, margin: "0 auto" }}>
             Also cheaper than therapy, framing supplies, and the lie you&apos;ve been living for the last 5 years.
           </p>
         </div>
+      </section>
 
-        {/* Pricing Cards */}
-        <div className="mb-24 grid grid-cols-1 gap-8 md:grid-cols-3 items-start">
-          {TIERS.map((tier) => (
-            <PricingCard key={tier.name} tier={tier} />
-          ))}
+      {/* Pricing Cards */}
+      <div className="d-section" style={{ background: "#FFF8F0" }}>
+        <div className="d-container">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 items-start" style={{ maxWidth: 1024, margin: "0 auto" }}>
+            {TIERS.map((tier) => (
+              <PricingCard key={tier.name} tier={tier} />
+            ))}
+          </div>
         </div>
+      </div>
 
-        {/* Comparison Table */}
-        <div className="mb-24 mx-auto max-w-3xl">
-          <div className="mb-8 text-center">
-            <h2 className="d-heading d-heading-md" style={{ marginBottom: 8 }}>
+      <div className="d-divider-gradient" />
+
+      {/* Comparison Table */}
+      <div className="d-section" style={{ background: "#FFF8F0" }}>
+        <div className="d-container-md">
+          <div style={{ textAlign: "center", marginBottom: 32 }}>
+            <h2 className="d-heading d-heading-md d-mb-sm">
               Side by side.
             </h2>
             <p className="d-body-sm">
               Because tables are easier than reading three cards and doing math in your head.
             </p>
           </div>
-          <div style={{ overflow: "hidden", border: "3px solid #2B2D42", borderRadius: 8 }}>
+          <div className="d-table" style={{ overflow: "hidden" }}>
             <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
-                  <tr style={{ borderBottom: "3px solid #2B2D42", background: "#F5E6D3" }}>
-                    <th style={{ textAlign: "left", padding: "16px 20px", color: "#6C757D", fontWeight: 600, fontSize: 13 }}>Feature</th>
-                    <th style={{ textAlign: "center", padding: "16px 12px", color: "#457B9D", fontWeight: 700, fontFamily: "var(--font-display)" }}>The Dip</th>
-                    <th style={{ textAlign: "center", padding: "16px 12px", color: "#E63946", fontWeight: 700, fontFamily: "var(--font-display)" }}>The Binge</th>
-                    <th style={{ textAlign: "center", padding: "16px 12px", color: "#7B2D8E", fontWeight: 700, fontFamily: "var(--font-display)" }}>The Addiction</th>
+                  <tr>
+                    <th style={{ textAlign: "left", padding: "16px 20px" }}>Feature</th>
+                    <th className="d-heading" style={{ textAlign: "center", padding: "16px 12px", color: "#457B9D", fontSize: 14, marginBottom: 0 }}>The Dip</th>
+                    <th className="d-heading" style={{ textAlign: "center", padding: "16px 12px", color: "#E63946", fontSize: 14, marginBottom: 0 }}>The Binge</th>
+                    <th className="d-heading" style={{ textAlign: "center", padding: "16px 12px", color: "#7B2D8E", fontSize: 14, marginBottom: 0 }}>The Addiction</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {[
-                    { feature: "Transformations", dip: "1", binge: "5", addiction: "Unlimited" },
-                    { feature: "Art Styles", dip: "4", binge: "All 12", addiction: "All 12" },
-                    { feature: "4K Downloads", dip: "Yes", binge: "Yes", addiction: "Yes" },
-                    { feature: "Print-Ready Files", dip: "Yes", binge: "Yes", addiction: "Yes" },
-                    { feature: "Priority Processing", dip: "--", binge: "Yes", addiction: "Yes" },
-                    { feature: "Commercial License", dip: "--", binge: "--", addiction: "Yes" },
-                    { feature: "API Access", dip: "--", binge: "--", addiction: "Yes" },
-                    { feature: "Early Access Styles", dip: "--", binge: "--", addiction: "Yes" },
-                    { feature: "Price per Transform", dip: "$4.99", binge: "$2.60", addiction: "< $1" },
-                  ].map((row, i) => (
-                    <tr key={row.feature} style={{ borderBottom: i < 8 ? "1px solid #E5D5C3" : "none", background: i % 2 === 0 ? "#FFF8F0" : "#FFFFFF" }}>
-                      <td style={{ padding: "12px 20px", color: "#2B2D42", fontWeight: 500 }}>{row.feature}</td>
-                      <td style={{ padding: "12px 12px", textAlign: "center", color: row.dip === "--" ? "#E5D5C3" : "#2B2D42" }}>{row.dip}</td>
-                      <td style={{ padding: "12px 12px", textAlign: "center", color: row.binge === "--" ? "#E5D5C3" : "#2B2D42", fontWeight: row.binge !== "--" && row.binge !== row.dip ? 600 : 400 }}>{row.binge}</td>
-                      <td style={{ padding: "12px 12px", textAlign: "center", color: row.addiction === "--" ? "#E5D5C3" : "#2B2D42", fontWeight: row.addiction !== "--" ? 600 : 400 }}>{row.addiction}</td>
+                  {COMPARISON_ROWS.map((row) => (
+                    <tr key={row.feature}>
+                      <td style={{ padding: "12px 20px", fontWeight: 500 }}>{row.feature}</td>
+                      <td style={{ padding: "12px", textAlign: "center", color: row.dip === "--" ? "#E5D5C3" : "#2B2D42" }}>{row.dip}</td>
+                      <td style={{ padding: "12px", textAlign: "center", color: row.binge === "--" ? "#E5D5C3" : "#2B2D42", fontWeight: row.binge !== "--" && row.binge !== row.dip ? 600 : 400 }}>{row.binge}</td>
+                      <td style={{ padding: "12px", textAlign: "center", color: row.addiction === "--" ? "#E5D5C3" : "#2B2D42", fontWeight: row.addiction !== "--" ? 600 : 400 }}>{row.addiction}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -190,64 +191,54 @@ export default function PricingPage() {
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Money-back guarantee */}
-        <div
-          style={{
-            padding: "40px 32px",
-            border: "3px solid #06D6A0",
-            borderRadius: 8,
-            background: "#FFF8F0",
-            boxShadow: "4px 4px 0px #06D6A0",
-            textAlign: "center",
-            maxWidth: 640,
-            margin: "0 auto 64px",
-          }}
-        >
-          <div
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: 8,
-              background: "rgba(6,214,160,0.15)",
-              border: "2px solid #2B2D42",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              margin: "0 auto 20px",
-            }}
-          >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#06D6A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              <polyline points="9 12 11 14 15 10" />
-            </svg>
+      {/* Money-back guarantee */}
+      <div className="d-section" style={{ background: "#FFF8F0" }}>
+        <div className="d-container-sm">
+          <div className="craft-card" style={{ textAlign: "center", borderColor: "#06D6A0", boxShadow: "4px 4px 0px #06D6A0", transform: "rotate(-0.5deg)" }}>
+            <div
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: 8,
+                background: "rgba(6,214,160,0.15)",
+                border: "2px solid #2B2D42",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 20px",
+              }}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#06D6A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <polyline points="9 12 11 14 15 10" />
+              </svg>
+            </div>
+            <h3 className="d-heading d-mb-sm" style={{ fontSize: 24 }}>
+              The &ldquo;Better Than Your Kid&rdquo; Guarantee
+            </h3>
+            <p className="d-body-sm" style={{ maxWidth: 520, margin: "0 auto 16px" }}>
+              We guarantee that 9 out of 10 people will say the AI version looks better
+              than your kid&apos;s original. The 10th person is your kid, and they will
+              be furious. If you somehow disagree with the other 9 -- full refund. No
+              questions asked. 7 days. We&apos;re that confident.
+            </p>
+            <p className="d-eyebrow" style={{ marginBottom: 0, color: "#06D6A0", fontSize: 12 }}>
+              Your kid&apos;s feelings are not covered under this guarantee.
+            </p>
           </div>
-          <h3
-            style={{
-              fontSize: 24,
-              fontWeight: 700,
-              marginBottom: 12,
-              fontFamily: "var(--font-display)",
-              color: "#2B2D42",
-            }}
-          >
-            Not impressed? Money back.
-          </h3>
-          <p style={{ fontSize: 14, lineHeight: 1.7, color: "#6C757D", maxWidth: 480, margin: "0 auto" }}>
-            If the AI turns your kid&apos;s masterpiece into something that looks worse than
-            the original (unlikely, but we respect your standards), we&apos;ll refund you. No
-            questions asked. Within 7 days. We&apos;re that confident.
-          </p>
         </div>
+      </div>
 
-        {/* Divider */}
-        <div className="d-divider-gradient" style={{ marginBottom: 64 }} />
+      <div className="d-divider-gradient" />
 
-        {/* FAQ */}
-        <div className="mx-auto max-w-3xl">
-          <div className="mb-12 text-center">
+      {/* FAQ */}
+      <div className="d-section" style={{ background: "#FFF8F0" }}>
+        <div className="d-container-md">
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
             <p className="d-eyebrow d-eyebrow-purple">FAQ</p>
-            <h2 className="d-heading d-heading-lg" style={{ marginBottom: 12 }}>
+            <h2 className="d-heading d-heading-lg d-mb-sm">
               Questions you probably have.
             </h2>
             <p className="d-body">
@@ -255,19 +246,21 @@ export default function PricingPage() {
             </p>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 720, margin: "0 auto" }}>
             {FAQ.map((item, i) => (
               <FaqItem key={i} question={item.q} answer={item.a} />
             ))}
           </div>
         </div>
+      </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-24 text-center">
-          <h2 className="d-heading d-heading-md" style={{ marginBottom: 12 }}>
+      {/* Bottom CTA */}
+      <div className="d-section" style={{ background: "#D4E8F0", borderTop: "4px solid #2B2D42" }}>
+        <div className="d-container-sm" style={{ textAlign: "center" }}>
+          <h2 className="d-heading d-heading-md d-mb-sm">
             Still reading? Just <span style={{ color: "#E63946" }}>make a doodie</span>.
           </h2>
-          <p className="d-body" style={{ marginBottom: 32, maxWidth: 480, margin: "0 auto 32px" }}>
+          <p className="d-body d-mb-xl" style={{ maxWidth: 480, margin: "0 auto 40px" }}>
             It takes 30 seconds. Your kid will think they&apos;re Picasso. You&apos;ll have art you actually want to frame.
           </p>
           <Link href="/create" className="d-btn-primary">
@@ -284,7 +277,6 @@ function PricingCard({ tier }: { tier: (typeof TIERS)[number] }) {
   const router = useRouter();
 
   const handleCheckout = async () => {
-    // Require auth before checkout
     if (!user) {
       router.push(`/auth?returnTo=/pricing`);
       return;
@@ -322,35 +314,31 @@ function PricingCard({ tier }: { tier: (typeof TIERS)[number] }) {
       className={`d-pricing-card ${tier.popular ? "d-pricing-popular" : ""}`}
       style={{ overflow: "visible" }}
     >
-      {/* Popular badge */}
       {tier.popular && (
         <span className="d-popular-badge">MOST POPULAR</span>
       )}
 
-      {/* Card header */}
       <div style={{ marginBottom: 24 }}>
-        <h3 style={{ fontSize: 22, fontWeight: 700, color: "#2B2D42", marginBottom: 4, fontFamily: "var(--font-display)" }}>
+        <h3 className="d-heading" style={{ fontSize: 22, marginBottom: 4 }}>
           {tier.name}
         </h3>
-        <p style={{ fontSize: 13, color: "#ADB5BD", fontStyle: "italic", fontFamily: "var(--font-accent)", marginBottom: 20 }}>
+        <p className="d-eyebrow" style={{ marginBottom: 20, color: "#ADB5BD", fontStyle: "italic" }}>
           {tier.tagline}
         </p>
         <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-          <span style={{ fontSize: 48, fontWeight: 700, letterSpacing: "-0.02em", color: "#2B2D42", fontFamily: "var(--font-display)" }}>
+          <span className="d-heading" style={{ fontSize: 48, marginBottom: 0 }}>
             {tier.price}
           </span>
           {tier.period && (
-            <span style={{ fontSize: 15, color: "#ADB5BD", fontWeight: 500 }}>
+            <span className="d-body-sm" style={{ color: "#ADB5BD" }}>
               {tier.period}
             </span>
           )}
         </div>
       </div>
 
-      {/* Description */}
-      <p style={{ fontSize: 14, lineHeight: 1.6, color: "#6C757D", marginBottom: 24 }}>{tier.desc}</p>
+      <p className="d-body-sm" style={{ marginBottom: 24 }}>{tier.desc}</p>
 
-      {/* Features */}
       <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32, flex: 1 }}>
         {tier.features.map((f) => (
           <div key={f} style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -371,11 +359,9 @@ function PricingCard({ tier }: { tier: (typeof TIERS)[number] }) {
         ))}
       </div>
 
-      {/* CTA */}
       <button
         onClick={handleCheckout}
         className={tier.popular ? "d-btn-primary d-btn-block" : "d-btn-secondary d-btn-block"}
-        style={{ fontFamily: "inherit" }}
       >
         {tier.cta}
       </button>
@@ -387,31 +373,13 @@ function FaqItem({ question, answer }: { readonly question: string; readonly ans
   const [open, setOpen] = useState(false);
 
   return (
-    <div
-      style={{
-        border: "3px solid #2B2D42",
-        borderRadius: 8,
-        background: "#FFF8F0",
-        overflow: "hidden",
-        transition: "all 0.2s",
-      }}
-    >
+    <div className="d-accordion-item">
       <button
         onClick={() => setOpen(!open)}
-        style={{
-          display: "flex",
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "18px 24px",
-          textAlign: "left",
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          fontFamily: "inherit",
-        }}
+        className="d-accordion-header"
+        style={{ width: "100%", background: "none", border: "none", cursor: "pointer" }}
       >
-        <span style={{ paddingRight: 16, fontSize: 15, fontWeight: 700, color: "#2B2D42", fontFamily: "var(--font-display)" }}>
+        <span className="d-heading" style={{ paddingRight: 16, fontSize: 15, marginBottom: 0, textAlign: "left", flex: 1 }}>
           {question}
         </span>
         <svg
@@ -432,18 +400,9 @@ function FaqItem({ question, answer }: { readonly question: string; readonly ans
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
-      <div
-        style={{
-          maxHeight: open ? 300 : 0,
-          opacity: open ? 1 : 0,
-          overflow: "hidden",
-          transition: "max-height 0.3s ease, opacity 0.2s ease",
-        }}
-      >
-        <div style={{ padding: "0 24px 24px", borderTop: "2px solid #E5D5C3" }}>
-          <p style={{ fontSize: 14, lineHeight: 1.75, color: "#6C757D", paddingTop: 20 }}>
-            {answer}
-          </p>
+      <div className={`d-accordion-body ${open ? "d-accordion-body-open" : ""}`}>
+        <div className="d-accordion-content d-body-sm">
+          {answer}
         </div>
       </div>
     </div>

@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
       success_url: `${config.app.url}/create?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${config.app.url}/pricing?canceled=true`,
       metadata: {
-        source: "doodleforge",
+        source: "doodie",
         user_id: user.id,
         tier: resolved.tier,
         credits: String(tierInfo.credits),

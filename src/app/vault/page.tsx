@@ -412,8 +412,8 @@ export default function VaultPage() {
 
       {/* Migration banner */}
       {migrating && (
-        <div style={{ padding: "12px 24px", textAlign: "center", background: "rgba(123,45,142,0.1)", borderBottom: "2px solid #7B2D8E" }}>
-          <p style={{ fontSize: 14, color: "#7B2D8E", fontWeight: 600 }}>
+        <div className="d-banner d-banner-purple">
+          <p className="d-body-sm" style={{ fontWeight: 600, color: "#7B2D8E" }}>
             Migrating your saved drawings to the cloud...
           </p>
         </div>

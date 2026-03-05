@@ -215,9 +215,10 @@ export default function GalleryPage() {
 
   return (
     <div className="relative z-10 min-h-screen">
-      <div className="d-hero mx-auto max-w-6xl px-6">
+      <div className="d-section" style={{ background: '#FFF8F0' }}>
+      <div className="d-container">
         {/* Header */}
-        <div className="mb-16 text-center">
+        <div style={{ textAlign: "center", marginBottom: 48 }}>
           <p className="d-eyebrow d-eyebrow-red">The Wall of Shame</p>
           <h1 className="d-heading d-heading-xl" style={{ marginBottom: 16 }}>
             Guess what they <span style={{ color: "#E63946" }}>drew</span>.
@@ -229,58 +230,36 @@ export default function GalleryPage() {
         </div>
 
         {/* Stats bar */}
-        <div
-          style={{
-            display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "16px 48px",
-            padding: "24px 32px", marginBottom: 40,
-            border: "3px solid #2B2D42", borderRadius: 8, background: "#FFF8F0",
-          }}
-        >
+        <div className="d-stats-bar d-mb-xl">
           {[
             { value: 19, label: "Masterpieces", color: "#E63946" },
             { value: 12, label: "Art Styles", color: "#7B2D8E" },
             { value: 16, label: "Young Artists", color: "#06D6A0" },
             { value: 0, label: "Art Degrees Required", color: "#FFD166" },
           ].map((stat) => (
-            <div key={stat.label} style={{ textAlign: "center" }}>
-              <p style={{ fontSize: 24, fontWeight: 700, color: stat.color, fontFamily: "var(--font-display)" }}><CountUp target={stat.value} /></p>
-              <p style={{ fontSize: 11, fontWeight: 600, color: "#ADB5BD", fontFamily: "var(--font-accent)" }}>{stat.label}</p>
+            <div key={stat.label} className="d-stats-bar-item">
+              <p className="d-stats-bar-value" style={{ color: stat.color }}><CountUp target={stat.value} /></p>
+              <p className="d-stats-bar-label">{stat.label}</p>
             </div>
           ))}
         </div>
 
         {/* Style Filter Pills */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginBottom: 32 }}>
+        <div className="d-flex d-mb-xl" style={{ flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
           <button
             onClick={() => setActiveStyle(null)}
-            style={{
-              display: "inline-flex", alignItems: "center", gap: 6,
-              borderRadius: 6, padding: "8px 20px", fontSize: 12, fontWeight: 700,
-              fontFamily: "var(--font-display)", border: "2px solid #2B2D42",
-              cursor: "pointer", transition: "all 0.2s",
-              background: activeStyle === null ? "#2B2D42" : "#FFF8F0",
-              color: activeStyle === null ? "#fff" : "#6C757D",
-              boxShadow: activeStyle === null ? "2px 2px 0px #2B2D42" : "none",
-            }}
+            className={`d-select-pill ${activeStyle === null ? 'd-select-pill-active' : ''}`}
           >
             All ({GALLERY_ITEMS.length})
           </button>
-          {STYLE_FILTERS.map(({ style, color }) => {
+          {STYLE_FILTERS.map(({ style }) => {
             const count = GALLERY_ITEMS.filter((item) => item.style === style).length;
             const isActive = activeStyle === style;
             return (
               <button
                 key={style}
                 onClick={() => setActiveStyle(isActive ? null : style)}
-                style={{
-                  display: "inline-flex", alignItems: "center", gap: 6,
-                  borderRadius: 6, padding: "8px 20px", fontSize: 12, fontWeight: 700,
-                  fontFamily: "var(--font-display)", border: `2px solid ${isActive ? color : "#2B2D42"}`,
-                  cursor: "pointer", transition: "all 0.2s",
-                  background: isActive ? color : "#FFF8F0",
-                  color: isActive ? "#fff" : "#6C757D",
-                  boxShadow: isActive ? `2px 2px 0px ${color}` : "none",
-                }}
+                className={`d-select-pill ${isActive ? 'd-select-pill-active' : ''}`}
               >
                 {style} ({count})
               </button>
@@ -418,6 +397,7 @@ export default function GalleryPage() {
             MAKE A DOODIE
           </Link>
         </div>
+      </div>
       </div>
 
       {lightboxIndex !== null && (

@@ -49,119 +49,110 @@ export default function GuessPage() {
   const isCorrect = selected === guess.answer
 
   return (
-    <div className="min-h-screen px-4 py-12" style={{ background: 'var(--paper-white, #FFF8F0)' }}>
-      <div className="max-w-lg mx-auto">
+    <div className="relative z-10 min-h-screen">
+      <div className="d-section" style={{ background: '#FFF8F0' }}>
+      <div className="d-container-sm" style={{ maxWidth: 512 }}>
         {/* Streak badge */}
         {streak > 0 && (
-          <div className="text-center mb-4">
-            <span className="inline-block px-3 py-1 rounded-full text-sm font-bold"
-              style={{
-                background: 'var(--crayon-yellow, #FFD166)',
-                color: 'var(--ink-dark, #2B2D42)',
-                fontFamily: 'Gaegu, cursive',
-                transform: 'rotate(-2deg)',
-                display: 'inline-block',
-              }}>
+          <div className="d-center d-mb-lg">
+            <span className="d-badge">
               {streak} day streak!
             </span>
           </div>
         )}
 
         {/* Question */}
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-2"
-          style={{ fontFamily: 'Gaegu, cursive', color: 'var(--ink-dark, #2B2D42)' }}>
+        <h1 className="d-heading d-heading-lg d-center d-mb-sm">
           WHAT IS THIS MASTERPIECE?
         </h1>
-        <p className="text-center mb-8" style={{ fontFamily: 'Caveat, cursive', color: 'var(--crayon-blue, #457B9D)', fontSize: '1.2rem' }}>
+        <p className="d-eyebrow d-eyebrow-blue d-center d-mb-xl" style={{ fontSize: '1.2rem' }}>
           {!revealed ? guess.hint : ''}
         </p>
 
         {/* The "drawing" placeholder */}
-        <div className="mx-auto mb-8 p-8 rounded-lg text-center"
-          style={{
-            background: 'white',
-            border: '3px solid var(--ink-dark, #2B2D42)',
-            maxWidth: '400px',
-            transform: 'rotate(1deg)',
-            boxShadow: '4px 4px 0 var(--ink-dark, #2B2D42)',
-          }}>
-          <div className="w-full aspect-square flex items-center justify-center rounded-lg"
-            style={{ background: 'var(--paper-cream, #F5E6D3)' }}>
-            <span className="text-6xl" style={{ fontFamily: 'Gaegu, cursive', color: 'var(--crayon-purple, #7B2D8E)' }}>
-              {revealed ? guess.answer : '???'}
-            </span>
+        <div className="d-center d-mb-xl">
+          <div
+            className="craft-card"
+            style={{
+              maxWidth: 400,
+              margin: '0 auto',
+              textAlign: 'center',
+              transform: 'rotate(1deg)',
+            }}
+          >
+            <div
+              className="d-flex-center"
+              style={{
+                width: '100%',
+                aspectRatio: '1',
+                borderRadius: 8,
+                background: '#F5E6D3',
+              }}
+            >
+              <span className="d-heading" style={{ fontSize: 64, color: '#7B2D8E' }}>
+                {revealed ? guess.answer : '???'}
+              </span>
+            </div>
+            {revealed && (
+              <p className="d-eyebrow d-mt-lg" style={{ marginBottom: 0, color: '#2B2D42' }}>
+                &ldquo;{guess.answer}&rdquo; -- by a very talented 5-year-old
+              </p>
+            )}
           </div>
-          {revealed && (
-            <p className="mt-4 text-sm" style={{ fontFamily: 'Caveat, cursive', color: 'var(--ink-dark, #2B2D42)', fontSize: '1rem' }}>
-              &ldquo;{guess.answer}&rdquo; -- by a very talented 5-year-old
-            </p>
-          )}
         </div>
 
         {/* Options */}
         {!revealed ? (
-          <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
+          <div className="d-grid d-grid-2" style={{ maxWidth: 400, margin: '0 auto', gap: 12 }}>
             {options.map((option) => (
-              <button key={option} onClick={() => handleGuess(option)}
-                className="p-4 rounded-lg font-bold text-lg transition-transform hover:scale-105 active:scale-95"
+              <button
+                key={option}
+                onClick={() => handleGuess(option)}
+                className="d-select-pill"
                 style={{
-                  background: 'var(--paper-cream, #F5E6D3)',
-                  border: '3px solid var(--ink-dark, #2B2D42)',
-                  fontFamily: 'Gaegu, cursive',
-                  color: 'var(--ink-dark, #2B2D42)',
+                  padding: '16px 12px',
+                  fontSize: 18,
+                  justifyContent: 'center',
                   transform: `rotate(${(Math.random() - 0.5) * 3}deg)`,
-                }}>
+                }}
+              >
                 {option}
               </button>
             ))}
           </div>
         ) : (
-          <div className="max-w-md mx-auto text-center">
+          <div style={{ maxWidth: 400, margin: '0 auto', textAlign: 'center' }}>
             {/* Result */}
-            <div className="p-6 rounded-lg mb-6"
-              style={{
-                background: isCorrect ? 'var(--crayon-green, #06D6A0)' : 'var(--crayon-red, #E63946)',
-                color: 'white',
-                transform: 'rotate(-1deg)',
-              }}>
-              <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: 'Gaegu, cursive' }}>
+            <div className={isCorrect ? 'd-alert d-alert-success' : 'd-alert d-alert-error'} style={{ padding: 24, marginBottom: 24, borderRadius: 8, transform: 'rotate(-1deg)' }}>
+              <h2 className="d-heading d-mb-sm" style={{ fontSize: 28, color: 'inherit' }}>
                 {isCorrect ? 'YOU GOT IT!' : 'NOPE!'}
               </h2>
-              <p className="text-sm" style={{ fontFamily: 'Nunito, sans-serif' }}>
+              <p className="d-body-sm" style={{ color: 'inherit', opacity: 0.9 }}>
                 {guess.reveal_text}
               </p>
               {!isCorrect && (
-                <p className="text-xs mt-2 opacity-80" style={{ fontFamily: 'Caveat, cursive', fontSize: '1rem' }}>
+                <p className="d-eyebrow d-mt-lg" style={{ marginBottom: 0, color: 'inherit', opacity: 0.8, fontSize: '1rem' }}>
                   {guess.roast}
                 </p>
               )}
             </div>
 
             {/* Come back tomorrow */}
-            <p className="mb-6" style={{ fontFamily: 'Caveat, cursive', color: 'var(--crayon-blue, #457B9D)', fontSize: '1.2rem' }}>
+            <p className="d-eyebrow d-eyebrow-blue d-mb-lg" style={{ fontSize: '1.2rem' }}>
               Come back tomorrow for a new masterpiece!
             </p>
 
-            <div className="flex gap-3 justify-center">
-              <Link href="/create"
-                className="px-6 py-3 rounded-lg font-bold text-white transition-transform hover:scale-105"
-                style={{ background: 'var(--crayon-red, #E63946)', fontFamily: 'Gaegu, cursive', fontSize: '1.2rem' }}>
+            <div className="d-btn-row">
+              <Link href="/create" className="d-btn-primary">
                 MAKE A DOODIE
               </Link>
-              <Link href="/"
-                className="px-6 py-3 rounded-lg font-bold transition-transform hover:scale-105"
-                style={{
-                  background: 'var(--paper-cream, #F5E6D3)',
-                  border: '3px solid var(--ink-dark, #2B2D42)',
-                  fontFamily: 'Gaegu, cursive',
-                  color: 'var(--ink-dark, #2B2D42)',
-                  fontSize: '1.2rem',
-                }}>
+              <Link href="/" className="d-btn-secondary">
                 The Fridge
               </Link>
             </div>
           </div>
         )}
+      </div>
       </div>
     </div>
   )

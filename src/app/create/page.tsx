@@ -138,22 +138,11 @@ export default function CreatePage() {
 
   return (
     <div className="relative z-10 min-h-screen">
-      <div className="d-hero mx-auto max-w-3xl px-6">
+      <div className="d-section" style={{ background: '#FFF8F0' }}>
+      <div className="d-container-md">
         {/* Success banner after Stripe purchase */}
         {showSuccess && (
-          <div
-            style={{
-              padding: "12px 24px",
-              marginBottom: 24,
-              borderRadius: 8,
-              border: "2px solid #06D6A0",
-              background: "rgba(6,214,160,0.1)",
-              textAlign: "center",
-              fontSize: 14,
-              fontWeight: 600,
-              color: "#06D6A0",
-            }}
-          >
+          <div className="d-alert d-alert-success d-mb-lg" style={{ textAlign: "center" }}>
             Credits added! You now have {credits >= 999 ? "unlimited" : credits} credits.
           </div>
         )}
@@ -161,21 +150,7 @@ export default function CreatePage() {
         {/* Credit balance */}
         {credits > 0 && step === "upload" && (
           <div style={{ textAlign: "center", marginBottom: 16 }}>
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                padding: "6px 16px",
-                borderRadius: 6,
-                border: "2px solid #2B2D42",
-                background: "#FFF8F0",
-                fontSize: 13,
-                fontWeight: 700,
-                color: "#2B2D42",
-                fontFamily: "var(--font-gaegu), cursive",
-              }}
-            >
+            <span className="d-badge-sm">
               Credits: {credits >= 999 ? "Unlimited" : credits}
             </span>
           </div>
@@ -193,15 +168,7 @@ export default function CreatePage() {
         {/* Upload Step */}
         {step === "upload" && (
           <div className="text-center">
-            <h1
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(32px, 5vw, 48px)",
-                fontWeight: 700,
-                color: "#2B2D42",
-                marginBottom: 12,
-              }}
-            >
+            <h1 className="d-heading d-heading-lg d-mb-sm">
               Drop the <span style={{ color: "#E63946" }}>doodle</span>.
             </h1>
             <p style={{ color: "#6C757D", marginBottom: 40 }}>
@@ -266,7 +233,7 @@ export default function CreatePage() {
             </div>
 
             {error && (
-              <p style={{ marginTop: 16, fontSize: 14, color: "#E63946", fontWeight: 600 }}>{error}</p>
+              <p className="d-alert d-alert-error d-mt-lg">{error}</p>
             )}
           </div>
         )}
@@ -343,7 +310,7 @@ export default function CreatePage() {
             </div>
 
             {error && (
-              <p style={{ textAlign: "center", fontSize: 14, color: "#E63946", fontWeight: 600, marginBottom: 16 }}>{error}</p>
+              <p className="d-alert d-alert-error d-mb-lg" style={{ textAlign: "center" }}>{error}</p>
             )}
 
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16 }}>
@@ -385,15 +352,7 @@ export default function CreatePage() {
               ))}
             </div>
 
-            <h2
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: 32,
-                fontWeight: 700,
-                color: "#2B2D42",
-                marginBottom: 8,
-              }}
-            >
+            <h2 className="d-heading d-heading-md d-mb-sm">
               Working on it...
             </h2>
             <p style={{ color: "#6C757D", marginBottom: 8, fontFamily: "var(--font-accent)", fontSize: 18 }}>
@@ -402,18 +361,8 @@ export default function CreatePage() {
             <p style={{ fontSize: 12, color: "#ADB5BD" }}>This usually takes 15-30 seconds.</p>
 
             {/* Progress bar */}
-            <div
-              style={{
-                marginTop: 32,
-                width: "100%",
-                maxWidth: 280,
-                padding: 8,
-                background: "#F5E6D3",
-                border: "2px solid #2B2D42",
-                borderRadius: 8,
-              }}
-            >
-              <div style={{ height: 6, width: "100%", borderRadius: 4, background: "#E5D5C3", overflow: "hidden" }}>
+            <div className="d-progress-bar d-mt-xl" style={{ width: "100%", maxWidth: 280 }}>
+              <div className="d-progress-bar-track">
                 <div
                   style={{
                     height: "100%",
@@ -430,15 +379,7 @@ export default function CreatePage() {
         {/* Result Step */}
         {step === "result" && (
           <div className="text-center result-reveal">
-            <h1
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(32px, 5vw, 48px)",
-                fontWeight: 700,
-                color: "#2B2D42",
-                marginBottom: 12,
-              }}
-            >
+            <h1 className="d-heading d-heading-lg d-mb-sm">
               <span style={{ color: "#06D6A0" }}>Ta-da!</span> Look at that.
             </h1>
             <p style={{ color: "#6C757D", marginBottom: 32 }}>
@@ -515,6 +456,7 @@ export default function CreatePage() {
             </div>
           </div>
         )}
+      </div>
       </div>
     </div>
   );

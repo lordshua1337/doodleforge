@@ -29,27 +29,16 @@ export default function AdvicePage() {
 
       {/* Stats bar */}
       <div className="d-container-md" style={{ paddingTop: 40, paddingBottom: 16 }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 48,
-            padding: "24px 32px",
-            flexWrap: "wrap",
-            border: "3px solid #2B2D42",
-            borderRadius: 8,
-            background: "#FFF8F0",
-          }}
-        >
+        <div className="d-stats-bar">
           {[
             { value: "9", label: "Scenarios", color: "#E63946" },
             { value: "11", label: "Ages Covered", color: "#7B2D8E" },
             { value: "99", label: "Advice Entries", color: "#06D6A0" },
             { value: "0", label: "Licensed Professionals", color: "#FFD166" },
           ].map((stat) => (
-            <div key={stat.label} style={{ textAlign: "center" }}>
-              <p style={{ fontSize: 24, fontWeight: 700, color: stat.color, fontFamily: "var(--font-display)" }}>{stat.value}</p>
-              <p style={{ fontSize: 11, fontWeight: 600, color: "#ADB5BD", fontFamily: "var(--font-accent)" }}>{stat.label}</p>
+            <div key={stat.label} className="d-stats-bar-item">
+              <p className="d-stats-bar-value" style={{ color: stat.color }}>{stat.value}</p>
+              <p className="d-stats-bar-label">{stat.label}</p>
             </div>
           ))}
         </div>

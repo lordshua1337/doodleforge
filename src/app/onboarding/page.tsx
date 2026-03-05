@@ -53,40 +53,21 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#FFF8F0" }}>
-      <div className="w-full max-w-md">
-        <div className="text-center" style={{ marginBottom: 32 }}>
-          <h1
-            style={{
-              fontFamily: "var(--font-gaegu), cursive",
-              fontSize: 36,
-              fontWeight: 700,
-              color: "#2B2D42",
-              marginBottom: 8,
-            }}
-          >
+    <div className="relative z-10 min-h-screen d-flex d-flex-center" style={{ padding: '0 16px' }}>
+      <div style={{ width: '100%', maxWidth: 448 }}>
+        <div className="d-center d-mb-xl">
+          <h1 className="d-heading d-heading-lg d-mb-sm">
             Who&apos;s the artist?
           </h1>
-          <p style={{ fontSize: 14, color: "#6C757D" }}>
+          <p className="d-body-sm">
             Tell us about your kid so we can personalize their gallery.
           </p>
         </div>
 
-        <div
-          style={{
-            padding: 32,
-            border: "3px solid #2B2D42",
-            borderRadius: 12,
-            background: "#F5E6D3",
-            boxShadow: "4px 4px 0px #2B2D42",
-          }}
-        >
+        <div className="craft-card" style={{ transform: 'rotate(-0.5deg)' }}>
           {/* Name */}
-          <div style={{ marginBottom: 24 }}>
-            <label
-              htmlFor="child-name"
-              style={{ display: "block", fontSize: 14, fontWeight: 700, color: "#2B2D42", marginBottom: 8 }}
-            >
+          <div className="d-mb-lg">
+            <label htmlFor="child-name" className="d-eyebrow d-mb-sm" style={{ display: 'block', marginBottom: 8 }}>
               Kid&apos;s name
             </label>
             <input
@@ -100,43 +81,23 @@ export default function OnboardingPage() {
               onKeyDown={(e) => {
                 if (e.key === "Enter" && name.trim()) handleSubmit();
               }}
-              style={{
-                width: "100%",
-                padding: "12px 16px",
-                borderRadius: 8,
-                border: "2px solid #2B2D42",
-                background: "#fff",
-                fontSize: 16,
-                fontFamily: "inherit",
-              }}
+              className="d-input"
             />
           </div>
 
           {/* Age */}
-          <div style={{ marginBottom: 24 }}>
-            <label style={{ display: "block", fontSize: 14, fontWeight: 700, color: "#2B2D42", marginBottom: 8 }}>
-              How old? <span style={{ fontWeight: 400, color: "#ADB5BD" }}>(optional)</span>
+          <div className="d-mb-lg">
+            <label className="d-eyebrow d-mb-sm" style={{ display: 'block', marginBottom: 8 }}>
+              How old? <span className="d-body-sm" style={{ fontWeight: 400 }}>(optional)</span>
             </label>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            <div className="d-flex" style={{ flexWrap: 'wrap', gap: 8 }}>
               {AGES.map((a) => (
                 <button
                   key={a}
                   type="button"
                   onClick={() => setAge(age === a ? null : a)}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 8,
-                    border: "2px solid",
-                    borderColor: age === a ? "#7B2D8E" : "#2B2D42",
-                    background: age === a ? "rgba(123,45,142,0.15)" : "#fff",
-                    color: age === a ? "#7B2D8E" : "#2B2D42",
-                    fontSize: 14,
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    fontFamily: "inherit",
-                    transition: "all 0.15s",
-                  }}
+                  className={`d-select-pill ${age === a ? 'd-select-pill-active' : ''}`}
+                  style={{ width: 40, height: 40, padding: 0, justifyContent: 'center' }}
                 >
                   {a}
                 </button>
@@ -145,30 +106,18 @@ export default function OnboardingPage() {
           </div>
 
           {/* Avatar letter */}
-          <div style={{ marginBottom: 24 }}>
-            <label style={{ display: "block", fontSize: 14, fontWeight: 700, color: "#2B2D42", marginBottom: 8 }}>
+          <div className="d-mb-lg">
+            <label className="d-eyebrow d-mb-sm" style={{ display: 'block', marginBottom: 8 }}>
               Pick an avatar letter
             </label>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            <div className="d-flex" style={{ flexWrap: 'wrap', gap: 8 }}>
               {AVATAR_EMOJIS.map((e) => (
                 <button
                   key={e}
                   type="button"
                   onClick={() => setAvatar(e)}
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 10,
-                    border: "2px solid",
-                    borderColor: avatar === e ? "#06D6A0" : "#2B2D42",
-                    background: avatar === e ? "rgba(6,214,160,0.15)" : "#fff",
-                    fontSize: 18,
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    fontFamily: "var(--font-gaegu), cursive",
-                    transition: "all 0.15s",
-                    color: "#2B2D42",
-                  }}
+                  className={`d-select-pill ${avatar === e ? 'd-select-pill-active' : ''}`}
+                  style={{ width: 44, height: 44, padding: 0, justifyContent: 'center', fontSize: 18 }}
                 >
                   {e}
                 </button>
@@ -177,44 +126,29 @@ export default function OnboardingPage() {
           </div>
 
           {error && (
-            <p style={{ fontSize: 14, color: "#E63946", fontWeight: 600, marginBottom: 16 }}>{error}</p>
+            <p className="d-alert d-alert-error d-mb-lg">{error}</p>
           )}
 
           <button
             onClick={handleSubmit}
             disabled={!name.trim() || loading}
-            style={{
-              width: "100%",
-              padding: "14px 28px",
-              borderRadius: 8,
-              border: "2px solid #2B2D42",
-              background: "#E63946",
-              color: "#fff",
-              fontSize: 18,
-              fontWeight: 700,
-              fontFamily: "var(--font-gaegu), cursive",
-              cursor: name.trim() && !loading ? "pointer" : "not-allowed",
-              opacity: name.trim() && !loading ? 1 : 0.5,
-              transition: "all 0.15s",
-              boxShadow: "3px 3px 0px #2B2D42",
-            }}
+            className="d-btn-primary"
+            style={{ width: '100%' }}
           >
             {loading ? "Adding..." : "Let's Go"}
           </button>
 
           <button
             onClick={() => router.push("/create")}
+            className="d-eyebrow d-eyebrow-blue d-mt-lg"
             style={{
-              display: "block",
-              width: "100%",
-              marginTop: 12,
-              padding: "10px",
-              background: "transparent",
-              border: "none",
-              fontSize: 14,
-              color: "#6C757D",
-              cursor: "pointer",
-              fontFamily: "inherit",
+              display: 'block',
+              width: '100%',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              textAlign: 'center',
+              marginBottom: 0,
             }}
           >
             Skip for now

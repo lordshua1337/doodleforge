@@ -10,37 +10,27 @@ interface FaqItem {
 }
 
 const FAQ_ITEMS: FaqItem[] = [
-  { category: "Getting Started", question: "How does Doodie work?", answer: "Upload a photo of your kid's drawing, pick an art style (oil painting, anime, watercolor, etc.), and our AI transforms it into professional-looking art while keeping the original composition. The whole process takes about 15-30 seconds." },
-  { category: "Getting Started", question: "Do I need to create an account?", answer: "Nope. You can make a Doodie right now without signing up. We only need an account if you want to save drawings to the Vault or order prints. Even then, it takes 10 seconds." },
-  { category: "Getting Started", question: "What kind of drawings work best?", answer: "Anything a kid drew. Crayon, marker, pencil, paint -- all good. The clearer the photo, the better the result. Try to get decent lighting and avoid shadows on the paper. Pro tip: white paper with dark lines works best." },
-  { category: "The Art", question: "Does the AI change my kid's drawing?", answer: "The AI preserves your kid's composition, characters, and layout. It applies the style (brushstrokes, colors, lighting) but keeps the \"what\" the same. If your kid drew a cat, you get a cat -- just a much fancier one. If the output doesn't look like what your kid drew, we've failed." },
-  { category: "The Art", question: "What art styles are available?", answer: "Currently 12: Oil Painting, Watercolor, Anime, Cyberpunk, Pop Art, Pixel Art, Studio Ghibli, Photorealistic, Stained Glass, Cartoon, Pencil Sketch, and Fantasy Epic. We're adding more regularly. Each style produces dramatically different results from the same drawing." },
-  { category: "The Art", question: "Can I try multiple styles on the same drawing?", answer: "Yes! Upload once, then go back and pick a different style. See your kid's dinosaur as an oil painting, then as anime, then as cyberpunk. Different vibes, same adorable source material." },
-  { category: "The Art", question: "What resolution are the images?", answer: "Quick drafts generate at 512x512. When you hit 'Forge Final,' you get a high-resolution version suitable for printing up to 16x20 inches. The download button always gives you the highest resolution available." },
-  { category: "Vault & Storage", question: "What is the Vault?", answer: "The Vault is your kid's permanent digital art archive. Scan and store any drawing -- even ones you don't transform. It organizes everything by child and date, so you can see their artistic growth over time. Think of it as a digital fridge that never runs out of magnets." },
-  { category: "Vault & Storage", question: "How many drawings can I store?", answer: "Free accounts store up to 50 drawings. Pro accounts get unlimited storage. Storing drawings is free and doesn't use any credits -- we want you to save everything." },
-  { category: "Prints & Gifts", question: "Can I order a physical print?", answer: "Yes! We offer framed prints, posters, greeting card sets, photo books, and gift bundles. Everything is printed on premium materials and ships in 5-7 business days. The framed prints make genuinely impressive gifts." },
-  { category: "Prints & Gifts", question: "Do you ship internationally?", answer: "Currently we ship within the US. International shipping is coming soon. In the meantime, you can always download the high-res image and use a local print service." },
-  { category: "Privacy & Safety", question: "Is my kid's art safe?", answer: "Absolutely. We never share, sell, or use your child's drawings for anything other than generating their art. Images are processed and deleted from our servers within 24 hours unless you save them to the Vault. We're COPPA compliant and take kid privacy seriously." },
-  { category: "Privacy & Safety", question: "Do you use my kid's drawings to train AI?", answer: "No. Full stop. Your kid's drawings are processed through our AI model to generate the transformation, then deleted. We do not use uploaded images to train, fine-tune, or improve any AI model. Your kid's art belongs to your kid." },
-  { category: "Pricing", question: "Is it free?", answer: "You get free credits to try it out. After that, we have affordable plans starting at a few bucks a month. Honestly, if it saves you from buying one overpriced art print as a gift, it's already paid for itself." },
-  { category: "Pricing", question: "What if I don't like the result?", answer: "Try a different style -- sometimes watercolor hits different than oil painting. If you're still not happy, the credit is not consumed for results you don't save. We'd rather you try again than walk away disappointed." },
-  { category: "The Art", question: "What's the difference between a draft and a final?", answer: "Drafts are quick previews generated in about 5 seconds at a smaller resolution. They're great for trying different styles to see what you like. Once you find the one, hit 'Forge Final' to get the full high-resolution version suitable for printing. Drafts don't use your final credits." },
-  { category: "Getting Started", question: "Can I use a photo of a drawing from years ago?", answer: "Yes! Dig through those kitchen drawers, closet bins, and grandma's fridge collection. Old drawings work great as long as the photo is reasonably clear. We've successfully transformed decade-old crayon drawings that were basically just faded lines on crumpled paper." },
-  { category: "Prints & Gifts", question: "Are the prints actually good quality?", answer: "Museum-quality. We use archival inks on premium paper and canvas. The framed options come with real glass and solid wood frames. These aren't novelty items -- they're actual art prints that look incredible on a wall. Multiple customers have told us guests assume they hired an artist." },
-  { category: "Privacy & Safety", question: "Can my kid use the app directly?", answer: "DoodleForge is a parent-facing app. Kids don't create accounts or log in. They do the fun part (drawing) on paper, and you handle the digital magic. This keeps everything simple and COPPA-compliant. That said, kids absolutely love watching the transformation happen on screen." },
+  { category: "The Basics", question: "What even is Doodie?", answer: "Your kid draws something. You photograph it. We make it look like it belongs in a museum. Oil painting, anime, watercolor -- you pick the vibe. The whole thing takes about 15 seconds, which is roughly 14 seconds longer than your kid spent on the drawing." },
+  { category: "The Basics", question: "Do I need an account?", answer: "Not to make your first Doodie, no. We give you free forges just for showing up. You only need an account if you want to save stuff to the Vault or order prints. Signing up takes 10 seconds. We timed it. Twice." },
+  { category: "The Basics", question: "What drawings work best?", answer: "Literally anything a child has produced. Crayon on printer paper. Marker on a napkin. That one time they drew on the wall and you took a photo before scrubbing it off. Just get decent lighting and try not to include your thumb. White paper with dark lines is the sweet spot, but we're not picky." },
+  { category: "The Basics", question: "Can I use old drawings?", answer: "Yes. Raid the kitchen drawer. Check behind the fridge. Dig through that bin in the closet you haven't opened since 2019. We've successfully transformed drawings so old the crayon had basically returned to dust. If you can photograph it, we can forge it." },
+  { category: "The Art", question: "Does the AI change my kid's drawing?", answer: "It keeps the what and upgrades the how. Your kid's cat stays a cat -- it just becomes a cat that looks like it was painted by someone who went to art school and takes themselves very seriously. If the result doesn't look like what your kid drew, we've failed. And we don't like failing." },
+  { category: "The Art", question: "How many styles are there?", answer: "12 regular styles plus EPIC mode (which is basically what happens when you let the AI have espresso). Oil Painting, Watercolor, Anime, Cyberpunk, Pop Art, Pixel Art, Studio Ghibli, Photorealistic, Stained Glass, Cartoon, Pencil Sketch, and Fantasy. We add more when we feel like it." },
+  { category: "The Art", question: "Can I try multiple styles?", answer: "Upload once, forge as many times as you want. See your kid's dinosaur as a Monet, then as anime, then as a neon cyberpunk fever dream. Same scribble, wildly different vibes. This is where the addiction starts." },
+  { category: "The Art", question: "What's the deal with EPIC mode?", answer: "EPIC is what happens when you remove the AI's restraint. Your kid's stick figure becomes a warrior in a lightning storm. Their crayon sun becomes a supernova. It costs 2 credits instead of 1 because honestly the results are absurd and we have to pay for all those extra pixels." },
+  { category: "The Art", question: "Draft vs Final -- what's the difference?", answer: "Drafts are the appetizer. Quick, low-res, instant gratification. Finals are the main course -- full resolution, print-ready, frame-worthy. Drafts are for figuring out which style slaps. Finals are for making grandma cry." },
+  { category: "The Vault", question: "What is the Vault?", answer: "A digital fridge with infinite magnets. Scan and store any drawing your kid makes -- even ones you don't transform. It organizes everything by kid and date so you can watch their art evolve from 'abstract blob' to 'slightly more intentional abstract blob' over the years." },
+  { category: "The Vault", question: "How many drawings can I store?", answer: "Storing is free and doesn't use credits. We genuinely want you to scan everything. Every napkin doodle. Every homework margin masterpiece. Every drawing of 'the family' where Dad is suspiciously tiny." },
+  { category: "Prints & Gifts", question: "Can I get a real print?", answer: "Yes, and they're actually good. Museum-quality paper, archival inks, real wood frames with real glass. These aren't fridge magnets (though we support that lifestyle too). Multiple people have told us their guests assumed they commissioned a professional artist. Nope. Just a 4-year-old with a crayon." },
+  { category: "Prints & Gifts", question: "Do you ship internationally?", answer: "US only right now. We're working on it. In the meantime, you can download the high-res file and find a local printer. We won't be offended. Actually we will be a little offended but we'll get over it." },
+  { category: "Privacy", question: "Is my kid's art safe?", answer: "Safer than it is on your fridge (which, let's be honest, is a war zone). We never share, sell, or use your kid's drawings for anything except making them look incredible. Images are processed and deleted within 24 hours unless you save them. We're COPPA compliant. We take this seriously even when we don't sound like it." },
+  { category: "Privacy", question: "Do you train AI on my kid's art?", answer: "No. Absolutely not. Never. Your kid's drawings go through our AI, get transformed, and get deleted. We do not use them to train, fine-tune, or improve any model. Your kid's art belongs to your kid. This is the one question we don't joke about." },
+  { category: "Privacy", question: "Can my kid use the app?", answer: "Doodie is a parent app. Kids do the fun part (drawing on actual paper like nature intended) and you handle the digital wizardry. This keeps everything COPPA-compliant and also means your kid can't accidentally buy 47 prints of their drawing of a 'snake' that is clearly just a line." },
+  { category: "Money", question: "Is it free?", answer: "You get free credits to try it. After that, plans start at a few bucks. If it saves you from one overpriced Etsy art print as a birthday gift, it's already paid for itself. If it saves you from two, you're basically profiting. You're welcome." },
+  { category: "Money", question: "What if the result is bad?", answer: "Try a different style. Seriously. Sometimes watercolor hits different than oil painting. Sometimes your kid's drawing of a 'horse' looks better as pixel art than photorealistic (because in photorealistic it looks like a cursed creature and nobody needs that). Credits aren't consumed for results you don't keep." },
 ];
 
 const CATEGORIES = [...new Set(FAQ_ITEMS.map((item) => item.category))];
-
-const CATEGORY_COLORS: Record<string, string> = {
-  "Getting Started": "#E63946",
-  "The Art": "#7B2D8E",
-  "Vault & Storage": "#457B9D",
-  "Prints & Gifts": "#06D6A0",
-  "Privacy & Safety": "#FFD166",
-  Pricing: "#E63946",
-};
 
 function FaqAccordion({
   item,
@@ -51,42 +41,12 @@ function FaqAccordion({
   isOpen: boolean;
   onToggle: () => void;
 }) {
-  const color = CATEGORY_COLORS[item.category] || "#ADB5BD";
-
   return (
-    <div
-      style={{
-        border: "3px solid #2B2D42",
-        borderRadius: 8,
-        background: "#FFF8F0",
-        overflow: "hidden",
-        marginBottom: 12,
-        cursor: "pointer",
-      }}
-      onClick={onToggle}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "18px 24px",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 12, flex: 1 }}>
-          <div
-            style={{
-              height: 8,
-              width: 8,
-              borderRadius: 2,
-              background: color,
-              flexShrink: 0,
-            }}
-          />
-          <h3 style={{ fontSize: 15, fontWeight: 700, color: "#2B2D42", fontFamily: "var(--font-display)" }}>
-            {item.question}
-          </h3>
-        </div>
+    <div className="d-accordion-item" onClick={onToggle} style={{ cursor: 'pointer' }}>
+      <div className="d-accordion-header">
+        <h3 className="d-heading" style={{ fontSize: 15, marginBottom: 0, flex: 1 }}>
+          {item.question}
+        </h3>
         <svg
           width="18"
           height="18"
@@ -106,23 +66,8 @@ function FaqAccordion({
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </div>
-      <div
-        style={{
-          maxHeight: isOpen ? 300 : 0,
-          overflow: "hidden",
-          transition: "max-height 0.3s ease",
-        }}
-      >
-        <div
-          style={{
-            padding: "0 24px 20px",
-            fontSize: 14,
-            lineHeight: 1.7,
-            color: "#6C757D",
-            borderTop: "2px solid #E5D5C3",
-            paddingTop: 16,
-          }}
-        >
+      <div className={`d-accordion-body ${isOpen ? 'd-accordion-body-open' : ''}`}>
+        <div className="d-accordion-content d-body-sm">
           {item.answer}
         </div>
       </div>
@@ -140,53 +85,34 @@ export default function FaqPage() {
 
   return (
     <div className="relative z-10 min-h-screen">
-      <div className="d-hero mx-auto max-w-3xl px-6">
+      <div className="d-section" style={{ background: '#FFF8F0' }}>
+      <div className="d-container-md">
         {/* Header */}
-        <div className="mb-12 text-center">
-          <p className="d-eyebrow d-eyebrow-purple">Questions</p>
-          <h1 className="d-heading d-heading-xl" style={{ marginBottom: 16 }}>
-            Things people <span style={{ color: "#E63946" }}>ask us</span>.
+        <div className="d-center d-mb-xl">
+          <p className="d-eyebrow d-eyebrow-purple">FAQ</p>
+          <h1 className="d-heading d-heading-xl d-mb-sm">
+            The Answers To <span style={{ color: "#E63946" }}>None</span> of Your Questions.
           </h1>
-          <p className="d-body" style={{ maxWidth: 480, margin: "0 auto" }}>
-            Usually right after they see what we did to their kid&apos;s
-            drawing. Relax. We can explain everything.
+          <p className="d-body" style={{ maxWidth: 520 }}>
+            You probably have real questions. These are the ones
+            we felt like answering instead.
           </p>
         </div>
 
-        <div className="d-divider-gradient" style={{ marginBottom: 32 }} />
+        <div className="d-divider-gradient d-mb-xl" />
 
         {/* Category filter */}
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 8,
-            justifyContent: "center",
-            marginBottom: 32,
-          }}
-        >
+        <div className="d-flex d-mb-xl" style={{ flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
           <button
             onClick={() => {
               setActiveCategory(null);
               setOpenIndex(null);
             }}
-            style={{
-              padding: "6px 16px",
-              borderRadius: 6,
-              fontSize: 13,
-              fontWeight: 700,
-              fontFamily: "var(--font-display)",
-              border: "2px solid #2B2D42",
-              background: activeCategory === null ? "#2B2D42" : "#FFF8F0",
-              color: activeCategory === null ? "#fff" : "#6C757D",
-              cursor: "pointer",
-              transition: "all 0.15s",
-            }}
+            className={`d-select-pill ${activeCategory === null ? 'd-select-pill-active' : ''}`}
           >
             All
           </button>
           {CATEGORIES.map((cat) => {
-            const color = CATEGORY_COLORS[cat];
             const isActive = activeCategory === cat;
             return (
               <button
@@ -195,18 +121,7 @@ export default function FaqPage() {
                   setActiveCategory(isActive ? null : cat);
                   setOpenIndex(null);
                 }}
-                style={{
-                  padding: "6px 16px",
-                  borderRadius: 6,
-                  fontSize: 13,
-                  fontWeight: 700,
-                  fontFamily: "var(--font-display)",
-                  border: `2px solid ${isActive ? color : "#2B2D42"}`,
-                  background: isActive ? `${color}20` : "#FFF8F0",
-                  color: isActive ? color : "#6C757D",
-                  cursor: "pointer",
-                  transition: "all 0.15s",
-                }}
+                className={`d-select-pill ${isActive ? 'd-select-pill-active' : ''}`}
               >
                 {cat}
               </button>
@@ -226,24 +141,22 @@ export default function FaqPage() {
           ))}
         </div>
 
-        <div className="d-divider-gradient" style={{ marginTop: 48, marginBottom: 48 }} />
+        <div className="d-divider-gradient" style={{ margin: '48px 0' }} />
 
         {/* CTA */}
-        <div
-          className="text-center d-section-alt"
-          style={{ padding: "48px 24px", borderRadius: 8, border: "3px solid #2B2D42" }}
-        >
-          <h2 className="d-heading d-heading-md" style={{ marginBottom: 12 }}>
-            Still have questions? <span style={{ color: "#E63946" }}>Good.</span>
+        <div className="craft-card d-center" style={{ padding: '48px 24px' }}>
+          <h2 className="d-heading d-heading-md d-mb-sm">
+            Still confused? <span style={{ color: "#E63946" }}>Perfect.</span>
           </h2>
-          <p className="d-body" style={{ marginBottom: 24 }}>
-            The best way to understand Doodie is to try it. Upload a
-            drawing and see what happens.
+          <p className="d-body d-mb-lg">
+            Honestly the best way to understand Doodie is to just
+            upload a drawing and watch what happens to it.
           </p>
           <Link href="/create" className="d-btn-primary">
             MAKE A DOODIE
           </Link>
         </div>
+      </div>
       </div>
     </div>
   );

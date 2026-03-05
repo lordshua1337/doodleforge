@@ -19,12 +19,12 @@ export default async function SharePage({ params }: SharePageProps) {
   // Check expiry
   if (link.expires_at && new Date(link.expires_at) < new Date()) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#FFF8F0' }}>
-        <div className="text-center p-8">
-          <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Gaegu, cursive', color: '#2B2D42' }}>
+      <div className="relative z-10 min-h-screen d-flex d-flex-center" style={{ padding: '0 32px' }}>
+        <div style={{ textAlign: 'center' }}>
+          <h1 className="d-heading d-heading-lg d-mb-sm">
             This gallery link has expired
           </h1>
-          <p style={{ fontFamily: 'Caveat, cursive', color: '#457B9D', fontSize: '1.2rem' }}>
+          <p className="d-eyebrow d-eyebrow-blue" style={{ marginBottom: 0, fontSize: '1.2rem' }}>
             Ask the artist&apos;s parent for a new link!
           </p>
         </div>
@@ -64,7 +64,7 @@ export default async function SharePage({ params }: SharePageProps) {
     forges = data ?? []
   }
 
-  // Normalize drawings from array to single object (Supabase returns arrays for joins)
+  // Normalize drawings from array to single object
   const normalizedForges = forges.map((f) => {
     const drawings = Array.isArray(f.drawings) ? f.drawings[0] ?? null : f.drawings
     return {
@@ -78,103 +78,96 @@ export default async function SharePage({ params }: SharePageProps) {
   })
 
   return (
-    <div className="min-h-screen px-4 py-12" style={{ background: '#FFF8F0' }}>
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-2"
-            style={{ fontFamily: 'Gaegu, cursive', color: '#2B2D42' }}>
-            {link.title || 'Art Gallery'}
-          </h1>
-          <p style={{ fontFamily: 'Caveat, cursive', color: '#457B9D', fontSize: '1.2rem' }}>
-            A collection of tiny masterpieces, forged with AI
-          </p>
-          <p className="text-xs mt-2" style={{ color: '#7B2D8E' }}>
-            {currentViews} {currentViews === 1 ? 'view' : 'views'}
-          </p>
-        </div>
-
-        {normalizedForges.length === 0 ? (
-          <div className="text-center p-12 rounded-lg"
-            style={{ background: '#F5E6D3', border: '3px solid #2B2D42' }}>
-            <p className="text-xl" style={{ fontFamily: 'Gaegu, cursive', color: '#2B2D42' }}>
-              No art yet -- check back soon!
+    <div className="relative z-10 min-h-screen">
+      <div className="d-section" style={{ background: '#FFF8F0' }}>
+        <div className="d-container-md">
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <h1 className="d-heading d-heading-xl d-mb-sm">
+              {link.title || 'Art Gallery'}
+            </h1>
+            <p className="d-eyebrow d-eyebrow-blue" style={{ marginBottom: 8, fontSize: '1.2rem' }}>
+              A collection of tiny masterpieces, forged with AI
+            </p>
+            <p className="d-body-sm" style={{ color: '#7B2D8E' }}>
+              {currentViews} {currentViews === 1 ? 'view' : 'views'}
             </p>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {normalizedForges.map((forge) => (
-              <div key={forge.id}
-                className="rounded-lg overflow-hidden"
-                style={{
-                  background: 'white',
-                  border: '3px solid #2B2D42',
-                  boxShadow: '4px 4px 0 #2B2D42',
-                }}>
 
-                {/* Before/After images */}
-                {forge.drawings?.original_url && forge.result_url ? (
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    {/* After (main) */}
-                    <div className="aspect-square bg-zinc-100 flex items-center justify-center" style={{ position: 'relative' }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={forge.result_url} alt="Forged art" className="w-full h-full object-cover" />
-                      {forge.is_epic && (
-                        <span
-                          className="absolute top-2 right-2 px-2 py-0.5 text-xs font-bold rounded-full text-white"
-                          style={{ background: '#7B2D8E', border: '1px solid #2B2D42' }}>
-                          EPIC
-                        </span>
-                      )}
-                    </div>
-                    {/* Before (small) */}
-                    <div style={{ padding: '8px 12px', borderTop: '2px solid #E5D5C3', display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 6, overflow: 'hidden', border: '2px solid #2B2D42', flexShrink: 0 }}>
+          {normalizedForges.length === 0 ? (
+            <div className="craft-card" style={{ textAlign: 'center', padding: 48 }}>
+              <p className="d-heading" style={{ fontSize: 20 }}>
+                No art yet -- check back soon!
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {normalizedForges.map((forge) => (
+                <div key={forge.id} className="d-shame-card">
+                  {/* Before/After images */}
+                  {forge.drawings?.original_url && forge.result_url ? (
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <div className="d-shame-top" style={{ padding: 0, aspectRatio: '1', overflow: 'hidden', position: 'relative' }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={forge.drawings.original_url} alt="Original drawing" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <img src={forge.result_url} alt="Forged art" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        {forge.is_epic && (
+                          <span className="d-badge-sm" style={{
+                            position: 'absolute', top: 8, right: 8,
+                            background: '#7B2D8E', color: '#fff', fontSize: 10,
+                          }}>
+                            EPIC
+                          </span>
+                        )}
                       </div>
-                      <div>
-                        <p className="text-xs" style={{ color: '#ADB5BD', fontFamily: 'Caveat, cursive' }}>Original drawing</p>
-                        <p className="text-sm font-bold" style={{ fontFamily: 'Gaegu, cursive', color: '#2B2D42', textTransform: 'capitalize' }}>
+                      <div className="d-shame-body" style={{ padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{ width: 40, height: 40, borderRadius: 6, overflow: 'hidden', border: '2px solid #2B2D42', flexShrink: 0 }}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={forge.drawings.original_url} alt="Original drawing" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        </div>
+                        <div>
+                          <p className="d-eyebrow" style={{ marginBottom: 0, fontSize: 11, color: '#ADB5BD' }}>Original drawing</p>
+                          <p className="d-heading" style={{ fontSize: 14, marginBottom: 0, textTransform: 'capitalize' }}>
+                            {forge.style}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : forge.result_url ? (
+                    <>
+                      <div className="d-shame-top" style={{ padding: 0, aspectRatio: '1', overflow: 'hidden', position: 'relative' }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={forge.result_url} alt="Forged art" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        {forge.is_epic && (
+                          <span className="d-badge-sm" style={{
+                            position: 'absolute', top: 8, right: 8,
+                            background: '#7B2D8E', color: '#fff', fontSize: 10,
+                          }}>
+                            EPIC
+                          </span>
+                        )}
+                      </div>
+                      <div className="d-shame-body" style={{ padding: 12 }}>
+                        <p className="d-heading" style={{ fontSize: 14, marginBottom: 0, textTransform: 'capitalize' }}>
                           {forge.style}
                         </p>
                       </div>
-                    </div>
-                  </div>
-                ) : forge.result_url ? (
-                  <>
-                    <div className="aspect-square bg-zinc-100 flex items-center justify-center" style={{ position: 'relative' }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={forge.result_url} alt="Forged art" className="w-full h-full object-cover" />
-                      {forge.is_epic && (
-                        <span
-                          className="absolute top-2 right-2 px-2 py-0.5 text-xs font-bold rounded-full text-white"
-                          style={{ background: '#7B2D8E', border: '1px solid #2B2D42' }}>
-                          EPIC
-                        </span>
-                      )}
-                    </div>
-                    <div className="p-3">
-                      <p className="text-sm font-bold" style={{ fontFamily: 'Gaegu, cursive', color: '#2B2D42', textTransform: 'capitalize' }}>
-                        {forge.style}
+                    </>
+                  ) : (
+                    <div className="d-shame-top" style={{ aspectRatio: '1' }}>
+                      <p className="d-eyebrow" style={{ marginBottom: 0, color: '#ADB5BD' }}>
+                        Processing...
                       </p>
                     </div>
-                  </>
-                ) : (
-                  <div className="aspect-square flex items-center justify-center" style={{ background: '#F5E6D3' }}>
-                    <p style={{ fontFamily: 'Caveat, cursive', color: '#ADB5BD' }}>
-                      Processing...
-                    </p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
 
-        <div className="text-center mt-12">
-          <p style={{ fontFamily: 'Caveat, cursive', color: '#457B9D', fontSize: '1rem' }}>
-            Made with Doodie -- turn your kid&apos;s scribbles into art
-          </p>
+          <div style={{ textAlign: 'center', marginTop: 48 }}>
+            <p className="d-eyebrow d-eyebrow-blue" style={{ marginBottom: 0, fontSize: '1rem' }}>
+              Made with Doodie -- turn your kid&apos;s scribbles into art
+            </p>
+          </div>
         </div>
       </div>
     </div>

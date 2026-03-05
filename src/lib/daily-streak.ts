@@ -4,7 +4,7 @@
 // - Grace period: missing 1 day freezes the streak, missing 2 resets it
 // - Milestones at 3, 7, 14, 30 days
 
-const STORAGE_KEY = "doodleforge-daily-streak";
+const STORAGE_KEY = "doodie-daily-streak";
 
 export interface StreakState {
   readonly currentStreak: number;
