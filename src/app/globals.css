@@ -25,18 +25,24 @@
   --color-text-muted: #ADB5BD;
   --color-accent: #E63946;
 
-  /* ── Fonts ── */
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-architects-daughter), cursive;
-  --font-accent: var(--font-just-another-hand), cursive;
-  --font-chunky: var(--font-architects-daughter), cursive;
+  /* ── Fonts (fallbacks for Tailwind utility registration) ── */
+  --font-sans: system-ui, sans-serif;
+  --font-mono: monospace;
+  --font-display: cursive;
+  --font-accent: cursive;
+  --font-chunky: cursive;
 }
 
 /* ── RESET ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
+  /* Override font vars here where Next.js font classes are available */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  --font-display: var(--font-architects-daughter), cursive;
+  --font-accent: var(--font-just-another-hand), cursive;
+  --font-chunky: var(--font-architects-daughter), cursive;
   background: #FFF8F0;
   color: #2B2D42;
   font-family: var(--font-sans);
