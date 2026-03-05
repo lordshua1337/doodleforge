@@ -1,14 +1,17 @@
 // Digital Vault -- localStorage-based drawing storage with DB migration
-// Tracks saved gallery items with timestamps and notes
+// Tracks saved drawings and forges with timestamps and notes
 // All operations are immutable -- returns new state
 
 export interface VaultEntry {
   readonly id: string;
-  readonly galleryIndex: number; // index into GALLERY_ITEMS (for legacy localStorage entries)
+  readonly originalUrl: string;       // the kid's drawing (data URL or R2 URL)
+  readonly resultUrl: string | null;   // the AI output (null = stored only, not forged)
+  readonly style: string | null;       // which style was used (null = stored only)
+  readonly childName: string;          // which kid made it
   readonly title: string;
-  readonly artist: string;
   readonly note: string;
-  readonly savedAt: string; // ISO date
+  readonly savedAt: string;            // ISO date
+  readonly forgeId: string | null;     // link to DB forge record if signed in
 }
 
 export interface VaultState {
@@ -77,25 +80,22 @@ export function saveVault(vault: VaultState): void {
 
 export function addToVault(
   vault: VaultState,
-  galleryIndex: number,
-  title: string,
-  artist: string
+  entry: Omit<VaultEntry, "id" | "savedAt">
 ): VaultState {
-  // Don't add duplicates
-  if (vault.entries.some((e) => e.galleryIndex === galleryIndex)) return vault;
+  // Don't add duplicates by forgeId (if provided)
+  if (entry.forgeId && vault.entries.some((e) => e.forgeId === entry.forgeId)) {
+    return vault;
+  }
 
-  const entry: VaultEntry = {
-    id: `vault-${Date.now()}-${galleryIndex}`,
-    galleryIndex,
-    title,
-    artist,
-    note: "",
+  const newEntry: VaultEntry = {
+    ...entry,
+    id: `vault-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     savedAt: new Date().toISOString(),
   };
 
   return {
     ...vault,
-    entries: [...vault.entries, entry],
+    entries: [...vault.entries, newEntry],
   };
 }
 
@@ -122,8 +122,8 @@ export function updateNote(
   };
 }
 
-export function isInVault(vault: VaultState, galleryIndex: number): boolean {
-  return vault.entries.some((e) => e.galleryIndex === galleryIndex);
+export function isInVault(vault: VaultState, forgeId: string): boolean {
+  return vault.entries.some((e) => e.forgeId === forgeId);
 }
 
 // ---------------------------------------------------------------------------
@@ -153,19 +153,16 @@ export async function migrateLocalVaultToDb(): Promise<{ migrated: number; error
 
   for (const entry of vault.entries) {
     try {
-      // We can't link localStorage gallery items to forge IDs (they don't exist in DB),
-      // so we save them as vault entries without forge_id. The API will handle null forge_id.
       const res = await fetch("/api/vault", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: entry.title || `Gallery item #${entry.galleryIndex}`,
-          // No forge_id -- these are legacy gallery items
+          title: entry.title || "Untitled drawing",
+          forge_id: entry.forgeId,
         }),
       });
 
       if (res.ok || res.status === 409) {
-        // 409 = already exists, count as success
         migrated++;
       } else {
         errors++;

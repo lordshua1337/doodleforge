@@ -3,20 +3,22 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/auth/session-context";
+import { loadVault, saveVault, addToVault } from "@/lib/vault-data";
 
 const STYLES = [
-  { id: "oil", name: "Oil Painting", desc: "Classic museum vibes", color: "#E63946" },
-  { id: "watercolor", name: "Watercolor", desc: "Soft and dreamy", color: "#457B9D" },
-  { id: "anime", name: "Anime", desc: "Studio-quality animation", color: "#7B2D8E" },
-  { id: "cyberpunk", name: "Cyberpunk", desc: "Neon-soaked future", color: "#457B9D" },
-  { id: "pop-art", name: "Pop Art", desc: "Bold and colorful", color: "#FFD166" },
-  { id: "pixel", name: "Pixel Art", desc: "8-bit nostalgia", color: "#06D6A0" },
-  { id: "ghibli", name: "Studio Ghibli", desc: "Miyazaki magic", color: "#E63946" },
-  { id: "realistic", name: "Photorealistic", desc: "Uncanny valley territory", color: "#457B9D" },
-  { id: "stained-glass", name: "Stained Glass", desc: "Cathedral window vibes", color: "#7B2D8E" },
+  { id: "oil", name: "Oil Painting", desc: "Museum-quality brushstrokes", color: "#E63946" },
+  { id: "watercolor", name: "Watercolor", desc: "Dreamy transparent washes", color: "#457B9D" },
+  { id: "anime", name: "Anime", desc: "Clean cel-shaded perfection", color: "#7B2D8E" },
+  { id: "cyberpunk", name: "Cyberpunk", desc: "Neon-lit future vibes", color: "#457B9D" },
+  { id: "pop-art", name: "Pop Art", desc: "Bold Warhol treatment", color: "#FFD166" },
+  { id: "pixel", name: "Pixel Art", desc: "Retro 16-bit glory", color: "#06D6A0" },
+  { id: "ghibli", name: "Studio Ghibli", desc: "Magical pastel wonder", color: "#E63946" },
+  { id: "realistic", name: "Photorealistic", desc: "As if it were real", color: "#457B9D" },
+  { id: "stained-glass", name: "Stained Glass", desc: "Cathedral jewel tones", color: "#7B2D8E" },
   { id: "cartoon", name: "Cartoon", desc: "Saturday morning energy", color: "#FFD166" },
-  { id: "pencil-sketch", name: "Pencil Sketch", desc: "Refined graphite look", color: "#6C757D" },
-  { id: "fantasy", name: "Fantasy Epic", desc: "Lord of the Rings energy", color: "#06D6A0" },
+  { id: "pencil-sketch", name: "Pencil Sketch", desc: "Fine art graphite detail", color: "#6C757D" },
+  { id: "fantasy", name: "Fantasy Epic", desc: "Cinematic golden hour", color: "#06D6A0" },
+  { id: "epic", name: "EPIC MODE", desc: "Maximum everything. Turned to 11.", color: "#E63946", isEpic: true },
 ];
 
 const LOADING_MESSAGES = [
@@ -43,8 +45,9 @@ export default function CreatePage() {
   const [dragActive, setDragActive] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [savedToVault, setSavedToVault] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { credits, refreshCredits } = useSession();
+  const { user, credits, refreshCredits } = useSession();
 
   // Check for Stripe success redirect
   useEffect(() => {
@@ -120,6 +123,34 @@ export default function CreatePage() {
       setForgeId(data.forge_id ?? null);
       refreshCredits();
       setStep("result");
+
+      // Auto-save to vault
+      const newForgeId = data.forge_id ?? null;
+      if (user && newForgeId) {
+        // Authenticated: save to DB vault
+        fetch("/api/vault", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            forge_id: newForgeId,
+            title: `${selectedStyle} forge`,
+          }),
+        }).then((r) => { if (r.ok) setSavedToVault(true); });
+      } else if (preview) {
+        // Unauthenticated: save to localStorage vault
+        const vault = loadVault();
+        const updated = addToVault(vault, {
+          originalUrl: preview,
+          resultUrl: data.imageUrl,
+          style: selectedStyle,
+          childName: "",
+          title: `${selectedStyle} forge`,
+          note: "",
+          forgeId: newForgeId,
+        });
+        saveVault(updated);
+        setSavedToVault(true);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Try again.");
       setStep("style");
@@ -134,6 +165,7 @@ export default function CreatePage() {
     setResultUrl(null);
     setForgeId(null);
     setError(null);
+    setSavedToVault(false);
   };
 
   return (
@@ -313,29 +345,53 @@ export default function CreatePage() {
               <p className="d-alert d-alert-error d-mb-lg" style={{ textAlign: "center" }}>{error}</p>
             )}
 
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16 }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16 }}>
+                <button
+                  onClick={() => {
+                    setStep("upload");
+                    setFile(null);
+                    setPreview(null);
+                  }}
+                  className="d-btn-secondary"
+                  style={{ fontFamily: "inherit" }}
+                >
+                  Back
+                </button>
+                <button
+                  onClick={handleGenerate}
+                  disabled={!selectedStyle}
+                  className="d-btn-primary"
+                  style={{
+                    fontFamily: "inherit",
+                    opacity: selectedStyle ? 1 : 0.4,
+                    cursor: selectedStyle ? "pointer" : "not-allowed",
+                  }}
+                >
+                  MAKE A DOODIE
+                </button>
+              </div>
               <button
                 onClick={() => {
-                  setStep("upload");
-                  setFile(null);
-                  setPreview(null);
+                  if (!preview) return;
+                  const vault = loadVault();
+                  const updated = addToVault(vault, {
+                    originalUrl: preview,
+                    resultUrl: null,
+                    style: null,
+                    childName: "",
+                    title: "Quick scan",
+                    note: "",
+                    forgeId: null,
+                  });
+                  saveVault(updated);
+                  setSavedToVault(true);
+                  handleReset();
                 }}
-                className="d-btn-secondary"
-                style={{ fontFamily: "inherit" }}
+                className="spark-toggle-btn"
+                style={{ fontSize: 13 }}
               >
-                Back
-              </button>
-              <button
-                onClick={handleGenerate}
-                disabled={!selectedStyle}
-                className="d-btn-primary"
-                style={{
-                  fontFamily: "inherit",
-                  opacity: selectedStyle ? 1 : 0.4,
-                  cursor: selectedStyle ? "pointer" : "not-allowed",
-                }}
-              >
-                MAKE A DOODIE
+                Just store it (no credits)
               </button>
             </div>
           </div>
@@ -429,6 +485,12 @@ export default function CreatePage() {
                 </div>
               </div>
             </div>
+
+            {savedToVault && (
+              <p className="d-body-sm d-mb-sm" style={{ color: "#06D6A0", fontWeight: 600 }}>
+                Saved to your Vault automatically
+              </p>
+            )}
 
             <div className="d-btn-row">
               {resultUrl && (

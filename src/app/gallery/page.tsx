@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
-import { loadVault, saveVault, addToVault, isInVault, type VaultState } from "@/lib/vault-data";
+import { loadVault, saveVault, addToVault, type VaultState } from "@/lib/vault-data";
 
 // Real forge from the database
 interface CommunityForge {
@@ -72,7 +72,7 @@ function LightboxModal({
   total: number; vault: VaultState | null; onSaveToVault: (index: number) => void;
 }) {
   const item = GALLERY_ITEMS[index];
-  const saved = vault ? isInVault(vault, index) : false;
+  const saved = vault ? vault.entries.some((e) => e.title === `Gallery: ${item.transformed}`) : false;
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -187,7 +187,15 @@ export default function GalleryPage() {
   const handleSaveToVault = useCallback((index: number) => {
     const item = GALLERY_ITEMS[index];
     const current = loadVault();
-    const updated = addToVault(current, index, item.transformed, item.artist);
+    const updated = addToVault(current, {
+      originalUrl: "",
+      resultUrl: null,
+      style: item.style,
+      childName: item.artist,
+      title: `Gallery: ${item.transformed}`,
+      note: "",
+      forgeId: null,
+    });
     if (updated !== current) { saveVault(updated); setVault(updated); }
   }, []);
 

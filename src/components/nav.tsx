@@ -77,51 +77,15 @@ export function Nav() {
   return (
     <>
       {/* Desktop top bar */}
-      <nav
-        className="fixed top-0 left-0 right-0 z-50"
-        style={{
-          background: "#FFF8F0",
-          borderBottom: "3px solid #2B2D42",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 1200,
-            margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            height: 68,
-            padding: "0 32px",
-          }}
-        >
+      <nav className="fixed top-0 left-0 right-0 z-50 nav-bar">
+        <div className="nav-inner">
           {/* Logo -- hand-written style */}
-          <Link
-            href="/"
-            style={{
-              display: "flex",
-              alignItems: "baseline",
-              gap: 0,
-              textDecoration: "none",
-              flexShrink: 0,
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--font-gaegu), cursive",
-                fontSize: 32,
-                fontWeight: 700,
-                color: "#2B2D42",
-                letterSpacing: "-0.02em",
-                lineHeight: 1,
-              }}
-            >
-              DOODIE
-            </span>
+          <Link href="/" className="nav-logo-link">
+            <span className="nav-logo">DOODIE</span>
           </Link>
 
           {/* Desktop magnet links */}
-          <div className="hidden md:flex" style={{ alignItems: "center", gap: 6 }}>
+          <div className="hidden md:flex nav-links">
             {NAV_LINKS.map((link, i) => {
               const active = pathname === link.href;
               const color = MAGNET_COLORS[i % MAGNET_COLORS.length];
@@ -129,39 +93,17 @@ export function Nav() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  style={{
-                    padding: "6px 16px",
-                    borderRadius: 6,
-                    fontSize: 14,
-                    fontWeight: 700,
-                    fontFamily: "var(--font-gaegu), cursive",
-                    color: active ? "#fff" : "#2B2D42",
-                    background: active ? color : "transparent",
-                    border: active ? "2px solid #2B2D42" : "2px solid transparent",
-                    boxShadow: active ? "2px 2px 0px #2B2D42" : "none",
-                    textDecoration: "none",
-                    transition: "all 0.15s",
-                    transform: active ? `rotate(${(i % 3 - 1) * 1.5}deg)` : "none",
-                  }}
+                  className={`nav-link ${active ? "nav-link-active" : ""}`}
+                  style={active ? {
+                    background: color,
+                    transform: `rotate(${(i % 3 - 1) * 1.5}deg)`,
+                  } : undefined}
                 >
                   {link.label}
                   {link.href === "/create" && user && !loading && (
                     <span
-                      style={{
-                        marginLeft: 6,
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        minWidth: 20,
-                        height: 20,
-                        borderRadius: 10,
-                        fontSize: 10,
-                        fontWeight: 700,
-                        background: credits > 0 ? "#06D6A0" : "#E63946",
-                        color: "#fff",
-                        fontFamily: "var(--font-nunito), sans-serif",
-                        padding: "0 5px",
-                      }}
+                      className="nav-credit-badge"
+                      style={{ background: credits > 0 ? "#06D6A0" : "#E63946" }}
                     >
                       {credits >= 999 ? "UNL" : credits}
                     </span>
@@ -172,93 +114,29 @@ export function Nav() {
           </div>
 
           {/* Auth area */}
-          <div className="hidden md:flex" style={{ alignItems: "center", gap: 12 }}>
+          <div className="hidden md:flex nav-auth-area">
             {!loading && user ? (
               <>
-                {/* User avatar + name */}
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <div
-                    style={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: 8,
-                      border: "2px solid #2B2D42",
-                      background: "#7B2D8E",
-                      color: "#fff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: 14,
-                      fontWeight: 700,
-                      fontFamily: "var(--font-gaegu), cursive",
-                    }}
-                  >
-                    {userInitial}
-                  </div>
-                  <span
-                    style={{
-                      fontSize: 13,
-                      fontWeight: 600,
-                      color: "#2B2D42",
-                      maxWidth: 100,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {displayName}
-                  </span>
+                <div className="nav-user-info">
+                  <div className="nav-avatar">{userInitial}</div>
+                  <span className="nav-username">{displayName}</span>
                 </div>
-                <button
-                  onClick={() => signOut()}
-                  style={{
-                    padding: "6px 14px",
-                    borderRadius: 6,
-                    fontSize: 12,
-                    fontWeight: 700,
-                    fontFamily: "var(--font-gaegu), cursive",
-                    color: "#6C757D",
-                    background: "transparent",
-                    border: "2px solid #E5D5C3",
-                    cursor: "pointer",
-                    transition: "all 0.15s",
-                  }}
-                >
+                <button onClick={() => signOut()} className="nav-signout">
                   Sign Out
                 </button>
               </>
             ) : !loading ? (
-              <Link
-                href="/auth"
-                style={{
-                  padding: "6px 14px",
-                  borderRadius: 6,
-                  fontSize: 14,
-                  fontWeight: 700,
-                  fontFamily: "var(--font-gaegu), cursive",
-                  color: "#fff",
-                  background: "#7B2D8E",
-                  border: "2px solid #2B2D42",
-                  textDecoration: "none",
-                  transition: "all 0.15s",
-                }}
-              >
+              <Link href="/auth" className="nav-signin">
                 Sign In
               </Link>
             ) : null}
-            <Link
-              href="/create"
-              className="nav-cta-btn"
-            >
+            <Link href="/create" className="nav-cta-btn">
               MAKE A DOODIE
             </Link>
           </div>
 
           {/* Mobile CTA only (auth handled in mobile bar) */}
-          <Link
-            href="/create"
-            className="nav-cta-btn md:hidden"
-          >
+          <Link href="/create" className="nav-cta-btn md:hidden">
             MAKE A DOODIE
           </Link>
         </div>

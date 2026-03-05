@@ -5,30 +5,91 @@ import { getUser } from "@/lib/auth/server";
 import { getCredits, useCredit, refundCredit } from "@/lib/credits/system";
 import { adminClient } from "@/lib/supabase/client";
 
+// -- Style Metadata (exported for use by create page) --
+
+export interface StyleMeta {
+  readonly id: string;
+  readonly name: string;
+  readonly tagline: string;
+  readonly category: "classic" | "digital" | "special";
+  readonly isEpic: boolean;
+}
+
+export const STYLE_META: readonly StyleMeta[] = [
+  { id: "oil", name: "Oil Painting", tagline: "Museum-quality brushstrokes", category: "classic", isEpic: false },
+  { id: "watercolor", name: "Watercolor", tagline: "Dreamy transparent washes", category: "classic", isEpic: false },
+  { id: "pencil-sketch", name: "Pencil Sketch", tagline: "Fine art graphite detail", category: "classic", isEpic: false },
+  { id: "anime", name: "Anime", tagline: "Clean cel-shaded perfection", category: "digital", isEpic: false },
+  { id: "cyberpunk", name: "Cyberpunk", tagline: "Neon-lit future vibes", category: "digital", isEpic: false },
+  { id: "pop-art", name: "Pop Art", tagline: "Bold Warhol treatment", category: "digital", isEpic: false },
+  { id: "pixel", name: "Pixel Art", tagline: "Retro 16-bit glory", category: "digital", isEpic: false },
+  { id: "ghibli", name: "Studio Ghibli", tagline: "Magical pastel wonder", category: "digital", isEpic: false },
+  { id: "realistic", name: "Photorealistic", tagline: "As if it were real", category: "classic", isEpic: false },
+  { id: "stained-glass", name: "Stained Glass", tagline: "Cathedral jewel tones", category: "special", isEpic: false },
+  { id: "cartoon", name: "Cartoon", tagline: "Saturday morning energy", category: "digital", isEpic: false },
+  { id: "fantasy", name: "Fantasy Epic", tagline: "Cinematic golden hour", category: "special", isEpic: false },
+  { id: "epic", name: "EPIC MODE", tagline: "Maximum everything. Turned to 11.", category: "special", isEpic: true },
+];
+
+// -- Prompts: 3-part structure per style --
+// 1. Preservation directive (shared prefix)
+// 2. Style-specific rendering instructions
+// 3. Scene enhancement
+
+const PRESERVATION = "Faithfully preserve the child's original drawing composition, shapes, and character placement.";
+
 const STYLE_PROMPTS: Record<string, string> = {
-  oil: "Transform this child's drawing into a museum-quality oil painting. Rich brushstrokes, classical composition, dramatic lighting. Maintain the original subject and scene but elevate it to fine art quality.",
-  watercolor:
-    "Transform this child's drawing into a beautiful watercolor painting. Soft washes of color, delicate details, dreamy atmosphere. Keep the same subject but make it elegant and artistic.",
-  anime:
-    "Transform this child's drawing into high-quality anime art. Clean lines, vibrant colors, expressive characters, Studio Ghibli inspired backgrounds. Same scene, anime style.",
-  cyberpunk:
-    "Transform this child's drawing into cyberpunk digital art. Neon colors, futuristic elements, dark atmospheric lighting, sci-fi details. Same subject, cyberpunk aesthetic.",
-  "pop-art":
-    "Transform this child's drawing into bold pop art. Bright primary colors, halftone dots, thick outlines, Warhol/Lichtenstein inspired. Same subject, pop art treatment.",
-  pixel:
-    "Transform this child's drawing into detailed pixel art. 16-bit style, clean pixel-perfect shapes, vibrant colors, retro game aesthetic. Same subject, pixel art style.",
-  ghibli:
-    "Transform this child's drawing into Studio Ghibli style art. Soft colors, magical atmosphere, detailed nature elements, warm and whimsical. Same subject, Ghibli magic.",
-  realistic:
-    "Transform this child's drawing into a photorealistic image. Hyper-detailed, realistic textures and lighting, as if photographed. Same subject, photorealistic rendering.",
-  "stained-glass":
-    "Transform this child's drawing into a stained glass window design. Rich jewel tones, lead-line outlines, cathedral window patterns, luminous backlit colors. Same subject, stained glass art style.",
-  cartoon:
-    "Transform this child's drawing into a professional cartoon illustration. Bold outlines, vibrant flat colors, Saturday morning animation quality, fun and energetic. Same subject, cartoon style.",
-  "pencil-sketch":
-    "Transform this child's drawing into a refined pencil sketch. Detailed graphite shading, cross-hatching, elegant line work, fine art quality. Same subject, pencil sketch style.",
-  fantasy:
-    "Transform this child's drawing into epic fantasy art. Dramatic lighting, magical elements, cinematic composition, Lord of the Rings quality. Same subject, fantasy epic style.",
+  oil: `${PRESERVATION} Classical oil painting technique with visible brushstrokes following the child's linework. Warm golden gallery lighting, rich color depth with layered glazes, dramatic chiaroscuro shadows. Canvas texture visible throughout, museum-quality finish with impasto highlights.`,
+  watercolor: `${PRESERVATION} Wet-on-wet watercolor technique with soft color bleeding at edges. Transparent layered washes building depth, cold-pressed paper texture showing through the paint. Delicate detail work with fine brushes, luminous and airy color palette with subtle granulation.`,
+  anime: `${PRESERVATION} Clean crisp anime cel-shading with bold defined outlines following original shapes. Flat vibrant color fills with subtle gradient shading, expressive detailed eyes on any characters. Detailed anime-style background with atmospheric perspective, professional key visual quality.`,
+  cyberpunk: `${PRESERVATION} Neon-lit cyberpunk rendering with glowing neon outlines tracing original shapes. Dark atmospheric cityscape background with rain, holographic effects and digital glitches. Rain-slicked reflective surfaces with purple and cyan color scheme, volumetric fog and lens flares.`,
+  "pop-art": `${PRESERVATION} Bold Lichtenstein and Warhol pop art treatment with thick black outlines. Ben-Day halftone dot patterns filling color areas, limited primary color palette of red, blue, yellow, and black. Comic book panel aesthetic with bold graphic impact, screen-printed texture quality.`,
+  pixel: `${PRESERVATION} Detailed 16-bit pixel art rendering with clean pixel-perfect edges following original shapes. Vibrant retro color palette limited to 32 colors, game sprite aesthetic with subtle dithering. Each pixel intentionally placed, retro console art quality with clean anti-aliasing on key edges.`,
+  ghibli: `${PRESERVATION} Studio Ghibli watercolor background art style with soft pastel colors throughout. Lush nature details with hand-painted foliage, magical atmospheric lighting with golden hour warmth. Whimsical and warm mood with painted clouds in a detailed sky, Miyazaki-quality environmental storytelling.`,
+  realistic: `${PRESERVATION} Photorealistic rendering as if the child's scene were a real photograph. Hyperdetailed textures on every surface, realistic natural lighting with soft diffused shadows. Shallow depth of field background blur, professional DSLR photo quality with accurate color science.`,
+  "stained-glass": `${PRESERVATION} Medieval stained glass window design with thick dark leading lines following original shapes. Jewel-tone translucent colors in ruby, sapphire, emerald, and amber. Backlit luminous glow effect as if sunlight streams through, cathedral rose window craftsmanship.`,
+  cartoon: `${PRESERVATION} Professional Saturday-morning animation quality with bold clean outlines. Flat vibrant colors with subtle cel-shading, energetic dynamic composition with slight motion blur. Fun exaggerated proportions staying true to the child's shapes, broadcast animation polish.`,
+  "pencil-sketch": `${PRESERVATION} Fine art graphite pencil drawing with detailed cross-hatching and stippling for shading. Elegant confident linework following original shapes, full tonal range from light 2H to dark 6B graphite. White drawing paper visible in highlights, museum-quality observational drawing technique.`,
+  fantasy: `${PRESERVATION} Epic cinematic fantasy art with dramatic golden-hour lighting from a low sun. Magical particle effects and softly glowing elements throughout the scene. Sweeping dramatic sky with volumetric clouds, detailed fantasy environment surrounding and expanding the original scene.`,
+  epic: `${PRESERVATION} The most dramatic, cinematic, jaw-dropping transformation possible. Maximum detail on every surface, dramatic storm lighting with god rays and atmospheric haze. Environment expansion beyond original edges adding epic scale. If it's a stick figure, make it a warrior in a lightning storm. If it's a sun, make it a supernova. Same composition, turned up to 11.`,
+};
+
+// -- Per-style positive prompts (a_prompt) --
+
+const STYLE_A_PROMPTS: Record<string, string> = {
+  oil: "best quality, masterpiece, museum painting, oil on canvas, gallery lighting, impasto",
+  watercolor: "best quality, masterpiece, watercolor painting, art paper texture, transparent washes, luminous",
+  anime: "best quality, masterpiece, anime key visual, clean lineart, cel shaded, vibrant",
+  cyberpunk: "best quality, masterpiece, cyberpunk art, neon glow, rain, volumetric lighting",
+  "pop-art": "best quality, masterpiece, pop art, bold graphic, screen print, halftone",
+  pixel: "best quality, masterpiece, pixel art, 16-bit, retro game, clean pixels",
+  ghibli: "best quality, masterpiece, ghibli style, pastel watercolor, magical, warm lighting",
+  realistic: "best quality, masterpiece, photorealistic, DSLR photo, natural lighting, sharp focus",
+  "stained-glass": "best quality, masterpiece, stained glass, jewel tones, backlit, cathedral",
+  cartoon: "best quality, masterpiece, cartoon, animation cel, bold outlines, vibrant colors",
+  "pencil-sketch": "best quality, masterpiece, graphite drawing, pencil sketch, cross-hatching, fine art",
+  fantasy: "best quality, masterpiece, fantasy art, cinematic, epic, golden hour, magical",
+  epic: "best quality, masterpiece, epic cinematic, ultra detailed, dramatic lighting, 8k, god rays",
+};
+
+// -- Per-style negative prompts --
+
+const BASE_NEGATIVE = "longbody, lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality";
+
+const STYLE_N_PROMPTS: Record<string, string> = {
+  oil: `${BASE_NEGATIVE}, flat colors, digital art, anime, smooth texture, 3d render`,
+  watercolor: `${BASE_NEGATIVE}, sharp edges, digital art, heavy outlines, opaque colors, photorealistic`,
+  anime: `${BASE_NEGATIVE}, photorealistic, blurry, painterly, rough sketch, 3d render`,
+  cyberpunk: `${BASE_NEGATIVE}, bright daylight, pastoral, watercolor, soft colors, cartoon`,
+  "pop-art": `${BASE_NEGATIVE}, photorealistic, gradient, soft shading, watercolor, painterly`,
+  pixel: `${BASE_NEGATIVE}, smooth gradients, photorealistic, blurry, anti-aliased, painterly`,
+  ghibli: `${BASE_NEGATIVE}, photorealistic, dark, horror, cyberpunk, sharp edges, 3d render`,
+  realistic: `${BASE_NEGATIVE}, cartoon, anime, painting, illustration, drawing, sketch`,
+  "stained-glass": `${BASE_NEGATIVE}, photorealistic, smooth gradients, anime, cartoon, blurry`,
+  cartoon: `${BASE_NEGATIVE}, photorealistic, dark, gritty, painterly, sketch, pencil`,
+  "pencil-sketch": `${BASE_NEGATIVE}, color, painted, digital, anime, cartoon, vibrant`,
+  fantasy: `${BASE_NEGATIVE}, modern, urban, minimalist, cartoon, flat colors`,
+  epic: `${BASE_NEGATIVE}, boring, flat, simple, minimalist, soft, gentle, calm`,
 };
 
 // EPIC mode uses higher settings -- costs 2 credits
@@ -39,6 +100,17 @@ const REPLICATE_API = "https://api.replicate.com/v1/predictions";
 // Poll interval and max attempts for async Replicate API
 const POLL_INTERVAL_MS = 2000;
 const MAX_POLL_ATTEMPTS = 60; // 2 minutes max
+
+function getStyleSettings(style: string) {
+  const isEpic = EPIC_STYLES.has(style);
+  return {
+    image_resolution: isEpic ? "768" : "768",
+    ddim_steps: isEpic ? 40 : 30,
+    scale: isEpic ? 12 : 9,
+    a_prompt: STYLE_A_PROMPTS[style] ?? STYLE_A_PROMPTS.oil,
+    n_prompt: STYLE_N_PROMPTS[style] ?? BASE_NEGATIVE,
+  };
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -144,6 +216,7 @@ export async function POST(request: NextRequest) {
     const dataUri = `data:${image.type};base64,${base64}`;
 
     const prompt = STYLE_PROMPTS[style];
+    const settings = getStyleSettings(style);
 
     // Upload original to R2 if configured
     let originalUrl = "";
@@ -196,11 +269,11 @@ export async function POST(request: NextRequest) {
           image: dataUri,
           prompt,
           num_samples: "1",
-          image_resolution: "512",
-          ddim_steps: 30,
-          scale: 9,
-          a_prompt: "best quality, extremely detailed, masterpiece",
-          n_prompt: "longbody, lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, blurry",
+          image_resolution: settings.image_resolution,
+          ddim_steps: settings.ddim_steps,
+          scale: settings.scale,
+          a_prompt: settings.a_prompt,
+          n_prompt: settings.n_prompt,
         },
       }),
     });

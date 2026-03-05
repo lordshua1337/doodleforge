@@ -256,7 +256,6 @@ function useScrollReveal() {
     const el = ref.current;
     if (!el) return;
 
-    // Respect reduced motion preference
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       el.classList.add("scroll-reveal-visible");
       return;
@@ -302,14 +301,13 @@ function ShareButton({ text }: { readonly text: string }) {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(text).catch(() => {
-      // clipboard not available -- fail silently
+      // clipboard not available
     });
     setCopied(true);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => setCopied(false), 2000);
   };
 
-  // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -320,22 +318,7 @@ function ShareButton({ text }: { readonly text: string }) {
     <button
       onClick={handleCopy}
       aria-label={copied ? "Copied" : "Copy advice to clipboard"}
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-        padding: "6px 14px",
-        borderRadius: 999,
-        border: "1px solid",
-        borderColor: copied ? "rgba(16,185,129,0.3)" : "rgba(229,231,235,0.8)",
-        background: copied ? "rgba(16,185,129,0.06)" : "rgba(243,244,246,0.5)",
-        color: copied ? "#10B981" : "#9CA3AF",
-        fontSize: 12,
-        fontWeight: 600,
-        cursor: "pointer",
-        fontFamily: "inherit",
-        transition: "all 0.2s",
-      }}
+      className={`advice-share-btn ${copied ? "advice-share-btn-copied" : "advice-share-btn-default"}`}
     >
       {copied ? <CheckIcon /> : <CopyIcon />}
       {copied ? "Copied" : "Copy"}
@@ -348,8 +331,8 @@ function AdviceCardWrapper({ children, index }: { readonly children: ReactNode; 
   return (
     <div
       ref={ref}
-      className="scroll-reveal neu-card d-card-hover"
-      style={{ padding: 0, overflow: "hidden", transitionDelay: `${Math.min(index * 60, 300)}ms` }}
+      className="scroll-reveal neu-card d-card-hover d-card-flush"
+      style={{ transitionDelay: `${Math.min(index * 60, 300)}ms` }}
     >
       {children}
     </div>
@@ -364,7 +347,6 @@ export function ParentingAdvice() {
 
   const [selectedAge, setSelectedAge] = useState(defaultAge);
 
-  // Sync age picker when profile rehydrates from localStorage
   useEffect(() => {
     if (profile.kidAge) {
       setSelectedAge(String(profile.kidAge));
@@ -372,25 +354,21 @@ export function ParentingAdvice() {
   }, [profile.kidAge]);
 
   return (
-    <div style={{ position: "relative" }}>
+    <div className="advice-wrapper">
       {/* Personalization banner */}
-      <div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
+      <div className="advice-banner-row">
         {kidName ? (
-          <span
-            className="d-badge"
-            style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.2)" }}
-          >
-            <span style={{ fontSize: 12, color: "#8B5CF6", fontWeight: 600 }}>
+          <span className="d-badge advice-personalized-badge">
+            <span className="advice-personalized-text">
               Personalized for {kidName}
             </span>
           </span>
         ) : (
           <button
             onClick={() => setShowSetup(true)}
-            className="d-badge"
-            style={{ cursor: "pointer", background: "rgba(255,107,53,0.06)", border: "1px solid rgba(255,107,53,0.15)" }}
+            className="d-badge advice-add-name-btn"
           >
-            <span style={{ fontSize: 12, color: "#FF6B35", fontWeight: 600 }}>
+            <span className="advice-add-name-text">
               Add your kid&apos;s name for personalized advice
             </span>
           </button>
@@ -398,24 +376,12 @@ export function ParentingAdvice() {
       </div>
 
       {/* Sticky age picker */}
-      <div
-        style={{
-          position: "sticky",
-          top: 72,
-          zIndex: 30,
-          background: "rgba(250,250,250,0.92)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          padding: "20px 0",
-          marginBottom: 32,
-          borderBottom: "1px solid rgba(229,231,235,0.5)",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-          <p style={{ fontSize: 14, fontWeight: 600, color: "#1A1A2E" }}>
+      <div className="advice-age-picker">
+        <div className="advice-age-picker-inner">
+          <p className="advice-age-label">
             {kidName ? `${kidName} is:` : "My kid is:"}
           </p>
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
+          <div className="advice-age-buttons">
             {AGES.map((age) => (
               <button
                 key={age}
@@ -430,7 +396,7 @@ export function ParentingAdvice() {
       </div>
 
       {/* Card feed */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <div className="advice-card-feed">
         {SCENARIOS.map((scenario, index) => {
           const adviceText = injectName(scenario.advice[selectedAge], kidName);
           const situationText = kidName
@@ -442,127 +408,49 @@ export function ParentingAdvice() {
           return (
             <AdviceCardWrapper key={scenario.situation} index={index}>
               {/* Card header */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 16,
-                  padding: "24px 28px 20px",
-                  borderBottom: "1px solid rgba(229,231,235,0.4)",
-                }}
-              >
+              <div className="advice-card-header">
                 <span
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 14,
-                    background: scenario.color,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#fff",
-                    fontSize: 16,
-                    fontWeight: 700,
-                    flexShrink: 0,
-                    boxShadow: `0 2px 8px ${scenario.color}33`,
-                  }}
+                  className="advice-card-icon"
+                  style={{ background: scenario.color, boxShadow: `0 2px 8px ${scenario.color}33` }}
                 >
                   {scenario.icon}
                 </span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <h3
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 700,
-                      color: "#1A1A2E",
-                      lineHeight: 1.4,
-                    }}
-                  >
-                    {situationText}
-                  </h3>
+                <div className="d-flex-1 d-min-w-0">
+                  <h3 className="advice-card-title">{situationText}</h3>
                 </div>
               </div>
 
-              {/* Card body -- the advice */}
-              <div style={{ padding: "24px 28px" }}>
-                <div style={{ display: "flex", alignItems: "start", gap: 12, marginBottom: 20 }}>
+              {/* Card body */}
+              <div className="advice-card-body">
+                <div className="advice-card-content-row">
                   <span
+                    className="advice-age-badge"
                     style={{
-                      marginTop: 2,
-                      width: 28,
-                      height: 28,
-                      borderRadius: 8,
                       background: `${scenario.color}18`,
                       border: `1px solid ${scenario.color}30`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
                       color: scenario.color,
-                      fontSize: 11,
-                      fontWeight: 700,
-                      flexShrink: 0,
                     }}
                   >
                     {selectedAge}
                   </span>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <p
-                      style={{
-                        fontSize: 10,
-                        fontWeight: 700,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.1em",
-                        color: "#9CA3AF",
-                        marginBottom: 10,
-                      }}
-                    >
+                  <div className="d-flex-1 d-min-w-0">
+                    <p className="advice-age-subhead">
                       Age {selectedAge}{kidName ? ` -- for ${kidName}` : ""}
                     </p>
-                    <p
-                      style={{
-                        fontSize: 15,
-                        lineHeight: 1.8,
-                        color: "#4B5563",
-                      }}
-                    >
-                      {adviceText}
-                    </p>
+                    <p className="advice-text">{adviceText}</p>
                   </div>
                 </div>
 
-                {/* Card footer -- copy + disclaimer */}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    paddingTop: 16,
-                    borderTop: "1px solid rgba(229,231,235,0.3)",
-                  }}
-                >
-                  <p style={{ fontSize: 11, color: "#D1D5DB", fontStyle: "italic" }}>
+                {/* Card footer */}
+                <div className="advice-card-footer">
+                  <p className="advice-disclaimer">
                     Not real advice. We are an art app.
                   </p>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <div className="advice-footer-actions">
                     <button
                       onClick={() => toggleFavorite(cardId)}
                       aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: 32,
-                        height: 32,
-                        borderRadius: 999,
-                        border: "1px solid",
-                        borderColor: isFavorited ? "rgba(255,107,53,0.3)" : "rgba(229,231,235,0.8)",
-                        background: isFavorited ? "rgba(255,107,53,0.06)" : "transparent",
-                        color: isFavorited ? "#FF6B35" : "#D1D5DB",
-                        cursor: "pointer",
-                        transition: "all 0.2s",
-                        padding: 0,
-                        fontFamily: "inherit",
-                      }}
+                      className={`advice-fav-btn ${isFavorited ? "advice-fav-btn-active" : "advice-fav-btn-inactive"}`}
                     >
                       <HeartIcon filled={isFavorited} />
                     </button>
