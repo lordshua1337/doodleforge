@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Quicksand, Cabin_Sketch } from "next/font/google";
+import { Geist_Mono, Quicksand, Short_Stack } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
@@ -12,10 +12,10 @@ const quicksand = Quicksand({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-const cabinSketch = Cabin_Sketch({
+const shortStack = Short_Stack({
   variable: "--font-cabin-sketch",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: "400",
 });
 
 const geistMono = Geist_Mono({
@@ -58,7 +58,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${quicksand.variable} ${cabinSketch.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${quicksand.variable} ${shortStack.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <SessionProvider>
           <KidProvider>
