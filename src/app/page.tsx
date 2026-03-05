@@ -45,7 +45,7 @@ const TAPE_COLORS = ["rgba(230,57,70,0.15)", "rgba(69,123,157,0.15)", "rgba(123,
 export default function Home() {
   return (
     <>
-      {/* ── HERO: THE FRIDGE ── */}
+      {/* ── HERO ── */}
       <section className="d-hero">
         <div className="d-container-sm" style={{ position: "relative", zIndex: 10, textAlign: "center" }}>
           <div style={{ marginBottom: 24 }}>
@@ -56,24 +56,25 @@ export default function Home() {
           </div>
 
           <h1 className="d-heading d-heading-xl" style={{ marginBottom: 24 }}>
-            WHAT THE HECK<br />
-            <span className="text-rainbow">IS THIS?</span>
+            YOU CAN&apos;T<br />
+            <span className="text-rainbow">THROW IT AWAY.</span>
           </h1>
 
-          <p className="d-body-lg" style={{ maxWidth: 520, margin: "0 auto 12px", fontFamily: "var(--font-cabin-sketch), cursive", fontSize: "clamp(18px, 2.5vw, 24px)" }}>
-            guess right and we&apos;ll be impressed. guess wrong and we&apos;ll judge you.
+          <p style={{ maxWidth: 560, margin: "0 auto 12px", fontFamily: "var(--font-accent)", fontSize: "clamp(20px, 2.5vw, 28px)", lineHeight: 1.4, color: "#6C757D" }}>
+            Your kid worked really hard on that&hellip; whatever it is.
           </p>
-          <p className="d-body" style={{ maxWidth: 460, margin: "0 auto 32px" }}>
-            Upload your kid&apos;s drawing. Our AI transforms it into art you&apos;d actually hang up.
-            Stop lying about the blob on the fridge.
+          <p className="d-body" style={{ maxWidth: 520, margin: "0 auto 32px" }}>
+            Upload the drawing and we&apos;ll turn it into real artwork, store it forever,
+            and free your house from the growing paper museum.
+            We&apos;ll also include some wildly irresponsible parenting advice.
           </p>
 
           <div className="d-btn-row">
-            <Link href="/create" className="d-btn-primary glow-cta">MAKE A DOODIE</Link>
-            <Link href="/gallery" className="d-btn-secondary">See the Evidence</Link>
+            <Link href="/create" className="d-btn-primary glow-cta">Upload a Drawing</Link>
+            <a href="#how-it-works" className="d-btn-secondary">See How It Works</a>
           </div>
 
-          <p className="d-body-xs" style={{ marginTop: 32, fontFamily: "var(--font-cabin-sketch), cursive", fontSize: 16 }}>
+          <p className="d-body-xs" style={{ marginTop: 32, fontFamily: "var(--font-accent)", fontSize: 16 }}>
             3 free forges. No credit card. We promise.
           </p>
         </div>
@@ -153,7 +154,7 @@ export default function Home() {
                 >
                   {p.icon}
                 </div>
-                <h3 style={{ fontFamily: "var(--font-cabin-sketch), cursive", fontSize: 24, fontWeight: 700, color: "#2B2D42", marginBottom: 8 }}>
+                <h3 style={{ fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 700, color: "#2B2D42", marginBottom: 8 }}>
                   {p.title}
                 </h3>
                 <p className="d-body" style={{ fontSize: 14 }}>{p.desc}</p>
@@ -170,7 +171,7 @@ export default function Home() {
       <section style={{ padding: "64px 0", background: "#D4E8F0" }}>
         <div className="d-container">
           <div className="d-center d-mb-2xl">
-            <p className="d-eyebrow d-eyebrow-red" style={{ fontFamily: "var(--font-cabin-sketch), cursive", fontSize: 18 }}>the wall of shame</p>
+            <p className="d-eyebrow d-eyebrow-red" style={{ fontFamily: "var(--font-accent)", fontSize: 18 }}>the wall of shame</p>
             <h2 className="d-heading d-heading-lg" style={{ marginBottom: 16 }}>Actual things children drew.</h2>
             <p className="d-body" style={{ maxWidth: 440, margin: "0 auto" }}>
               Real submissions. Real delusion. We love these kids. We just couldn&apos;t hang the originals.
@@ -207,7 +208,7 @@ export default function Home() {
                 </div>
                 <div className="d-shame-footer">
                   <div>
-                    <p style={{ fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#06D6A0", fontFamily: "var(--font-cabin-sketch), cursive" }}>Fixed it</p>
+                    <p style={{ fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#06D6A0", fontFamily: "var(--font-accent)" }}>Fixed it</p>
                     <p style={{ fontSize: 13, color: "#ADB5BD", marginTop: 2 }}>{item.style} -- {item.artist}</p>
                   </div>
                   <div style={{ width: 32, height: 32, borderRadius: 6, background: "rgba(6,214,160,0.15)", border: "2px solid #2B2D42", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -224,10 +225,10 @@ export default function Home() {
       </section>
 
       {/* ── HOW IT WORKS ── */}
-      <section style={{ padding: "64px 0", background: "#FFF8F0" }}>
+      <section id="how-it-works" style={{ padding: "64px 0", background: "#FFF8F0" }}>
         <div className="d-container-md">
           <div className="d-center d-mb-2xl">
-            <p className="d-eyebrow d-eyebrow-purple" style={{ fontFamily: "var(--font-cabin-sketch), cursive", fontSize: 18 }}>how it works</p>
+            <p className="d-eyebrow d-eyebrow-purple" style={{ fontFamily: "var(--font-accent)", fontSize: 18 }}>how it works</p>
             <h2 className="d-heading d-heading-lg" style={{ marginBottom: 16 }}>Three steps. Zero art skill.</h2>
           </div>
           <div className="d-grid d-grid-3" style={{ gap: 32 }}>
@@ -274,7 +275,7 @@ export default function Home() {
                     alignItems: "center",
                     justifyContent: "center",
                     margin: "0 auto 16px",
-                    fontFamily: "var(--font-cabin-sketch), cursive",
+                    fontFamily: "var(--font-display)",
                     fontSize: 24,
                     fontWeight: 700,
                     color: "#fff",
@@ -283,7 +284,7 @@ export default function Home() {
                 >
                   {item.step}
                 </div>
-                <h3 style={{ fontFamily: "var(--font-cabin-sketch), cursive", fontSize: 22, fontWeight: 700, color: "#2B2D42", marginBottom: 8 }}>
+                <h3 style={{ fontFamily: "var(--font-display)", fontSize: 22, fontWeight: 700, color: "#2B2D42", marginBottom: 8 }}>
                   {item.title}
                 </h3>
                 <p className="d-body" style={{ fontSize: 14 }}>{item.desc}</p>
@@ -297,7 +298,7 @@ export default function Home() {
       <section style={{ padding: "64px 0", background: "#F5E6D3", borderTop: "4px solid #2B2D42" }}>
         <div className="d-container-md">
           <div className="d-center d-mb-2xl">
-            <p className="d-eyebrow d-eyebrow-green" style={{ fontFamily: "var(--font-cabin-sketch), cursive", fontSize: 18 }}>what parents say</p>
+            <p className="d-eyebrow d-eyebrow-green" style={{ fontFamily: "var(--font-accent)", fontSize: 18 }}>what parents say</p>
             <h2 className="d-heading d-heading-lg" style={{ marginBottom: 16 }}>Real parents. Real reactions.</h2>
           </div>
           <div className="d-grid d-grid-3" style={{ gap: 20 }}>
@@ -340,14 +341,14 @@ export default function Home() {
                     justifyContent: "center",
                     fontSize: 12,
                     fontWeight: 700,
-                    fontFamily: "var(--font-cabin-sketch), cursive",
+                    fontFamily: "var(--font-display)",
                     color: t.color === "#FFD166" ? "#2B2D42" : "#fff",
                   }}>
                     {t.name.charAt(0)}
                   </div>
                   <div>
                     <p style={{ fontSize: 13, fontWeight: 700, color: "#2B2D42" }}>{t.name}</p>
-                    <p style={{ fontSize: 11, color: "#ADB5BD", fontFamily: "var(--font-cabin-sketch), cursive" }}>{t.detail}</p>
+                    <p style={{ fontSize: 11, color: "#ADB5BD", fontFamily: "var(--font-accent)" }}>{t.detail}</p>
                   </div>
                 </div>
               </div>
@@ -360,7 +361,7 @@ export default function Home() {
       <section style={{ padding: "64px 0", background: "#FFF8F0", borderTop: "4px solid #2B2D42" }}>
         <div className="d-container-md">
           <div className="d-center d-mb-2xl">
-            <p className="d-eyebrow d-eyebrow-blue" style={{ fontFamily: "var(--font-cabin-sketch), cursive", fontSize: 18 }}>art styles</p>
+            <p className="d-eyebrow d-eyebrow-blue" style={{ fontFamily: "var(--font-accent)", fontSize: 18 }}>art styles</p>
             <h2 className="d-heading d-heading-lg" style={{ marginBottom: 16 }}>Make it look intentional.</h2>
             <p className="d-body">12 styles that turn &ldquo;what is that&rdquo; into &ldquo;where did you buy that?&rdquo;</p>
           </div>
@@ -368,7 +369,7 @@ export default function Home() {
             {STYLES.map((s) => (
               <Link key={s.name} href="/create" className="d-style-tile" style={{ textDecoration: "none" }}>
                 <div className="d-style-icon" style={{ background: s.color, color: s.textColor || "#fff" }}>{s.icon}</div>
-                <span style={{ fontSize: 14, fontWeight: 700, fontFamily: "var(--font-cabin-sketch), cursive", color: "#2B2D42" }}>{s.name}</span>
+                <span style={{ fontSize: 14, fontWeight: 700, fontFamily: "var(--font-display)", color: "#2B2D42" }}>{s.name}</span>
               </Link>
             ))}
           </div>
@@ -384,7 +385,7 @@ export default function Home() {
           >
             STOP LYING ABOUT THE BLOB ON YOUR FRIDGE
           </h2>
-          <p style={{ fontFamily: "var(--font-cabin-sketch), cursive", fontSize: 20, color: "rgba(255,255,255,0.85)", maxWidth: 500, margin: "0 auto 32px" }}>
+          <p style={{ fontFamily: "var(--font-accent)", fontSize: 22, color: "rgba(255,255,255,0.85)", maxWidth: 500, margin: "0 auto 32px", lineHeight: 1.3 }}>
             You know that thing your kid drew? The one you smile at every morning while quietly wondering what it is?
             Upload it. We&apos;ll handle the rest.
           </p>
@@ -399,7 +400,7 @@ export default function Home() {
               borderRadius: 8,
               fontSize: 20,
               fontWeight: 700,
-              fontFamily: "var(--font-cabin-sketch), cursive",
+              fontFamily: "var(--font-display)",
               background: "#fff",
               color: "#E63946",
               border: "3px solid #2B2D42",
@@ -408,9 +409,9 @@ export default function Home() {
               transition: "all 0.15s",
             }}
           >
-            MAKE A DOODIE
+            Upload a Drawing
           </Link>
-          <p style={{ fontFamily: "var(--font-cabin-sketch), cursive", fontSize: 16, color: "rgba(255,255,255,0.7)", marginTop: 24 }}>
+          <p style={{ fontFamily: "var(--font-accent)", fontSize: 18, color: "rgba(255,255,255,0.7)", marginTop: 24 }}>
             No signup. No credit card. Just upload the blob and see what happens.
           </p>
         </div>

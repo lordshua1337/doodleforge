@@ -26,11 +26,11 @@
   --color-accent: #E63946;
 
   /* ── Fonts ── */
-  --font-sans: var(--font-quicksand), system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-cabin-sketch), cursive;
-  --font-accent: var(--font-cabin-sketch), cursive;
-  --font-chunky: var(--font-cabin-sketch), cursive;
+  --font-display: var(--font-architects-daughter), cursive;
+  --font-accent: var(--font-just-another-hand), cursive;
+  --font-chunky: var(--font-architects-daughter), cursive;
 }
 
 /* ── RESET ── */
@@ -1755,18 +1755,15 @@ body::before {
 }
 .nav-logo-link {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 0;
   text-decoration: none;
   flex-shrink: 0;
 }
-.nav-logo {
-  font-family: var(--font-display);
-  font-size: 32px;
-  font-weight: 700;
-  color: #2B2D42;
-  letter-spacing: -0.02em;
-  line-height: 1;
+.nav-logo-img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
 }
 .nav-links {
   align-items: center;
@@ -1880,12 +1877,10 @@ body::before {
   text-align: center;
   margin-bottom: 56px;
 }
-.footer-logo {
-  font-family: var(--font-display);
-  font-size: 36px;
-  font-weight: 700;
-  color: #2B2D42;
-  letter-spacing: -0.02em;
+.footer-logo-img {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
   margin-bottom: 16px;
 }
 .footer-tagline {

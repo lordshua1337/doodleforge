@@ -1,19 +1,30 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Quicksand, Short_Stack } from "next/font/google";
+import {
+  Geist_Mono,
+  Inter,
+  Architects_Daughter,
+  Just_Another_Hand,
+} from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { KidProvider } from "@/lib/kid-context";
 import { SessionProvider } from "@/lib/auth/session-context";
 
-const quicksand = Quicksand({
-  variable: "--font-quicksand",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500"],
 });
 
-const shortStack = Short_Stack({
-  variable: "--font-cabin-sketch",
+const architectsDaughter = Architects_Daughter({
+  variable: "--font-architects-daughter",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const justAnotherHand = Just_Another_Hand({
+  variable: "--font-just-another-hand",
   subsets: ["latin"],
   weight: "400",
 });
@@ -58,7 +69,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${quicksand.variable} ${shortStack.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${inter.variable} ${architectsDaughter.variable} ${justAnotherHand.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <SessionProvider>
           <KidProvider>

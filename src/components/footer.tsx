@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function Footer() {
@@ -6,7 +7,13 @@ export function Footer() {
       <div className="footer-container">
         {/* Top: logo + tagline + CTA */}
         <div className="footer-top">
-          <span className="footer-logo">DOODIE</span>
+          <Image
+            src="/doodie-logo.png"
+            alt="Doodie"
+            width={140}
+            height={46}
+            className="footer-logo-img"
+          />
           <p className="footer-tagline">
             Your kid&apos;s art is bad. We fix that. You hang it up. Grandma cries. Everyone wins.
           </p>

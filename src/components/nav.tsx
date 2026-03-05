@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "@/lib/auth/session-context";
@@ -80,7 +81,14 @@ export function Nav() {
         <div className="nav-inner">
           {/* Logo -- hand-written style */}
           <Link href="/" className="nav-logo-link">
-            <span className="nav-logo">DOODIE</span>
+            <Image
+              src="/doodie-logo.png"
+              alt="Doodie"
+              width={120}
+              height={40}
+              className="nav-logo-img"
+              priority
+            />
           </Link>
 
           {/* Desktop magnet links */}
