@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useSession } from "@/lib/auth/session-context";
 
 const NAV_LINKS = [
-  { href: "/create", label: "Create" },
   { href: "/gallery", label: "Gallery" },
   { href: "/vault", label: "Vault" },
   { href: "/guess", label: "Guess" },

@@ -1,15 +1,22 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/auth/client'
 import Link from 'next/link'
 
 export default function AuthPage() {
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
   const supabase = createSupabaseBrowser()
+
+  function handleDemoLogin() {
+    document.cookie = 'demo-auth=true; path=/; max-age=86400'
+    router.push('/create')
+  }
 
   async function handleMagicLink(e: React.FormEvent) {
     e.preventDefault()
@@ -95,12 +102,16 @@ export default function AuthPage() {
           )}
         </div>
 
-        <p className="d-center d-mt-lg">
-          <Link href="/" className="d-eyebrow d-eyebrow-blue" style={{ marginBottom: 0, textDecoration: 'none' }}>
-            just browsing
-          </Link>
-          <span className="d-body-sm"> -- 3 free forges, no card needed</span>
-        </p>
+        <div className="d-center d-mt-lg">
+          <button
+            onClick={handleDemoLogin}
+            className="d-btn-secondary"
+            style={{ width: '100%', maxWidth: 384, padding: '12px 16px' }}
+          >
+            Demo Login (test@test.com)
+          </button>
+          <p className="d-body-sm d-mt-sm">3 free forges, no card needed</p>
+        </div>
       </div>
     </div>
   )
