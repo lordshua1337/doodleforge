@@ -26,11 +26,11 @@
   --color-accent: #E63946;
 
   /* ── Fonts ── */
-  --font-sans: var(--font-nunito), system-ui, sans-serif;
+  --font-sans: var(--font-quicksand), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-gaegu), cursive;
-  --font-accent: var(--font-caveat), cursive;
-  --font-chunky: var(--font-fredoka), var(--font-gaegu), cursive;
+  --font-display: var(--font-cabin-sketch), cursive;
+  --font-accent: var(--font-cabin-sketch), cursive;
+  --font-chunky: var(--font-cabin-sketch), cursive;
 }
 
 /* ── RESET ── */
