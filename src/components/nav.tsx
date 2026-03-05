@@ -84,8 +84,8 @@ export function Nav() {
             <Image
               src="/doodie-logo.png"
               alt="Doodie"
-              width={120}
-              height={40}
+              width={160}
+              height={52}
               className="nav-logo-img"
               priority
             />
@@ -141,11 +141,6 @@ export function Nav() {
               MAKE A DOODIE
             </Link>
           </div>
-
-          {/* Mobile CTA only (auth handled in mobile bar) */}
-          <Link href="/create" className="nav-cta-btn md:hidden">
-            MAKE A DOODIE
-          </Link>
         </div>
       </nav>
 

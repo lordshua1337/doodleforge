@@ -1767,7 +1767,7 @@ body::before {
   flex-shrink: 0;
 }
 .nav-logo-img {
-  height: 36px;
+  height: 48px;
   width: auto;
   object-fit: contain;
 }
