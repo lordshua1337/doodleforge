@@ -71,7 +71,7 @@ export default function Home() {
 
           <div className="d-btn-row">
             <Link href="/create" className="d-btn-primary glow-cta">Upload a Drawing</Link>
-            <a href="#how-it-works" className="d-btn-secondary">See How It Works</a>
+            <Link href="/gallery" className="d-btn-secondary">See What We&apos;ve Done</Link>
           </div>
 
           <p className="d-body-xs" style={{ marginTop: 32, fontFamily: "var(--font-accent)", fontSize: 16 }}>
@@ -79,6 +79,66 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      {/* ── WALL OF SHAME (the magic -- show it first) ── */}
+      <section style={{ padding: "64px 0", background: "#D4E8F0" }}>
+        <div className="d-container">
+          <div className="d-center d-mb-2xl">
+            <p className="d-eyebrow d-eyebrow-red" style={{ fontFamily: "var(--font-accent)", fontSize: 18 }}>the wall of shame</p>
+            <h2 className="d-heading d-heading-lg" style={{ marginBottom: 16 }}>Actual things children drew.</h2>
+            <p className="d-body" style={{ maxWidth: 440, margin: "0 auto" }}>
+              Real submissions. Real delusion. We love these kids. We just couldn&apos;t hang the originals.
+            </p>
+          </div>
+          <div className="d-grid d-grid-3">
+            {WALL_OF_SHAME_PREVIEW.map((item, i) => (
+              <div
+                key={i}
+                className="d-shame-card"
+                style={{ transform: `rotate(${CARD_ROTATIONS[i]}deg)` }}
+              >
+                <div className="d-shame-top" style={{ background: TAPE_COLORS[i] }}>
+                  <p style={{ fontSize: 15, fontStyle: "italic", color: "#6C757D", lineHeight: 1.6, textAlign: "center", marginBottom: 16 }}>
+                    &ldquo;{item.original}&rdquo;
+                  </p>
+                  <span className="d-pill d-pill-coral">The original</span>
+                </div>
+                <div className="d-shame-body" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  <div className="d-bubble">
+                    <div className="d-bubble-avatar" style={{ background: "#FFD166", color: "#2B2D42" }}>K</div>
+                    <div>
+                      <p className="d-bubble-label">Kid says</p>
+                      <p style={{ fontSize: 14, lineHeight: 1.4, color: "#2B2D42" }}>&ldquo;{item.kidSays}&rdquo;</p>
+                    </div>
+                  </div>
+                  <div className="d-bubble">
+                    <div className="d-bubble-avatar" style={{ background: "#7B2D8E", color: "#fff" }}>P</div>
+                    <div>
+                      <p className="d-bubble-label">Parent thinks</p>
+                      <p style={{ fontSize: 14, lineHeight: 1.4, color: "#6C757D", fontStyle: "italic" }}>&ldquo;{item.parentThinks}&rdquo;</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="d-shame-footer">
+                  <div>
+                    <p style={{ fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#06D6A0", fontFamily: "var(--font-accent)" }}>Fixed it</p>
+                    <p style={{ fontSize: 13, color: "#ADB5BD", marginTop: 2 }}>{item.style} -- {item.artist}</p>
+                  </div>
+                  <div style={{ width: 32, height: 32, borderRadius: 6, background: "rgba(6,214,160,0.15)", border: "2px solid #2B2D42", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06D6A0" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="d-center" style={{ marginTop: 40 }}>
+            <Link href="/gallery" className="d-btn-secondary">See All Submissions</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CRAYON DIVIDER ── */}
+      <div className="d-divider-gradient" />
 
       {/* ── THREE PILLARS ── */}
       <section style={{ padding: "64px 0", background: "#FFF8F0" }}>
@@ -160,66 +220,6 @@ export default function Home() {
                 <p className="d-body" style={{ fontSize: 14 }}>{p.desc}</p>
               </Link>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CRAYON DIVIDER ── */}
-      <div className="d-divider-gradient" />
-
-      {/* ── WALL OF SHAME ── */}
-      <section style={{ padding: "64px 0", background: "#D4E8F0" }}>
-        <div className="d-container">
-          <div className="d-center d-mb-2xl">
-            <p className="d-eyebrow d-eyebrow-red" style={{ fontFamily: "var(--font-accent)", fontSize: 18 }}>the wall of shame</p>
-            <h2 className="d-heading d-heading-lg" style={{ marginBottom: 16 }}>Actual things children drew.</h2>
-            <p className="d-body" style={{ maxWidth: 440, margin: "0 auto" }}>
-              Real submissions. Real delusion. We love these kids. We just couldn&apos;t hang the originals.
-            </p>
-          </div>
-          <div className="d-grid d-grid-3">
-            {WALL_OF_SHAME_PREVIEW.map((item, i) => (
-              <div
-                key={i}
-                className="d-shame-card"
-                style={{ transform: `rotate(${CARD_ROTATIONS[i]}deg)` }}
-              >
-                <div className="d-shame-top" style={{ background: TAPE_COLORS[i] }}>
-                  <p style={{ fontSize: 15, fontStyle: "italic", color: "#6C757D", lineHeight: 1.6, textAlign: "center", marginBottom: 16 }}>
-                    &ldquo;{item.original}&rdquo;
-                  </p>
-                  <span className="d-pill d-pill-coral">The original</span>
-                </div>
-                <div className="d-shame-body" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                  <div className="d-bubble">
-                    <div className="d-bubble-avatar" style={{ background: "#FFD166", color: "#2B2D42" }}>K</div>
-                    <div>
-                      <p className="d-bubble-label">Kid says</p>
-                      <p style={{ fontSize: 14, lineHeight: 1.4, color: "#2B2D42" }}>&ldquo;{item.kidSays}&rdquo;</p>
-                    </div>
-                  </div>
-                  <div className="d-bubble">
-                    <div className="d-bubble-avatar" style={{ background: "#7B2D8E", color: "#fff" }}>P</div>
-                    <div>
-                      <p className="d-bubble-label">Parent thinks</p>
-                      <p style={{ fontSize: 14, lineHeight: 1.4, color: "#6C757D", fontStyle: "italic" }}>&ldquo;{item.parentThinks}&rdquo;</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="d-shame-footer">
-                  <div>
-                    <p style={{ fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#06D6A0", fontFamily: "var(--font-accent)" }}>Fixed it</p>
-                    <p style={{ fontSize: 13, color: "#ADB5BD", marginTop: 2 }}>{item.style} -- {item.artist}</p>
-                  </div>
-                  <div style={{ width: 32, height: 32, borderRadius: 6, background: "rgba(6,214,160,0.15)", border: "2px solid #2B2D42", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06D6A0" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="d-center" style={{ marginTop: 40 }}>
-            <Link href="/gallery" className="d-btn-secondary">See All Submissions</Link>
           </div>
         </div>
       </section>
