@@ -4,6 +4,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/auth/session-context";
 import { loadVault, saveVault, addToVault } from "@/lib/vault-data";
+import ArtistPlaque from "@/components/artist-plaque";
 
 const STYLES = [
   { id: "oil", name: "Oil Painting", desc: "Museum-quality brushstrokes", color: "#E63946" },
@@ -539,6 +540,14 @@ export default function CreatePage() {
                   </svg>
                   {shareStatus === "copied" ? "Link Copied!" : "Share This"}
                 </button>
+              )}
+              {resultUrl && (
+                <ArtistPlaque
+                  resultUrl={resultUrl}
+                  styleName={STYLES.find(s => s.id === selectedStyle)?.name ?? "Art"}
+                  styleColor={STYLES.find(s => s.id === selectedStyle)?.color ?? "#E63946"}
+                  isEpic={selectedStyle === "epic"}
+                />
               )}
               <Link
                 href="/pricing"
