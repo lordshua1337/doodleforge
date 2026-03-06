@@ -454,7 +454,7 @@ export function ParentingAdvice() {
                     >
                       <HeartIcon filled={isFavorited} />
                     </button>
-                    <ShareButton text={`${situationText}\n\nAge ${selectedAge}: ${adviceText}\n\n-- Doodie (doodleforge.com/advice)`} />
+                    <ShareButton text={`${situationText}\n\nAge ${selectedAge}: ${adviceText}\n\n-- Doodie (doodie.com/advice)`} />
                   </div>
                 </div>
               </div>

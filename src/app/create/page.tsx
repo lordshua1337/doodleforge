@@ -46,6 +46,7 @@ export default function CreatePage() {
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
   const [showSuccess, setShowSuccess] = useState(false);
   const [savedToVault, setSavedToVault] = useState(false);
+  const [shareStatus, setShareStatus] = useState<"idle" | "copied">("idle");
   const inputRef = useRef<HTMLInputElement>(null);
   const { user, credits, refreshCredits } = useSession();
 
@@ -501,6 +502,43 @@ export default function CreatePage() {
                 >
                   Download High-Res
                 </a>
+              )}
+              {resultUrl && (
+                <button
+                  onClick={async () => {
+                    const styleName = STYLES.find(s => s.id === selectedStyle)?.name ?? "art";
+                    const shareText = `My kid's drawing just got the ${styleName} treatment. Doodie turned a scribble into actual art.`;
+                    if (navigator.share) {
+                      try {
+                        const res = await fetch(resultUrl);
+                        const blob = await res.blob();
+                        const file = new File([blob], "doodie-art.png", { type: "image/png" });
+                        await navigator.share({
+                          title: "Doodie -- Kid Art Transformed",
+                          text: shareText,
+                          files: [file],
+                        });
+                      } catch {
+                        // User cancelled or share failed -- fall back to clipboard
+                        await navigator.clipboard.writeText(`${shareText}\n\nhttps://doodie.com`);
+                        setShareStatus("copied");
+                        setTimeout(() => setShareStatus("idle"), 2000);
+                      }
+                    } else {
+                      await navigator.clipboard.writeText(`${shareText}\n\nhttps://doodie.com`);
+                      setShareStatus("copied");
+                      setTimeout(() => setShareStatus("idle"), 2000);
+                    }
+                  }}
+                  className="d-btn-secondary"
+                  style={{ fontFamily: "inherit", display: "inline-flex", alignItems: "center", gap: 8 }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                  </svg>
+                  {shareStatus === "copied" ? "Link Copied!" : "Share This"}
+                </button>
               )}
               <Link
                 href="/pricing"
